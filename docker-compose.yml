@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  dbpostgresql:
+    image: "postgres"
+    ports:
+      - "5432"
+    environment:
+      POSTGRES_DB: testdb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      restart: unless-stopped
+  app:
+    build: .
+    image: appbootrest
+    container_name: appbootrest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - dbpostgresql
+
