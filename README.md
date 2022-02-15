@@ -9,4 +9,4 @@ Position in project directory root
 
 docker-compose build && docker-compose up 
 
-http://localhost:8080/ or using Postman
+http://localhost:8080/ or using Postman http://localhost:8080/api/v1/customers
