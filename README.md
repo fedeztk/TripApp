@@ -14,7 +14,8 @@ http://localhost:8080/ or using Postman:
  
  
  http://localhost:8080/api/v1/customers/create 
- Body: {
+ Body: 
+ {
  "name": "renata",
  "age": 62,
  "active": true,
