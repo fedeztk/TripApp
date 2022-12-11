@@ -15,6 +15,7 @@
 ```
 
 - Agile/Xtreme development done on [trello](https://trello.com/b/27qmxUtj/tripapp).
+- Agile/Xtreme development done on [github projects](https://github.com/users/fedeztk/projects/1).
 
 ### Git workflow
 
