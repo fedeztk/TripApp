@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
+const withOffline = require("next-offline");
+
+
+
 const nextConfig = {
   reactStrictMode: true,
   // async redirects() {
@@ -12,4 +16,4 @@ const nextConfig = {
   // },
 }
 
-module.exports = nextConfig
+module.exports = withOffline(nextConfig);
