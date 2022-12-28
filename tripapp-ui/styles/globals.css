@@ -1,16 +1,7 @@
 @font-face {
   font-family: 'Montserrat';
-  src: url('../../../../MASTER/progetti/TripApp/tripapp-ui/styles/fonts/Montserrat/Montserrat-Light.ttf');
-  src: url('../../../../MASTER/progetti/TripApp/tripapp-ui/styles/fonts/Montserrat/Montserrat-Bold.ttf');
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-  max-height: 100vh;
-  overflow-y: hidden;
-  font-family: Montserrat, serif;
+  src: url('../styles/fonts/Montserrat/Montserrat-Light.ttf');
+  src: url('../styles/fonts/Montserrat/Montserrat-Bold.ttf');
 }
 
 
@@ -129,11 +120,13 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
-  Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: Montserrat,  sans-serif;
   line-height: 1.6;
   font-size: 18px;
 }
+
+/*BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
+  Cantarell, Fira Sans, Droid Sans, Helvetica Neue,*/
 
 * {
   box-sizing: border-box;
