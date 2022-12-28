@@ -1,85 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="03699bd7-79ef-4cf5-8dfb-8bed1551c650" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-Black.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-Black.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-Black.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-Black.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-BlackItalic.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-BlackItalic.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-BlackItalic.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-BlackItalic.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-Bold.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-Bold.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-Bold.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-Bold.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-BoldItalic.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-BoldItalic.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-BoldItalic.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-BoldItalic.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-ExtraBold.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-ExtraBold.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-ExtraBold.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-ExtraBold.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-ExtraBoldItalic.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-ExtraBoldItalic.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-ExtraBoldItalic.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-ExtraBoldItalic.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-ExtraLight.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-ExtraLight.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-ExtraLight.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-ExtraLight.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-ExtraLightItalic.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-ExtraLightItalic.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-ExtraLightItalic.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-ExtraLightItalic.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-Italic.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-Italic.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-Italic.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-Italic.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-Light.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-Light.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-Light.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-Light.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-LightItalic.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-LightItalic.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-LightItalic.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-LightItalic.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-Medium.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-Medium.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-Medium.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-Medium.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-MediumItalic.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-MediumItalic.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-MediumItalic.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-MediumItalic.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-Regular.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-Regular.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-Regular.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-Regular.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-SemiBold.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-SemiBold.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-SemiBold.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-SemiBold.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-SemiBoldItalic.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-SemiBoldItalic.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-SemiBoldItalic.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-SemiBoldItalic.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-Thin.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-Thin.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-Thin.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-Thin.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-ThinItalic.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-ThinItalic.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-ThinItalic.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/Montserrat-ThinItalic.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/demo.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/fonts/Montserrat/stylesheet.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/triapp-ui.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/globals.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +33,9 @@
     "WebServerToolWindowFactoryState": "false",
     "last_opened_file_path": "/home/noce/0-static_datas/MASTER/progetti/TripApp/tripapp-ui/styles",
     "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
