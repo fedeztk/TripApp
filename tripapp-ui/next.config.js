@@ -16,4 +16,8 @@ const nextConfig = {
   // },
 }
 
+<<<<<<< HEAD
 module.exports = withOffline(nextConfig);
+=======
+module.exports = withOffline(nextConfig);
+>>>>>>> 67ac7a7 (feat(manifest.json, next.config.js): elementi necessari per rendere l'app una PWA)
