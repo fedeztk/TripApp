@@ -7,8 +7,4 @@
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 67ac7a7 (feat(manifest.json, next.config.js): elementi necessari per rendere l'app una PWA)
