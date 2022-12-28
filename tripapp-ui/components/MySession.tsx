@@ -9,13 +9,20 @@ export default function MySession({children}:{children: React.ReactNode}){
     //check sessione, se si child, se no sigin
     const {data : session} = useSession();
 
+
+    let initValue = "initValue (MySession:13)";
     //variabilicontext
-    const [actTravel, setActTravel] = useState<string>("culo");
+    const [actTravel, setActTravel] = useState<string>(initValue);
+
+    function setInit(){
+        setActTravel(initValue)
+    }
 
     //actual context
     let state = {
         actTravel: actTravel,
-        setActTravel:setActTravel
+        setActTravel:setActTravel,
+        setInit: setInit
     }
 
 
