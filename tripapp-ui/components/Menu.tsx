@@ -1,11 +1,22 @@
 import {useRouter} from "next/navigation";
 import {AppProps} from "next/app";
+import {Travel} from "./TravelList";
 
-export default function Menu(){
+export default function Menu({backFunc, travel}:{backFunc:any, travel?:Travel}){
     const router = useRouter();
 
+
+    console.log(travel)
     return <>
-        <div>Ciao sei nel menu!</div>
+        <button onClick={backFunc}>Back</button>
+        <div>
+            <div>
+                {travel?.name}
+            </div>
+            <div>
+                {travel?.info}
+            </div>
+        </div>
         <div>
             <button type="button" onClick={() => router.push('/survey')}>
                 Survey

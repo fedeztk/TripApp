@@ -12,10 +12,7 @@ export default function Home({props, context, culo}:{props:AppProps, context:any
     const {data: session} = useSession()
     const router = useRouter();
 
-    console.log("Home culo: "+culo);
-
     return <>
-        <div>Ciao {session?.user?.name} sei nella home!</div>
         <div>
             <button onClick={()=>signOut()}>LogOut</button>
         </div>

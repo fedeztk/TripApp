@@ -2,9 +2,10 @@ import {useRouter} from "next/navigation";
 import {AppProps} from "next/app";
 import React, { useState, useEffect,createContext, useContext } from 'react';
 import {useAppContext} from "./auth/MySession";
+import Menu from "./Menu";
 
 
-type Travel = {
+export type Travel = {
     id: string;
     name: string;
     info: string;
@@ -28,25 +29,36 @@ export default function TravelList(){
         setTravellist(tl)
     },[])
 
-    function changeContext(){
-        mycontext.setActTravel("ciao xiao")
-
+    function setActTravel(t?:Travel){
+        if(t!=null){
+            mycontext.setActTravel(t)
+        }else{
+            mycontext.setActTravel(null)
+        }
     }
 
-    return <>
-        {mycontext.actTravel}
-        <button onClick={changeContext}>ciao</button>
 
-        {/* eslint-disable-next-line react/jsx-key */}
-        {travelList?.map((t:Travel)=> <TravelButton travel={t}/>)}
-    </>;
+    function back(){
+        setActTravel();
+    }
+
+    console.log("ActTravel:")
+    console.log(mycontext.actTravel)
+
+    return <>
+
+        { mycontext.actTravel?
+            <Menu backFunc={back} travel={mycontext.actTravel}/>
+            :
+            /* eslint-disable-next-line react/jsx-key */
+            travelList?.map((t:Travel, key:number)=> <div key={key}><TravelButton travel={t}/></div>)
+        }
+        </>;
 
 
     function TravelButton({travel}:{travel:Travel}){
-
         function changeContext(){
-
-            mycontext.setActTravel("fanculo")
+            setActTravel(travel);
         }
 
         return <div>
