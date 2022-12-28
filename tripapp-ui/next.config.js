@@ -16,4 +16,5 @@ const nextConfig = {
   // },
 }
 
+
 module.exports = withOffline(nextConfig);
