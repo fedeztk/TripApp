@@ -1,9 +1,8 @@
 import {useRouter} from "next/navigation";
 import {AppProps} from "next/app";
 
-export default function Menu({culo}:{culo?:String}){
+export default function Menu(){
     const router = useRouter();
-    console.log(culo);
 
     return <>
         <div>Ciao sei nel menu!</div>

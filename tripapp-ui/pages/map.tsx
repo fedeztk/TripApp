@@ -1,7 +1,9 @@
 import {useRouter} from "next/navigation";
+import {useAppContext} from "../components/auth/MySession";
 
 export default function Map(){
     const router = useRouter();
+    const mycontext = useAppContext();
 
 
     return <>

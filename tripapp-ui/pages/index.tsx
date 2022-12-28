@@ -6,11 +6,13 @@ import {useSession, signIn, signOut} from "next-auth/react"
 import Menu from "../components/Menu";
 import {AppProps} from "next/app";
 import {useRouter} from "next/navigation";
+import TravelList from "../components/TravelList";
 
-export default function Home({props, gatto, culo}:{props:AppProps, gatto:any, culo:any}){
+export default function Home({props, context, culo}:{props:AppProps, context:any, culo:any}){
     const {data: session} = useSession()
     const router = useRouter();
-    console.log(router.back);
+
+    console.log("Home culo: "+culo);
 
     return <>
         <div>Ciao {session?.user?.name} sei nella home!</div>
@@ -18,7 +20,7 @@ export default function Home({props, gatto, culo}:{props:AppProps, gatto:any, cu
             <button onClick={()=>signOut()}>LogOut</button>
         </div>
         <div>
-            <Menu/>
+            <TravelList/>
         </div>
     </>
 }
