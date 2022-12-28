@@ -9,8 +9,6 @@ import {NextPageContext} from "next";
 import SessionChecker from "../components/auth/SessionChecker";
 
 export default function App({Component, pageProps}: AppProps) {
-
-
     return (
         <>
             <Head>
