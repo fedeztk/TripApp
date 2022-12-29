@@ -10,30 +10,29 @@ import {useAppContext} from "../components/auth/MySession";
 import {type} from "os";
 
 
-type Travel={
 
-}
-
-export type TravelList = Travel[]
 
 
 export default function Home(){
     const {data: session} = useSession()
-    const context:any = useAppContext();
-    const [data, setData] = useState<TravelList>();
+    const mycontext:any = useAppContext();
+    const [data, setData] = useState<any>();
 
+//NOTA: ho notato che ()=>getData() renderizza l'obj una volta in più
+    useEffect(()=>getData, [])
 
-    useEffect(getData, [])
     function getData(){
-        console.log("getData")
-        const postReqOpt = {
+        console.log("--> useEffect: getData()")
+        const postReqOpt:any = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 name : session?.user,
-                id : context.data
+                id : mycontext.data //nullo alla prima renderizzazione
+                            //dalla seconda (trigger bottone "Send Request") si vedrà
+                            //nel log del server l'id
             })
         }
 
@@ -41,14 +40,19 @@ export default function Home(){
             .then(res => res.json())
             .catch(error => console.error('Errore nella risposta del API:', error))
             .then((result)=> {
-                //console.log(result);
-                context.setData(result);
-                setData(result);
+                console.log("##res##")
+                console.log(result);
+                mycontext.setData(result);//setto il risultato come proprietà globale
+                setData(result);//setto il risultato come stato dell'oggetto
+                console.log("##resEnd##")
             })
+        return
     }
 
 
-    console.log("Data: "+data)
+    console.log("Data: ")
+    console.log(data)
+    console.log()
 
     return (
         <div className={styles.container}>
@@ -66,9 +70,9 @@ export default function Home(){
                     )}
                 </div>
             </nav>
-            <main className={styles.main}>
-                    <button onClick={()=>getData()}>Send Request</button>
-            </main>
+            <div className={styles.main}>
+                    <button onClick={getData}>Send Request</button>
+            </div>
         </div>
     )
 }

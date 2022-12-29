@@ -8,10 +8,10 @@ export default function MySession({children}:{children: React.ReactNode}){
 
     const {data : session} = useSession();
 
-    const [actTravel, setActTravel] = useState<string>("culo");
+    const [data, setData] = useState<any>();
     let state = {
-        actTravel: actTravel,
-        setActTravel:setActTravel
+        data: data,
+        setData:setData
     }
 
 
