@@ -7,11 +7,20 @@ import {useContext, useEffect, useState} from "react";
 import {func} from "prop-types";
 import {json} from "stream/consumers";
 import {useAppContext} from "../components/auth/MySession";
+import {type} from "os";
+
+
+type Travel={
+
+}
+
+export type TravelList = Travel[]
+
 
 export default function Home(){
     const {data: session} = useSession()
     const context:any = useAppContext();
-    const [data, setData] = useState<any>();
+    const [data, setData] = useState<TravelList>();
 
 
     useEffect(getData, [])
@@ -23,10 +32,8 @@ export default function Home(){
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                user: {
-                    name : session?.user,
-                    id : context.state
-                }
+                name : session?.user,
+                id : context.data
             })
         }
 
