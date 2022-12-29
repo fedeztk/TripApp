@@ -5,9 +5,12 @@ type Data = {
   name: string
 }
 
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
-  res.status(200).json({ name: 'John Doe' })
+export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
+  console.log(req.body);
+  let user = req.body.user;
+
+
+  res.status(200).json({
+    name: 'Milliondollarnoce'
+  })
 }

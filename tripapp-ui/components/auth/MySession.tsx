@@ -16,13 +16,15 @@ export default function MySession({children}:{children: React.ReactNode}){
 
 
 
-    return session? <>
-        <UserContext.Provider value={state}>
-
-            {children}
-        </UserContext.Provider>
-        </> :
-        <SingInMain/>
+    if(!session){
+        return <SingInMain/>
+    }else{
+        return<>
+            <UserContext.Provider value={state}>
+                {children}
+            </UserContext.Provider>
+        </>
+    }
 }
 
 export function useAppContext() {

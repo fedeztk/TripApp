@@ -3,9 +3,45 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import {useSession, signIn, signOut} from "next-auth/react"
+import {useContext, useEffect, useState} from "react";
+import {func} from "prop-types";
+import {json} from "stream/consumers";
+import {useAppContext} from "../components/auth/MySession";
 
-const Home: NextPage = () => {
+export default function Home(){
     const {data: session} = useSession()
+    const context:any = useAppContext();
+    const [data, setData] = useState<any>();
+
+
+    useEffect(getData, [])
+    function getData(){
+        console.log("getData")
+        const postReqOpt = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user: {
+                    name : session?.user,
+                    id : context.state
+                }
+            })
+        }
+
+        fetch("http://localhost:3000/api/hello", postReqOpt)
+            .then(res => res.json())
+            .catch(error => console.error('Errore nella risposta del API:', error))
+            .then((result)=> {
+                //console.log(result);
+                context.setData(result);
+                setData(result);
+            })
+    }
+
+
+    console.log("Data: "+data)
 
     return (
         <div className={styles.container}>
@@ -15,13 +51,8 @@ const Home: NextPage = () => {
                 <link rel="icon" href="/favicon.ico"/>
             </Head>
             <nav className={styles.navbar}>
-                <div className={styles.navbarLinks}>
-                    <a href="#">Home</a>
-                    <a href="#">About</a>
-                    <a href="#">Contact</a>
-                </div>
                 <div className={styles.signup}>
-                    {session && session.user ? (
+                    {session?.user ? (
                         <button onClick={() => signOut()}>Sign out {session.user.name}</button>
                     ) : (
                         <button onClick={() => signIn()}>Sign in</button>
@@ -29,33 +60,9 @@ const Home: NextPage = () => {
                 </div>
             </nav>
             <main className={styles.main}>
-                <div>
-                    {session && session.user ? (
-                        <div className={styles.card}>
-                            <div className={styles.cardImage}>
-                                <Image src="/architecture.png" alt="book" width={500} height={300}/>
-                            </div>
-                            <div className={styles.cardContent}>
-                                <h2>Computer Programming Cookbook</h2>
-                                <p>
-                                    This is a simple hero unit, a simple jumbotron-style component for calling
-                                    extra attention to featured content or information.
-                                </p>
-                                <p>
-                                    <a className={styles.btn} href="https://nextjs.org/docs" target="_blank"
-                                       rel="noreferrer">
-                                        Learn More
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    ) : (
-                        <p>You need to sign in to access the books</p>
-                    )}
-                </div>
+                    <button onClick={()=>getData()}>Send Request</button>
             </main>
         </div>
     )
 }
 
-export default Home
