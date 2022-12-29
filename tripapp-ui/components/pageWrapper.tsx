@@ -1,6 +1,7 @@
 import {useSession} from "next-auth/react";
 import React from "react";
 import Layout from "./layout";
+import LoadingPage from "./loadingPage";
 
 export default function PageWrapper({children}: { children: React.ReactNode }) {
     // const router = useRouter()
@@ -9,7 +10,7 @@ export default function PageWrapper({children}: { children: React.ReactNode }) {
     });
 
     if (status === 'loading') { // loading or unauthenticated
-        return <p>Redirecting to sign-in page...</p>;
+        return <LoadingPage/>;
     }
     return <Layout>{children}</Layout>;
 

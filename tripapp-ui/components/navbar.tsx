@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useEffect, useState} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -19,8 +20,8 @@ import {useColorScheme,} from '@mui/material/styles';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
 import BedtimeOffIcon from '@mui/icons-material/BedtimeOff';
 import {signOut, useSession} from 'next-auth/react';
-import {useEffect, useState } from 'react';
 import Link from 'next/link';
+import {useRouter} from 'next/router';
 
 const pages = ['Poll', 'Finance', 'Info', 'Map'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -46,7 +47,10 @@ export default function Navbar() {
         setAnchorElUser(null);
     };
 
-    const {data: session, status} = useSession()
+    const {data: session} = useSession()
+
+    // maybe replace this with a check on context.tripgroup
+    const isHome = useRouter().pathname === "/";
 
     return (
         <>
@@ -54,7 +58,7 @@ export default function Navbar() {
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
                         <Link href="/">
-                            <Avatar alt="app icon" src="/palm.svg" />
+                            <Avatar alt="app icon" src="/palm.svg"/>
                         </Link>
                         <Typography
                             // variant="h6"
@@ -64,66 +68,77 @@ export default function Navbar() {
                             sx={{
                                 mr: 2,
                                 ml: 2,
-                                display: {xs: 'none', md: 'flex'},
+                                // display: {xs: 'none', md: 'flex'},
                                 // fontFamily: 'monospace',
                                 fontWeight: 700,
                                 letterSpacing: '.1rem',
                                 color: 'inherit',
                                 textDecoration: 'none',
+                                flexGrow: 1
                             }}
                         >
                             TripApp
                         </Typography>
 
-                        {/*responsive box*/}
-                        <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
-                            <IconButton
-                                size="large"
-                                aria-label="account of current user"
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"
-                                onClick={handleOpenNavMenu}
-                                color="inherit"
-                            >
-                                <MenuIcon/>
-                            </IconButton>
-                            <Menu
-                                id="menu-appbar"
-                                anchorEl={anchorElNav}
-                                anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'left',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'left',
-                                }}
-                                open={Boolean(anchorElNav)}
-                                onClose={handleCloseNavMenu}
-                                sx={{
-                                    display: {xs: 'block', md: 'none'},
-                                }}
-                            >
-                                {pages.map((page) => (
-                                    <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                        <Typography textAlign="center">{page}</Typography>
-                                    </MenuItem>
-                                ))}
-                            </Menu>
-                        </Box>
 
-                        <Box sx={{flexGrow: 1, display: {md: 'flex', xs: 'none'}}}>
-                            {pages.map((page) => (
-                                <Button
-                                    key={page}
-                                    onClick={handleCloseNavMenu}
-                                    sx={{color: 'white', display: 'block'}}
-                                >
-                                    {page}
-                                </Button>
-                            ))}
-                        </Box>
+                        {!isHome ?
+                            <>
+                                {/*responsive menu on small screens*/}
+                                <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
+                                    <IconButton
+                                        size="large"
+                                        aria-label="account of current user"
+                                        aria-controls="menu-appbar"
+                                        aria-haspopup="true"
+                                        onClick={handleOpenNavMenu}
+                                        color="inherit"
+                                    >
+                                        <MenuIcon/>
+                                    </IconButton>
+                                    <Menu
+                                        id="menu-appbar"
+                                        anchorEl={anchorElNav}
+                                        anchorOrigin={{
+                                            vertical: 'bottom',
+                                            horizontal: 'left',
+                                        }}
+                                        keepMounted
+                                        transformOrigin={{
+                                            vertical: 'top',
+                                            horizontal: 'left',
+                                        }}
+                                        open={Boolean(anchorElNav)}
+                                        onClose={handleCloseNavMenu}
+                                        sx={{
+                                            display: {xs: 'block', md: 'none'},
+                                        }}
+                                    >
+                                        {pages.map((page) => (
+                                            <MenuItem key={page} onClick={handleCloseNavMenu}>
+                                                <Typography textAlign="center">{page}</Typography>
+                                            </MenuItem>
+                                        ))}
+                                    </Menu>
+                                </Box>
+
+                                {/*normal menu on other screen*/}
+                                <Box sx={{flexGrow: 1, display: {md: 'flex', xs: 'none'}}}>
+                                    {pages.map((page) => (
+                                        <Button
+                                            key={page}
+                                            onClick={handleCloseNavMenu}
+                                            sx={{color: 'white', display: 'block'}}
+                                        >
+                                            {page}
+                                        </Button>
+                                    ))}
+                                </Box>
+
+                            </>
+                            : (
+                                <></>
+                            )
+                        }
 
                         <Typography
                             // variant="h6"
@@ -140,7 +155,7 @@ export default function Navbar() {
                                 textDecoration: 'none',
                             }}
                         >
-                            Signed in as {session.user.name}
+                            Signed in as {session?.user?.name}
                         </Typography>
 
                         <Box sx={{flexGrow: 0}}>
@@ -149,7 +164,7 @@ export default function Navbar() {
                                     {session && session.user && session.user.image ? (
                                         <Avatar alt="avatar img" src={session.user.image}/>
                                     ) : (
-                                        <Avatar {...stringAvatar(session.user.name)} />
+                                        <Avatar {...stringAvatar(session?.user?.name)} />
                                     )}
                                 </IconButton>
                             </Tooltip>
@@ -242,7 +257,9 @@ const ModeSwitcher = () => {
         <IconButton
             // variant="contained"
             color="inherit"
-            onClick={() => {mode === 'light'? setMode('dark') : setMode('light')}}
+            onClick={() => {
+                mode === 'light' ? setMode('dark') : setMode('light')
+            }}
         >
             {mode === 'light' ? <BedtimeIcon/> : <BedtimeOffIcon/>}
         </IconButton>
@@ -268,7 +285,10 @@ function stringToColor(string: string) {
     return color;
 }
 
-function stringAvatar(name: string) {
+function stringAvatar(name: string|null|undefined) {
+    if (name == null) { // null or undefined, should not happen anyways...
+        return "";
+    }
     return {
         sx: {
             bgcolor: stringToColor(name),
