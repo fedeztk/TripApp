@@ -4,7 +4,7 @@ import Layout from "./layout";
 
 export default function PageWrapper({children}: { children: React.ReactNode }) {
     // const router = useRouter()
-    const {data: session, status} = useSession({
+    const {status} = useSession({
         required: true,
     });
 

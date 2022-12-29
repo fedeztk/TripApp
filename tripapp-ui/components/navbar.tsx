@@ -11,7 +11,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Fab from '@mui/material/Fab';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -19,6 +18,9 @@ import Fade from '@mui/material/Fade';
 import {useColorScheme,} from '@mui/material/styles';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
 import BedtimeOffIcon from '@mui/icons-material/BedtimeOff';
+import {signOut, useSession} from 'next-auth/react';
+import {useEffect, useState } from 'react';
+import Link from 'next/link';
 
 const pages = ['Poll', 'Finance', 'Info', 'Map'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -26,8 +28,8 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const navbarID = "navbar-id"
 
 export default function Navbar() {
-    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+    const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -44,25 +46,28 @@ export default function Navbar() {
         setAnchorElUser(null);
     };
 
+    const {data: session, status} = useSession()
 
     return (
         <>
-            <AppBar position="static" id={navbarID}>
+            <AppBar position="static" id={navbarID} enableColorOnDark>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
-                        {/*<AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />*/}
-                        <Avatar alt="Remy Sharp" src="/public/palm.svg"/>
+                        <Link href="/">
+                            <Avatar alt="app icon" src="/palm.svg" />
+                        </Link>
                         <Typography
-                            variant="h6"
+                            // variant="h6"
                             noWrap
                             component="a"
                             href="/"
                             sx={{
                                 mr: 2,
+                                ml: 2,
                                 display: {xs: 'none', md: 'flex'},
-                                fontFamily: 'monospace',
+                                // fontFamily: 'monospace',
                                 fontWeight: 700,
-                                letterSpacing: '.3rem',
+                                letterSpacing: '.1rem',
                                 color: 'inherit',
                                 textDecoration: 'none',
                             }}
@@ -70,6 +75,7 @@ export default function Navbar() {
                             TripApp
                         </Typography>
 
+                        {/*responsive box*/}
                         <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
                             <IconButton
                                 size="large"
@@ -106,44 +112,47 @@ export default function Navbar() {
                                 ))}
                             </Menu>
                         </Box>
-                        <AdbIcon sx={{display: {xs: 'flex', md: 'none'}, mr: 1}}/>
-                        <Typography
-                            variant="h5"
-                            noWrap
-                            component="a"
-                            href=""
-                            sx={{
-                                mr: 2,
-                                display: {xs: 'flex', md: 'none'},
-                                flexGrow: 1,
-                                fontFamily: 'monospace',
-                                fontWeight: 700,
-                                letterSpacing: '.3rem',
-                                color: 'inherit',
-                                textDecoration: 'none',
-                            }}
-                        >
-                            TA
-                        </Typography>
-                        <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
+
+                        <Box sx={{flexGrow: 1, display: {md: 'flex', xs: 'none'}}}>
                             {pages.map((page) => (
                                 <Button
                                     key={page}
                                     onClick={handleCloseNavMenu}
-                                    sx={{my: 2, color: 'white', display: 'block'}}
+                                    sx={{color: 'white', display: 'block'}}
                                 >
                                     {page}
                                 </Button>
                             ))}
                         </Box>
 
+                        <Typography
+                            // variant="h6"
+                            noWrap
+                            // component="a"
+                            // href="/"
+                            sx={{
+                                mr: 2,
+                                display: {xs: 'none', md: 'flex'},
+                                fontFamily: 'monospace',
+                                fontWeight: 600,
+                                // letterSpacing: '.1rem',
+                                color: 'inherit',
+                                textDecoration: 'none',
+                            }}
+                        >
+                            Signed in as {session.user.name}
+                        </Typography>
+
                         <Box sx={{flexGrow: 0}}>
                             <Tooltip title="Open settings">
                                 <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                                    <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg"/>
+                                    {session && session.user && session.user.image ? (
+                                        <Avatar alt="avatar img" src={session.user.image}/>
+                                    ) : (
+                                        <Avatar {...stringAvatar(session.user.name)} />
+                                    )}
                                 </IconButton>
                             </Tooltip>
-                            Signed in as CIAONE
                             <Menu
                                 sx={{mt: '45px'}}
                                 id="menu-appbar"
@@ -160,11 +169,14 @@ export default function Navbar() {
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}
                             >
-                                {settings.map((setting) => (
-                                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                        <Typography textAlign="center">{setting}</Typography>
-                                    </MenuItem>
-                                ))}
+                                {/*{settings.map((setting) => (*/}
+                                {/*    <MenuItem key={setting} onClick={handleCloseUserMenu}>*/}
+                                {/*        <Typography textAlign="center">{setting}</Typography>*/}
+                                {/*    </MenuItem>*/}
+                                {/*))}*/}
+                                <MenuItem key={settings.at(3)} onClick={() => signOut()}>
+                                    <Typography textAlign="center">{settings.at(3)}</Typography>
+                                </MenuItem>
                             </Menu>
                         </Box>
                         <ModeSwitcher/>
@@ -212,12 +224,11 @@ function BackToTop({window}: any) {
 }
 
 // ModeSwitcher is an example interface for toggling between modes.
-// Material UI does not provide the toggle interface—you have to build it yourself.
 const ModeSwitcher = () => {
     const {mode, setMode} = useColorScheme();
-    const [mounted, setMounted] = React.useState(false);
+    const [mounted, setMounted] = useState(false);
 
-    React.useEffect(() => {
+    useEffect(() => {
         setMounted(true);
     }, []);
 
@@ -228,17 +239,40 @@ const ModeSwitcher = () => {
     }
 
     return (
-        <Button
-            variant="contained"
-            onClick={() => {
-                if (mode === 'light') {
-                    setMode('dark');
-                } else {
-                    setMode('light');
-                }
-            }}
+        <IconButton
+            // variant="contained"
+            color="inherit"
+            onClick={() => {mode === 'light'? setMode('dark') : setMode('light')}}
         >
             {mode === 'light' ? <BedtimeIcon/> : <BedtimeOffIcon/>}
-        </Button>
+        </IconButton>
     );
 };
+
+function stringToColor(string: string) {
+    let hash = 0;
+    let i;
+
+    /* eslint-disable no-bitwise */
+    for (i = 0; i < string.length; i += 1) {
+        hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    let color = '#';
+
+    for (i = 0; i < 3; i += 1) {
+        const value = (hash >> (i * 8)) & 0xff;
+        color += `00${value.toString(16)}`.slice(-2);
+    }
+
+    return color;
+}
+
+function stringAvatar(name: string) {
+    return {
+        sx: {
+            bgcolor: stringToColor(name),
+        },
+        children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+    };
+}

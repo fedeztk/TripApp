@@ -3,7 +3,23 @@ import {
     Experimental_CssVarsProvider as CssVarsProvider,
     experimental_extendTheme as extendTheme
 } from '@mui/material/styles';
-import {ReactNode} from "react";
+import Container from "@mui/material/Container";
+
+export default function Layout({children}: { children: React.ReactNode }) {
+    return (
+        <>
+            <CssVarsProvider theme={tripAppTheme}>
+                <Navbar/>
+                <Container sx={{
+                    height: "100",
+                    width: "100%",
+                }}>
+                    {children}
+                </Container>
+            </CssVarsProvider>
+        </>
+    );
+}
 
 const tripAppTheme = extendTheme({
     colorSchemes: {
@@ -23,15 +39,3 @@ const tripAppTheme = extendTheme({
         }
     }
 })
-
-export default function Layout({children}: { children: React.ReactNode }) {
-    return (
-        <>
-            <CssVarsProvider theme={tripAppTheme}>
-                <Navbar/>
-                {children}
-                {/*<Footer/>*/}
-            </CssVarsProvider>
-        </>
-    );
-}
