@@ -4,26 +4,25 @@ import Typography from '@mui/material/Typography';
 import {useSession} from 'next-auth/react';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import * as React from 'react';
-import {useEffect, useState} from 'react';
-import ListItemIcon from '@mui/material/ListItemIcon';
+import {useState} from 'react';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import InboxIcon from '@mui/icons-material/Inbox';
-import DraftsIcon from '@mui/icons-material/Drafts';
 
-export default function TripGroupView() {
-    // const groups = await fetchTripGroups();
-    // console.log(groups)
+interface Group {
+    id: number
+    name: string
+}
+
+export default function TripGroupView({groups}: { groups: Group[] }) {
     const {data: session} = useSession()
+    console.log("Gruppi:", groups);
     return (
         <>
             <Box sx={{width: "100%", height: "100%"}} justifyContent="center">
                 <Typography variant="h3"> Welcome back {session?.user?.name} </Typography>
                 <Typography variant="h4">Please select a trip group or create one!</Typography>
                 <AddButton/>
-                <SelectedListItem/>
+                <ListItems groups={groups}/>
             </Box>
         </>
     );
@@ -60,7 +59,7 @@ function AddButton() {
     );
 }
 
-function SelectedListItem() {
+function ListItems({groups}: { groups: Group[] }) {
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
     const handleListItemClick = (
@@ -73,34 +72,33 @@ function SelectedListItem() {
     return (
         <Box sx={{width: '100%', maxWidth: 460, bgcolor: 'background.paper'}}>
             <List component="nav" aria-label="secondary mailbox folder" sx={{
-                   bgcolor: 'background.paper'
+                bgcolor: 'background.paper'
             }}>
-                <ListItemButton
-                    selected={selectedIndex === 2}
-                    onClick={(event) => handleListItemClick(event, 2)}
-                >
-                    <ListItemText primary="Trash"/>
-                </ListItemButton>
-                <ListItemButton
-                    selected={selectedIndex === 3}
-                    onClick={(event) => handleListItemClick(event, 3)}
-                >
-                    <ListItemText primary="Spam"/>
-                </ListItemButton>
+                {groups.map((group) => (
+                    <ListItemButton
+                        selected={selectedIndex === group.id}
+                        onClick={(event) => handleListItemClick(event, group.id)}>
+                        <ListItemText primary={group.name}/>
+                    </ListItemButton>
+                ))}
             </List>
         </Box>
     );
 }
 
-async function fetchTripGroups() {
+// fetches trip groups of logged user
+// TODO: implement real function
+export async function getServerSideProps() {
     // Username should be used to retrieve info
     // const {data: session} = useSession()
     // const user = session.user.name
 
-    const res = await fetch(
-        `http://localhost:3001/groups`
-    )
-
+    const res = await fetch(`http://localhost:3001/groups`)
     const data = await res.json()
-    return data;
+
+    return {
+        props: {
+            groups: data,
+        }
+    };
 }
