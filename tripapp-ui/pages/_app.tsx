@@ -2,9 +2,6 @@ import '../styles/globals.css'
 import type {AppProps} from 'next/app'
 import {SessionProvider} from 'next-auth/react';
 import PageWrapper from '../components/pageWrapper';
-<<<<<<< HEAD
-import {montserrat} from '../lib/theme';
-=======
 import Head from "next/head";
 import React, {createContext, FC, useContext, useState} from 'react';
 import { useSession, signIn, signOut } from "next-auth/react"
