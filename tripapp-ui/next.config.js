@@ -1,10 +1,8 @@
 /** @type {import('next').NextConfig} */
-const withOffline = require("next-offline");
-
+const withPWA = require("next-pwa");
 
 
 const nextConfig = {
-  reactStrictMode: true,
   pwa: {
     dest: "public",
     register: true,
@@ -21,4 +19,4 @@ const nextConfig = {
   // },
 }
 
-module.exports = withOffline(nextConfig);
+module.exports = withPWA(nextConfig);
