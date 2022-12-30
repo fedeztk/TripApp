@@ -10,7 +10,7 @@ export default function Layout({children}: { children: React.ReactNode }) {
         <>
             <CssVarsProvider theme={tripAppTheme}>
                 <Navbar/>
-                <Container maxWidth="sm">
+                <Container maxWidth="sm" sx={{p: 3}}>
                     {children}
                 </Container>
             </CssVarsProvider>

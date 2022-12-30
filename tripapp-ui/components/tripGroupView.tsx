@@ -4,18 +4,33 @@ import Typography from '@mui/material/Typography';
 import {useSession} from 'next-auth/react';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
+import * as React from 'react';
 import {useState} from 'react';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import LoadingPage from './loadingPage';
 import useSWR from 'swr';
 import Alert from '@mui/material/Alert';
-import {Collapse, IconButton, ListSubheader} from '@mui/material';
+import {Badge, Collapse, IconButton, ListItem, ListSubheader, Stack, useTheme} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import Button from '@mui/material/Button';
+import Avatar from '@mui/material/Avatar';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from '@mui/material/Dialog';
+import PersonIcon from '@mui/icons-material/Person';
+import {blue} from '@mui/material/colors';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
 
 interface Group {
     id: number
     name: string
+    members: string[]
 }
 
 export default function TripGroupView() {
@@ -33,6 +48,8 @@ export default function TripGroupView() {
 }
 
 function AddButton() {
+    const theme = useTheme()
+    const isMediumScreen = useMediaQuery(theme.breakpoints.up("md"))
     return (
         // wrapping all around box for centering the + icon on small screens
         <Box
@@ -40,32 +57,30 @@ function AddButton() {
             display="flex"
             justifyContent="center"
         >
-            {/*on medium/big devices*/}
-            <Fab variant="extended" color="primary" aria-label="add" sx={{
-                display: {md: 'block', xs: 'none'},
+            {/*@ts-ignore*/}
+            <Fab variant={isMediumScreen ? "extended" : "default"} color="primary" aria-label="add" sx={{
                 position: 'absolute',
                 bottom: (theme) => theme.spacing(2),
-                right: (theme) => theme.spacing(2),
+                right: isMediumScreen ? theme.spacing(2) : 'default'
             }}>
-                Create new trip group
-                <AddIcon sx={{mb: -0.6}}/> {/* random... */}
-            </Fab>
-
-            {/*on small devices*/}
-            <Fab color="primary" aria-label="add" sx={{
-                display: {md: 'none', xs: 'auto'},
-                position: 'absolute',
-                bottom: (theme) => theme.spacing(2),
-            }}>
-                <AddIcon/>
+                {isMediumScreen && <>Create new trip group</>}
+                <AddIcon sx={{mb: isMediumScreen ? 0.6 : "default"}}/>
             </Fab>
         </Box>
     );
 }
 
 function ListItems() {
-    const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+    // TODO: Username should be used to retrieve info
+    // const {data: session} = useSession()
+    // const user = session.user.name
+    const fetcher = (url: string) => fetch(url).then((res) => res.json())
+    const backend = process.env.NEXT_PUBLIC_BACKEND_ENDPOINT as string
+    const path = "/groups"
+    const {data, error, isLoading} = useSWR(backend.concat(path), fetcher)
 
+    // groups list
+    const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const handleListItemClick = (
         event: React.MouseEvent<HTMLDivElement, MouseEvent>,
         index: number,
@@ -73,17 +88,30 @@ function ListItems() {
         setSelectedIndex(index);
     };
 
-    // TODO: Username should be used to retrieve info
-    // const {data: session} = useSession()
-    // const user = session.user.name
-    const fetcher = (url: string) => fetch(url).then((res) => res.json())
-    const address = `http://localhost:3001/groups`
-    const {data, error, isLoading} = useSWR(address, fetcher)
-    const [open, setOpen] = useState(true);
+    // alert notification
+    const [alertOpen, setAlertOpen] = useState(true);
+
+
+    // leave dialog
+    const [leaveDialogOpen, setLeaveDialogOpen] = useState(false);
+    const [focusedGroup, setFocusedGroup] = useState<null | number>(null)
+    const handleLeaveDialogConfirm = (group_id: number) => {
+        //TODO: call the api to remove the user grom group_id
+        setFocusedGroup(null);
+        setLeaveDialogOpen(false)
+    };
+    const handleLeaveDialogOpen = (group_id: number) => {
+        setFocusedGroup(group_id);
+        setLeaveDialogOpen(true);
+    };
+    const handleLeaveDialogClose = () => {
+        setFocusedGroup(null);
+        setLeaveDialogOpen(false);
+    };
 
     return (
         error ? (
-                <Collapse in={open}>
+                <Collapse in={alertOpen}>
                     <Alert
                         severity="error"
                         action={
@@ -92,7 +120,7 @@ function ListItems() {
                                 color="inherit"
                                 size="small"
                                 onClick={() => {
-                                    setOpen(false)
+                                    setAlertOpen(false)
                                 }}
                             >
                                 <CloseIcon fontSize="inherit"/>
@@ -120,21 +148,50 @@ function ListItems() {
                             bgcolor: 'background.paper'
                         }}>
                             {data.map((group: Group) => (
-                                <ListItemButton
-                                    selected={selectedIndex === group.id}
-                                    onClick={(event) => handleListItemClick(event, group.id)}>
-                                    <ListItemText primary={group.name}/>
-                                    {/*<Badge badgeContent={4} color="secondary">*/}
-                                    {/*    <PersonIcon color="action"/>*/}
-                                    {/*</Badge>*/}
-                                    {/*<AvatarGroup max={4}>*/}
-                                    {/*    <Avatar alt="Remy Sharp" src="/palm.svg"/>*/}
-                                    {/*    <Avatar alt="Travis Howard" src="/palm.svg"/>*/}
-                                    {/*    <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg"/>*/}
-                                    {/*    <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg"/>*/}
-                                    {/*    <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg"/>*/}
-                                    {/*</AvatarGroup>*/}
-                                </ListItemButton>
+                                <ListItem
+                                    key={group.id}
+                                    secondaryAction={
+                                        <Stack spacing={2} direction="row">
+                                            <IconButton edge="end" aria-label="add">
+                                                <Badge badgeContent={group.members.length} color="primary">
+                                                    <PersonAddIcon/>
+                                                </Badge>
+                                            </IconButton>
+                                            <IconButton edge="end" aria-label="leave"
+                                                        onClick={() => handleLeaveDialogOpen(group.id)}>
+                                                <ExitToAppIcon/>
+                                            </IconButton>
+                                            <Dialog
+                                                open={leaveDialogOpen && group.id === focusedGroup}
+                                                onClose={() => handleLeaveDialogClose()}
+                                            >
+                                                <DialogTitle>
+                                                    Are you sure you want to exit from the group: {group.name}?
+                                                </DialogTitle>
+                                                <DialogContent>
+                                                    <DialogContentText>
+                                                        If you exit now, in order to be re-admitted,
+                                                        another member of the group must invite you.
+                                                        Please, be cautious!
+                                                    </DialogContentText>
+                                                </DialogContent>
+                                                <DialogActions>
+                                                    <Button onClick={() => handleLeaveDialogConfirm(group.id)} autoFocus>
+                                                        Yes
+                                                    </Button>
+                                                    <Button onClick={() => handleLeaveDialogClose()}>No</Button>
+                                                </DialogActions>
+                                            </Dialog>
+                                        </Stack>
+                                    }
+                                    disablePadding
+                                >
+                                    <ListItemButton
+                                        selected={selectedIndex === group.id}
+                                        onClick={(event) => handleListItemClick(event, group.id)}>
+                                        <ListItemText primary={group.name}/>
+                                    </ListItemButton>
+                                </ListItem>
                             ))}
                         </List>
                     </Box>
