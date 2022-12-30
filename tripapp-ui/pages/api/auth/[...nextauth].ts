@@ -9,6 +9,11 @@ import Auth0Provider from "next-auth/providers/auth0"
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
+
+let GITHUB_ID= "1da26631efce3a5a0d78"
+let GITHUB_SECRET="b3d7d060c7b8e05d31c516f9ec1de97f67f7c6c0"
+
+
 export const authOptions: NextAuthOptions = {
     // https://next-auth.js.org/configuration/providers/oauth
     providers: [
