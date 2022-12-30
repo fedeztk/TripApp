@@ -5,6 +5,11 @@ const withOffline = require("next-offline");
 
 const nextConfig = {
   reactStrictMode: true,
+  pwa: {
+    dest: "public",
+    register: true,
+    skipWaiting: true,
+  },
   // async redirects() {
   //   return [
   //     {
