@@ -1,3 +1,4 @@
+"use client"
 import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab';
 import Typography from '@mui/material/Typography';
@@ -13,16 +14,15 @@ interface Group {
     name: string
 }
 
-export default function TripGroupView({groups}: { groups: Group[] }) {
-    const {data: session} = useSession()
-    console.log("Gruppi:", groups);
+export default function TripGroupView() {
     return (
         <>
             <Box sx={{width: "100%", height: "100%"}} justifyContent="center">
-                <Typography variant="h3"> Welcome back {session?.user?.name} </Typography>
+                <Typography variant="h3"> Welcome back session?.user?.name </Typography>
                 <Typography variant="h4">Please select a trip group or create one!</Typography>
                 <AddButton/>
-                <ListItems groups={groups}/>
+                {/* @ts-expect-error Server Component */}
+                <ListItems/>
             </Box>
         </>
     );
@@ -59,9 +59,10 @@ function AddButton() {
     );
 }
 
-function ListItems({groups}: { groups: Group[] }) {
-    const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+async function ListItems() {
+    const groups: Group[] = await fetchTripGroups();
 
+    const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const handleListItemClick = (
         event: React.MouseEvent<HTMLDivElement, MouseEvent>,
         index: number,
@@ -88,17 +89,18 @@ function ListItems({groups}: { groups: Group[] }) {
 
 // fetches trip groups of logged user
 // TODO: implement real function
-export async function getServerSideProps() {
+export async function fetchTripGroups() {
     // Username should be used to retrieve info
     // const {data: session} = useSession()
     // const user = session.user.name
 
     const res = await fetch(`http://localhost:3001/groups`)
-    const data = await res.json()
 
-    return {
-        props: {
-            groups: data,
-        }
-    };
+    // Recommendation: handle errors
+    if (!res.ok) {
+        // This will activate the closest `error.js` Error Boundary
+        throw new Error('Failed to fetch data');
+    }
+
+    return res.json();
 }
