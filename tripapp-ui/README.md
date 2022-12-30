@@ -35,4 +35,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 
 # NOTE:
-deploy info : https://docs.digitalocean.com/tutorials/app-nextjs-deploy/
+- deploy info : https://docs.digitalocean.com/tutorials/app-nextjs-deploy/
+- Serve un immagine 512x512 come immagine app
