@@ -10,7 +10,7 @@ import List from '@mui/material/List';
 import LoadingPage from './loadingPage';
 import useSWR from 'swr';
 import Alert from '@mui/material/Alert';
-import {Collapse, IconButton} from '@mui/material';
+import {Collapse, IconButton, ListSubheader} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 interface Group {
@@ -23,8 +23,8 @@ export default function TripGroupView() {
     return (
         <>
             <Box sx={{width: "100%", height: "100%"}} justifyContent="center">
-                <Typography variant="h3"> Welcome back {session?.user?.name} </Typography>
-                <Typography variant="h4">Please select a trip group or create one!</Typography>
+                <Typography variant="h4"> Welcome back {session?.user?.name} </Typography>
+                <Typography variant="h5">Please select a trip group or create one!</Typography>
                 <AddButton/>
                 <ListItems/>
             </Box>
@@ -91,7 +91,9 @@ function ListItems() {
                                 aria-label="close"
                                 color="inherit"
                                 size="small"
-                                onClick={() => { setOpen(false) }}
+                                onClick={() => {
+                                    setOpen(false)
+                                }}
                             >
                                 <CloseIcon fontSize="inherit"/>
                             </IconButton>
@@ -108,7 +110,13 @@ function ListItems() {
                     <LoadingPage/>
                 ) : (
                     <Box sx={{width: '100%', maxWidth: 460, bgcolor: 'background.paper'}}>
-                        <List component="nav" aria-label="secondary mailbox folder" sx={{
+                        <List component="nav"
+                              subheader={
+                                  <ListSubheader component="div" id="nested-list-subheader">
+                                      Your trip groups
+                                  </ListSubheader>
+                              }
+                              aria-label="secondary mailbox folder" sx={{
                             bgcolor: 'background.paper'
                         }}>
                             {data.map((group: Group) => (
@@ -116,6 +124,16 @@ function ListItems() {
                                     selected={selectedIndex === group.id}
                                     onClick={(event) => handleListItemClick(event, group.id)}>
                                     <ListItemText primary={group.name}/>
+                                    {/*<Badge badgeContent={4} color="secondary">*/}
+                                    {/*    <PersonIcon color="action"/>*/}
+                                    {/*</Badge>*/}
+                                    {/*<AvatarGroup max={4}>*/}
+                                    {/*    <Avatar alt="Remy Sharp" src="/palm.svg"/>*/}
+                                    {/*    <Avatar alt="Travis Howard" src="/palm.svg"/>*/}
+                                    {/*    <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg"/>*/}
+                                    {/*    <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg"/>*/}
+                                    {/*    <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg"/>*/}
+                                    {/*</AvatarGroup>*/}
                                 </ListItemButton>
                             ))}
                         </List>
