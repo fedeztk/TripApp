@@ -23,6 +23,7 @@
 >>>>>>> 1e26761 (test rpi npm run dev)
 =======
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/next.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/_document.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/_document.tsx" afterDir="false" />
 <<<<<<< HEAD
@@ -33,6 +34,8 @@
 >>>>>>> b01a7ff (funzionante, produrre icona512x512)
 =======
 >>>>>>> 725b362 (funzionante, produrre icona512x512)
+=======
+>>>>>>> 4e25b9d (funzionante, produrre icona512x512)
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
