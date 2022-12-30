@@ -7,22 +7,26 @@ import ListItemText from '@mui/material/ListItemText';
 import {useState} from 'react';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
+import LoadingPage from './loadingPage';
+import useSWR from 'swr';
+import Alert from '@mui/material/Alert';
+import {Collapse, IconButton} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface Group {
     id: number
     name: string
 }
 
-export default function TripGroupView({groups}: { groups: Group[] }) {
+export default function TripGroupView() {
     const {data: session} = useSession()
-    console.log("Gruppi:", groups);
     return (
         <>
             <Box sx={{width: "100%", height: "100%"}} justifyContent="center">
                 <Typography variant="h3"> Welcome back {session?.user?.name} </Typography>
                 <Typography variant="h4">Please select a trip group or create one!</Typography>
                 <AddButton/>
-                <ListItems groups={groups}/>
+                <ListItems/>
             </Box>
         </>
     );
@@ -59,7 +63,7 @@ function AddButton() {
     );
 }
 
-function ListItems({groups}: { groups: Group[] }) {
+function ListItems() {
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
     const handleListItemClick = (
@@ -69,36 +73,54 @@ function ListItems({groups}: { groups: Group[] }) {
         setSelectedIndex(index);
     };
 
-    return (
-        <Box sx={{width: '100%', maxWidth: 460, bgcolor: 'background.paper'}}>
-            <List component="nav" aria-label="secondary mailbox folder" sx={{
-                bgcolor: 'background.paper'
-            }}>
-                {groups.map((group) => (
-                    <ListItemButton
-                        selected={selectedIndex === group.id}
-                        onClick={(event) => handleListItemClick(event, group.id)}>
-                        <ListItemText primary={group.name}/>
-                    </ListItemButton>
-                ))}
-            </List>
-        </Box>
-    );
-}
-
-// fetches trip groups of logged user
-// TODO: implement real function
-export async function getServerSideProps() {
-    // Username should be used to retrieve info
+    // TODO: Username should be used to retrieve info
     // const {data: session} = useSession()
     // const user = session.user.name
+    const fetcher = (url: string) => fetch(url).then((res) => res.json())
+    const address = `http://localhost:3001/groups`
+    const {data, error, isLoading} = useSWR(address, fetcher)
+    const [open, setOpen] = useState(true);
 
-    const res = await fetch(`http://localhost:3001/groups`)
-    const data = await res.json()
-
-    return {
-        props: {
-            groups: data,
-        }
-    };
+    return (
+        error ? (
+                <Collapse in={open}>
+                    <Alert
+                        severity="error"
+                        action={
+                            <IconButton
+                                aria-label="close"
+                                color="inherit"
+                                size="small"
+                                onClick={() => { setOpen(false) }}
+                            >
+                                <CloseIcon fontSize="inherit"/>
+                            </IconButton>
+                        }
+                        sx={{mb: 2}}
+                    >
+                        Unable to fetch groups info!
+                    </Alert>
+                </Collapse>
+            )
+            :
+            (
+                isLoading ? (
+                    <LoadingPage/>
+                ) : (
+                    <Box sx={{width: '100%', maxWidth: 460, bgcolor: 'background.paper'}}>
+                        <List component="nav" aria-label="secondary mailbox folder" sx={{
+                            bgcolor: 'background.paper'
+                        }}>
+                            {data.map((group: Group) => (
+                                <ListItemButton
+                                    selected={selectedIndex === group.id}
+                                    onClick={(event) => handleListItemClick(event, group.id)}>
+                                    <ListItemText primary={group.name}/>
+                                </ListItemButton>
+                            ))}
+                        </List>
+                    </Box>
+                )
+            )
+    );
 }
