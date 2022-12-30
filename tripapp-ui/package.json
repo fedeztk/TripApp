@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev-80": "next dev -H 0.0.0.0 -p ${PORT:-80}",
     "build": "next build",
     "start": "next start",
     "start-80": "next start -H 0.0.0.0 -p ${PORT:-80}",
