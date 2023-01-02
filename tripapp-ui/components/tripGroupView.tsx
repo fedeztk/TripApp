@@ -11,7 +11,7 @@ import List from '@mui/material/List';
 import LoadingPage from './loadingPage';
 import useSWR from 'swr';
 import Alert from '@mui/material/Alert';
-import {Badge, Collapse, IconButton, ListItem, ListSubheader, Stack, useTheme} from '@mui/material';
+import {Badge, Collapse, IconButton, ListItem, ListSubheader, Stack, TextField, useTheme} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
@@ -26,6 +26,7 @@ import Avatar from '@mui/material/Avatar';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import PersonIcon from '@mui/icons-material/Person';
 import {blue} from '@mui/material/colors';
+import {usePlacesWidget} from 'react-google-autocomplete';
 
 interface Group {
     id: number
@@ -50,6 +51,25 @@ export default function TripGroupView() {
 function AddButton() {
     const theme = useTheme()
     const isMediumScreen = useMediaQuery(theme.breakpoints.up("md"))
+
+    // dialog
+    const [open, setOpen] = React.useState(false);
+    const [country, setCountry] = useState("us");
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+    const {ref: materialRef} = usePlacesWidget({
+        apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string,
+        onPlaceSelected: (place) => console.log(place),
+        inputAutocompleteValue: "country",
+        options: {
+            componentRestrictions: {country},
+        },
+    });
+
     return (
         // wrapping all around box for centering the + icon on small screens
         <Box
@@ -58,14 +78,48 @@ function AddButton() {
             justifyContent="center"
         >
             {/*@ts-ignore*/}
-            <Fab variant={isMediumScreen ? "extended" : "default"} color="primary" aria-label="add" sx={{
-                position: 'fixed',
-                bottom: (theme) => theme.spacing(2),
-                right: isMediumScreen ? theme.spacing(2) : 'default'
-            }}>
+            <Fab variant={isMediumScreen ? "extended" : "default"} color="primary" aria-label="add"
+                 onClick={() => handleClickOpen()}
+                 sx={{
+                     position: 'fixed',
+                     bottom: (theme) => theme.spacing(2),
+                     right: isMediumScreen ? theme.spacing(2) : 'default'
+                 }}>
                 {isMediumScreen && <>Create new trip group</>}
                 <AddIcon sx={{mb: isMediumScreen ? 0.6 : "default"}}/>
             </Fab>
+            <Dialog
+                fullScreen={!isMediumScreen}
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="responsive-dialog-title"
+            >
+                <DialogTitle id="responsive-dialog-title">
+                    Add details for your next trip
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Please, enter a valid city name below.
+                        This information will be used to create your next trip group!
+                        You can add members to the newly created group later.
+                    </DialogContentText>
+
+                    <TextField
+                        fullWidth
+                        inputRef={materialRef}
+                        label="City"
+                        type="search"
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>
+                        Create
+                    </Button>
+                    <Button onClick={handleClose}>
+                        Exit
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Box>
     );
 }
@@ -201,7 +255,7 @@ function ListItems() {
                                             <Dialog
                                                 open={membersDialogOpen && group.id === focusedGroup}
                                                 onClose={() => handleMembersDialogClose()}>
-                                                <DialogTitle>View and add members for {group.name}</DialogTitle>
+                                                <DialogTitle>View and add members to {group.name}</DialogTitle>
                                                 <List sx={{pt: 0}}>
                                                     {group.members.map((user) => (
                                                         <ListItem disableGutters>
