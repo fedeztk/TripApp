@@ -17,15 +17,15 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import PersonIcon from '@mui/icons-material/Person';
-import {blue} from '@mui/material/colors';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
+import Avatar from '@mui/material/Avatar';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import PersonIcon from '@mui/icons-material/Person';
+import {blue} from '@mui/material/colors';
 
 interface Group {
     id: number
@@ -91,15 +91,11 @@ function ListItems() {
     // alert notification
     const [alertOpen, setAlertOpen] = useState(true);
 
+    // holds state for current selected group for dialogs
+    const [focusedGroup, setFocusedGroup] = useState<null | number>(null)
 
     // leave dialog
     const [leaveDialogOpen, setLeaveDialogOpen] = useState(false);
-    const [focusedGroup, setFocusedGroup] = useState<null | number>(null)
-    const handleLeaveDialogConfirm = (group_id: number) => {
-        //TODO: call the api to remove the user grom group_id
-        setFocusedGroup(null);
-        setLeaveDialogOpen(false)
-    };
     const handleLeaveDialogOpen = (group_id: number) => {
         setFocusedGroup(group_id);
         setLeaveDialogOpen(true);
@@ -107,6 +103,22 @@ function ListItems() {
     const handleLeaveDialogClose = () => {
         setFocusedGroup(null);
         setLeaveDialogOpen(false);
+    };
+    const handleLeaveDialogConfirm = (group_id: number) => {
+        //TODO: call the api to remove the user grom group_id
+        setFocusedGroup(null);
+        setLeaveDialogOpen(false)
+    };
+
+    // members dialog
+    const [membersDialogOpen, setMembersDialogOpen] = useState(false);
+    const handleMembersDialogOpen = (group_id: number) => {
+        setFocusedGroup(group_id);
+        setMembersDialogOpen(true);
+    };
+    const handleMembersDialogClose = () => {
+        setFocusedGroup(null);
+        setMembersDialogOpen(false);
     };
 
     return (
@@ -152,7 +164,8 @@ function ListItems() {
                                     key={group.id}
                                     secondaryAction={
                                         <Stack spacing={2} direction="row">
-                                            <IconButton edge="end" aria-label="add">
+                                            <IconButton edge="end" aria-label="add"
+                                                        onClick={() => handleMembersDialogOpen(group.id)}>
                                                 <Badge badgeContent={group.members.length} color="primary">
                                                     <PersonAddIcon/>
                                                 </Badge>
@@ -161,6 +174,7 @@ function ListItems() {
                                                         onClick={() => handleLeaveDialogOpen(group.id)}>
                                                 <ExitToAppIcon/>
                                             </IconButton>
+                                            {/*dialog for leave group button*/}
                                             <Dialog
                                                 open={leaveDialogOpen && group.id === focusedGroup}
                                                 onClose={() => handleLeaveDialogClose()}
@@ -176,12 +190,49 @@ function ListItems() {
                                                     </DialogContentText>
                                                 </DialogContent>
                                                 <DialogActions>
-                                                    <Button onClick={() => handleLeaveDialogConfirm(group.id)} autoFocus>
+                                                    <Button onClick={() => handleLeaveDialogConfirm(group.id)}
+                                                            autoFocus>
                                                         Yes
                                                     </Button>
                                                     <Button onClick={() => handleLeaveDialogClose()}>No</Button>
                                                 </DialogActions>
                                             </Dialog>
+                                            {/*members dialog*/}
+                                            <Dialog
+                                                open={membersDialogOpen && group.id === focusedGroup}
+                                                onClose={() => handleMembersDialogClose()}>
+                                                <DialogTitle>View and add members for {group.name}</DialogTitle>
+                                                <List sx={{pt: 0}}>
+                                                    {group.members.map((user) => (
+                                                        <ListItem disableGutters>
+                                                            <ListItemButton
+                                                                onClick={() => handleMembersDialogClose()}
+                                                                key={user}>
+                                                                <ListItemAvatar>
+                                                                    <Avatar sx={{bgcolor: blue[100], color: blue[600]}}>
+                                                                        <PersonIcon/>
+                                                                    </Avatar>
+                                                                </ListItemAvatar>
+                                                                <ListItemText primary={user}/>
+                                                            </ListItemButton>
+                                                        </ListItem>
+                                                    ))}
+                                                    <ListItem disableGutters>
+                                                        <ListItemButton
+                                                            autoFocus
+                                                            onClick={() => handleMembersDialogClose()}
+                                                        >
+                                                            <ListItemAvatar>
+                                                                <Avatar>
+                                                                    <AddIcon/>
+                                                                </Avatar>
+                                                            </ListItemAvatar>
+                                                            <ListItemText primary="Add member"/>
+                                                        </ListItemButton>
+                                                    </ListItem>
+                                                </List>
+                                            </Dialog>
+
                                         </Stack>
                                     }
                                     disablePadding
