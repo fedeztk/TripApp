@@ -59,7 +59,7 @@ function AddButton() {
         >
             {/*@ts-ignore*/}
             <Fab variant={isMediumScreen ? "extended" : "default"} color="primary" aria-label="add" sx={{
-                position: 'absolute',
+                position: 'fixed',
                 bottom: (theme) => theme.spacing(2),
                 right: isMediumScreen ? theme.spacing(2) : 'default'
             }}>

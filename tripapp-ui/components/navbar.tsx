@@ -228,7 +228,7 @@ function BackToTop({window}: any) {
             <Box
                 onClick={handleClick}
                 role="presentation"
-                sx={{position: 'fixed', bottom: 16, right: 16}}
+                sx={{position: 'fixed', bottom: 16, right: 16, zIndex: 'tooltip'}}
             >
                 <Fab size="small" aria-label="scroll back to top">
                     <KeyboardArrowUpIcon/>
