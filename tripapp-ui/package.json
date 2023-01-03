@@ -6,6 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "start-80" : "next start -H 0.0.0.0 -p ${PORT:-80}",
+    "export-static": "npm run build && next export -o _static",
+    "export": "next export",
     "lint": "next lint"
   },
   "dependencies": {
