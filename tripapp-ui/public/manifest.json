@@ -1,6 +1,13 @@
 {
   "short_name": "TripAapp",
   "name": "TripApp",
+  "icons": [
+    {
+      "src": "./palm.svg",
+      "type": "image/svg",
+      "sizes": "1080x1080"
+    }
+  ],
   "start_url": ".",
   "lang": "it-IT",
   "orientation": "portrait-primary",
