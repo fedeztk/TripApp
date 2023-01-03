@@ -4,14 +4,12 @@ import Typography from '@mui/material/Typography';
 import {useSession} from 'next-auth/react';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import * as React from 'react';
 import {useState} from 'react';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import LoadingPage from './loadingPage';
 import useSWR from 'swr';
-import Alert from '@mui/material/Alert';
-import {Badge, Collapse, IconButton, ListItem, ListSubheader, Stack, TextField, useTheme} from '@mui/material';
+import {Alert, Badge, Collapse, IconButton, ListItem, ListSubheader, Stack, TextField, useTheme} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
@@ -26,7 +24,6 @@ import Avatar from '@mui/material/Avatar';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import PersonIcon from '@mui/icons-material/Person';
 import {blue} from '@mui/material/colors';
-import {usePlacesWidget} from 'react-google-autocomplete';
 
 interface Group {
     id: number
@@ -53,22 +50,13 @@ function AddButton() {
     const isMediumScreen = useMediaQuery(theme.breakpoints.up("md"))
 
     // dialog
-    const [open, setOpen] = React.useState(false);
-    const [country, setCountry] = useState("us");
+    const [open, setOpen] = useState(false);
     const handleClickOpen = () => {
         setOpen(true);
     };
     const handleClose = () => {
         setOpen(false);
     };
-    const {ref: materialRef} = usePlacesWidget({
-        apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string,
-        onPlaceSelected: (place) => console.log(place),
-        inputAutocompleteValue: "country",
-        options: {
-            componentRestrictions: {country},
-        },
-    });
 
     return (
         // wrapping all around box for centering the + icon on small screens
@@ -103,10 +91,8 @@ function AddButton() {
                         This information will be used to create your next trip group!
                         You can add members to the newly created group later.
                     </DialogContentText>
-
                     <TextField
                         fullWidth
-                        inputRef={materialRef}
                         label="City"
                         type="search"
                     />
@@ -189,7 +175,7 @@ function ListItems() {
                                     setAlertOpen(false)
                                 }}
                             >
-                                <CloseIcon fontSize="inherit"/>
+                                <CloseIcon/>
                             </IconButton>
                         }
                         sx={{mb: 2}}
@@ -286,7 +272,6 @@ function ListItems() {
                                                     </ListItem>
                                                 </List>
                                             </Dialog>
-
                                         </Stack>
                                     }
                                     disablePadding

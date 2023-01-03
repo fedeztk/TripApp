@@ -6,10 +6,8 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
@@ -21,10 +19,9 @@ import BedtimeIcon from '@mui/icons-material/Bedtime';
 import BedtimeOffIcon from '@mui/icons-material/BedtimeOff';
 import {signOut, useSession} from 'next-auth/react';
 import Link from 'next/link';
-import {useRouter} from 'next/router';
 
 const pages = ['Poll', 'Finance', 'Info', 'Map'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Logout'];
 
 const navbarID = "navbar-id"
 
@@ -50,7 +47,7 @@ export default function Navbar() {
     const {data: session} = useSession()
 
     // maybe replace this with a check on context.tripgroup
-    const isHome = useRouter().pathname === "/";
+    // const isHome = useRouter().pathname === "/";
 
     return (
         <>
@@ -81,64 +78,65 @@ export default function Navbar() {
                         </Typography>
 
 
-                        {!isHome ?
-                            <>
-                                {/*responsive menu on small screens*/}
-                                <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
-                                    <IconButton
-                                        size="large"
-                                        aria-label="account of current user"
-                                        aria-controls="menu-appbar"
-                                        aria-haspopup="true"
-                                        onClick={handleOpenNavMenu}
-                                        color="inherit"
-                                    >
-                                        <MenuIcon/>
-                                    </IconButton>
-                                    <Menu
-                                        id="menu-appbar"
-                                        anchorEl={anchorElNav}
-                                        anchorOrigin={{
-                                            vertical: 'bottom',
-                                            horizontal: 'left',
-                                        }}
-                                        keepMounted
-                                        transformOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'left',
-                                        }}
-                                        open={Boolean(anchorElNav)}
-                                        onClose={handleCloseNavMenu}
-                                        sx={{
-                                            display: {xs: 'block', md: 'none'},
-                                        }}
-                                    >
-                                        {pages.map((page) => (
-                                            <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                                <Typography textAlign="center">{page}</Typography>
-                                            </MenuItem>
-                                        ))}
-                                    </Menu>
-                                </Box>
+                        {/*old navbar, new navigation is WIP*/}
+                        {/*{!isHome ?*/}
+                        {/*    <>*/}
+                        {/*        /!*responsive menu on small screens*!/*/}
+                        {/*        <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>*/}
+                        {/*            <IconButton*/}
+                        {/*                size="large"*/}
+                        {/*                aria-label="account of current user"*/}
+                        {/*                aria-controls="menu-appbar"*/}
+                        {/*                aria-haspopup="true"*/}
+                        {/*                onClick={handleOpenNavMenu}*/}
+                        {/*                color="inherit"*/}
+                        {/*            >*/}
+                        {/*                <MenuIcon/>*/}
+                        {/*            </IconButton>*/}
+                        {/*            <Menu*/}
+                        {/*                id="menu-appbar"*/}
+                        {/*                anchorEl={anchorElNav}*/}
+                        {/*                anchorOrigin={{*/}
+                        {/*                    vertical: 'bottom',*/}
+                        {/*                    horizontal: 'left',*/}
+                        {/*                }}*/}
+                        {/*                keepMounted*/}
+                        {/*                transformOrigin={{*/}
+                        {/*                    vertical: 'top',*/}
+                        {/*                    horizontal: 'left',*/}
+                        {/*                }}*/}
+                        {/*                open={Boolean(anchorElNav)}*/}
+                        {/*                onClose={handleCloseNavMenu}*/}
+                        {/*                sx={{*/}
+                        {/*                    display: {xs: 'block', md: 'none'},*/}
+                        {/*                }}*/}
+                        {/*            >*/}
+                        {/*                {pages.map((page) => (*/}
+                        {/*                    <MenuItem key={page} onClick={handleCloseNavMenu}>*/}
+                        {/*                        <Typography textAlign="center">{page}</Typography>*/}
+                        {/*                    </MenuItem>*/}
+                        {/*                ))}*/}
+                        {/*            </Menu>*/}
+                        {/*        </Box>*/}
 
-                                {/*normal menu on other screen*/}
-                                <Box sx={{flexGrow: 1, display: {md: 'flex', xs: 'none'}}}>
-                                    {pages.map((page) => (
-                                        <Button
-                                            key={page}
-                                            onClick={handleCloseNavMenu}
-                                            sx={{color: 'white', display: 'block'}}
-                                        >
-                                            {page}
-                                        </Button>
-                                    ))}
-                                </Box>
+                        {/*        /!*normal menu on other screen*!/*/}
+                        {/*        <Box sx={{flexGrow: 1, display: {md: 'flex', xs: 'none'}}}>*/}
+                        {/*            {pages.map((page) => (*/}
+                        {/*                <Button*/}
+                        {/*                    key={page}*/}
+                        {/*                    onClick={handleCloseNavMenu}*/}
+                        {/*                    sx={{color: 'white', display: 'block'}}*/}
+                        {/*                >*/}
+                        {/*                    {page}*/}
+                        {/*                </Button>*/}
+                        {/*            ))}*/}
+                        {/*        </Box>*/}
 
-                            </>
-                            : (
-                                <></>
-                            )
-                        }
+                        {/*    </>*/}
+                        {/*    : (*/}
+                        {/*        <></>*/}
+                        {/*    )*/}
+                        {/*}*/}
 
                         <Typography
                             // variant="h6"
@@ -184,14 +182,11 @@ export default function Navbar() {
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}
                             >
-                                {/*{settings.map((setting) => (*/}
-                                {/*    <MenuItem key={setting} onClick={handleCloseUserMenu}>*/}
-                                {/*        <Typography textAlign="center">{setting}</Typography>*/}
-                                {/*    </MenuItem>*/}
-                                {/*))}*/}
-                                <MenuItem key={settings.at(3)} onClick={() => signOut()}>
-                                    <Typography textAlign="center">{settings.at(3)}</Typography>
-                                </MenuItem>
+                                {settings.map((setting) => (
+                                    <MenuItem key={setting} onClick={() => signOut()}>
+                                        <Typography textAlign="center">{setting}</Typography>
+                                    </MenuItem>
+                                ))}
                             </Menu>
                         </Box>
                         <ModeSwitcher/>
@@ -219,6 +214,7 @@ function BackToTop({window}: any) {
         if (anchor) {
             anchor.scrollIntoView({
                 block: 'center',
+                behavior: 'smooth'
             });
         }
     };
@@ -285,7 +281,7 @@ function stringToColor(string: string) {
     return color;
 }
 
-function stringAvatar(name: string|null|undefined) {
+function stringAvatar(name: string | null | undefined) {
     if (name == null) { // null or undefined, should not happen anyways...
         return "";
     }
