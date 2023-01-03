@@ -2,7 +2,7 @@
   "short_name": "Next PWA",
   "icons": [
     {
-      "src": "/image-512x512.png",
+      "src": "/palm.png",
       "sizes": "512x512",
       "type": "image/png"
     }
