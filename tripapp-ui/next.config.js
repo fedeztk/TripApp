@@ -1,19 +1,12 @@
 /** @type {import('next').NextConfig} */
-const withOffline = require("next-offline");
-
-
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  register: true,
+  skipWaiting: true,
+})
 
 const nextConfig = {
   reactStrictMode: true,
-  // async redirects() {
-  //   return [
-  //     {
-  //       source: '/',
-  //       destination: '/api/auth/signin',
-  //       permanent: true,
-  //     },
-  //   ]
-  // },
 }
+module.exports = withPWA(nextConfig);
 
-module.exports = withOffline(nextConfig);
