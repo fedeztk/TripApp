@@ -19,6 +19,8 @@ import BedtimeIcon from '@mui/icons-material/Bedtime';
 import BedtimeOffIcon from '@mui/icons-material/BedtimeOff';
 import {signOut, useSession} from 'next-auth/react';
 import Link from 'next/link';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useTripGroupContext } from '../context/tripGroup';
 
 const pages = ['Poll', 'Finance', 'Info', 'Map'];
 const settings = ['Logout'];
@@ -49,6 +51,8 @@ export default function Navbar() {
     // maybe replace this with a check on context.tripgroup
     // const isHome = useRouter().pathname === "/";
 
+    const [tripGroup, setTripGroup] = useTripGroupContext();
+
     return (
         <>
             <AppBar position="static" id={navbarID} enableColorOnDark>
@@ -74,69 +78,9 @@ export default function Navbar() {
                                 flexGrow: 1
                             }}
                         >
-                            TripApp
+                            TripApp{tripGroup && <> - {tripGroup.name}</>}
                         </Typography>
 
-
-                        {/*old navbar, new navigation is WIP*/}
-                        {/*{!isHome ?*/}
-                        {/*    <>*/}
-                        {/*        /!*responsive menu on small screens*!/*/}
-                        {/*        <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>*/}
-                        {/*            <IconButton*/}
-                        {/*                size="large"*/}
-                        {/*                aria-label="account of current user"*/}
-                        {/*                aria-controls="menu-appbar"*/}
-                        {/*                aria-haspopup="true"*/}
-                        {/*                onClick={handleOpenNavMenu}*/}
-                        {/*                color="inherit"*/}
-                        {/*            >*/}
-                        {/*                <MenuIcon/>*/}
-                        {/*            </IconButton>*/}
-                        {/*            <Menu*/}
-                        {/*                id="menu-appbar"*/}
-                        {/*                anchorEl={anchorElNav}*/}
-                        {/*                anchorOrigin={{*/}
-                        {/*                    vertical: 'bottom',*/}
-                        {/*                    horizontal: 'left',*/}
-                        {/*                }}*/}
-                        {/*                keepMounted*/}
-                        {/*                transformOrigin={{*/}
-                        {/*                    vertical: 'top',*/}
-                        {/*                    horizontal: 'left',*/}
-                        {/*                }}*/}
-                        {/*                open={Boolean(anchorElNav)}*/}
-                        {/*                onClose={handleCloseNavMenu}*/}
-                        {/*                sx={{*/}
-                        {/*                    display: {xs: 'block', md: 'none'},*/}
-                        {/*                }}*/}
-                        {/*            >*/}
-                        {/*                {pages.map((page) => (*/}
-                        {/*                    <MenuItem key={page} onClick={handleCloseNavMenu}>*/}
-                        {/*                        <Typography textAlign="center">{page}</Typography>*/}
-                        {/*                    </MenuItem>*/}
-                        {/*                ))}*/}
-                        {/*            </Menu>*/}
-                        {/*        </Box>*/}
-
-                        {/*        /!*normal menu on other screen*!/*/}
-                        {/*        <Box sx={{flexGrow: 1, display: {md: 'flex', xs: 'none'}}}>*/}
-                        {/*            {pages.map((page) => (*/}
-                        {/*                <Button*/}
-                        {/*                    key={page}*/}
-                        {/*                    onClick={handleCloseNavMenu}*/}
-                        {/*                    sx={{color: 'white', display: 'block'}}*/}
-                        {/*                >*/}
-                        {/*                    {page}*/}
-                        {/*                </Button>*/}
-                        {/*            ))}*/}
-                        {/*        </Box>*/}
-
-                        {/*    </>*/}
-                        {/*    : (*/}
-                        {/*        <></>*/}
-                        {/*    )*/}
-                        {/*}*/}
 
                         <Typography
                             // variant="h6"
@@ -184,6 +128,7 @@ export default function Navbar() {
                             >
                                 {settings.map((setting) => (
                                     <MenuItem key={setting} onClick={() => signOut()}>
+                                        <LogoutIcon fontSize="small" sx={{mr: 1}}/>
                                         <Typography textAlign="center">{setting}</Typography>
                                     </MenuItem>
                                 ))}
