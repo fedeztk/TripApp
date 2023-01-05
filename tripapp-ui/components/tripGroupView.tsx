@@ -119,16 +119,6 @@ function ListItems() {
     // use trip group context
     const [group, setGroup] = useTripGroupContext()
 
-    // update group context if present in query params. This is used to redirect
-    // to the SectionGrid (that will also delete the query param)
-    const {groupID} = router.query as unknown as { groupID: number }
-    if (groupID && data) {
-        const gr = data.find((g: TripGroup) => g.id === groupID)
-        if (gr) {
-            setGroup(gr)
-        }
-    }
-
     // groups list
     const handleListItemClick = (
         event: React.MouseEvent<HTMLDivElement, MouseEvent>,

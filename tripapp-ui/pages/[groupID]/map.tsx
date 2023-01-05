@@ -9,19 +9,14 @@ export default function Map() {
     const {groupID} = router.query;
     return (
         <>
-            {/*this is a WIP, hence it is only included here and not in other sections*/}
-            <Link
-                href={{
-                    pathname: '/',
-                    query: {groupID: groupID},
-                }}
-            >
+            <Link href="/">
                 <IconButton>
                     <ArrowBackIcon/>
                 </IconButton>
             </Link>
-            
+
             <h1>Map: {groupID}</h1>
         </>
-    );
+    )
+        ;
 }

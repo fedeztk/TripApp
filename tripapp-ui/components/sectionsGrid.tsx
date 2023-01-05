@@ -6,16 +6,9 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import {Section} from "../types/section";
 import Link from "next/link";
-import router from "next/router";
 
 export default function SectionsGrid() {
     const [group, setGroup] = useTripGroupContext();
-
-    // clean query params when page is loaded. The group, if present,
-    // will be loaded to the context from the query params inside TripGroupView
-    if (router.query.groupID) {
-        router.replace('/', '/', {shallow: true});
-    }
 
     return (
         <>
