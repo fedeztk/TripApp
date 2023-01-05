@@ -17,6 +17,5 @@ export default function Map() {
 
             <h1>Map: {groupID}</h1>
         </>
-    )
-        ;
+    );
 }

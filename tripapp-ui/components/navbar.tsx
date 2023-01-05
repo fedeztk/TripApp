@@ -55,7 +55,7 @@ export default function Navbar() {
 
     return (
         <>
-            <AppBar position="static" id={navbarID} enableColorOnDark>
+            <AppBar position="sticky" id={navbarID} enableColorOnDark>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
                         <Link href="/">
