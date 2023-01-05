@@ -1,5 +1,5 @@
 import {createContext, useContext, useState} from "react";
-import {Section} from "../types/Section";
+import {Section} from "../types/section";
 
 const Context = createContext<[Section | null, (section: Section | null) => void]>([null, () => { }]);
 

@@ -26,6 +26,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import {blue} from '@mui/material/colors';
 import {useTripGroupContext} from '../context/tripGroup';
 import TripGroup from '../types/tripGroup';
+import router from 'next/router';
 
 export default function TripGroupView() {
     const {data: session} = useSession()
@@ -115,8 +116,20 @@ function ListItems() {
     const path = "/groups"
     const {data, error, isLoading} = useSWR(backend.concat(path), fetcher)
 
-    // groups list
+    // use trip group context
     const [group, setGroup] = useTripGroupContext()
+
+    // update group context if present in query params. This is used to redirect
+    // to the SectionGrid (that will also delete the query param)
+    const {groupID} = router.query as unknown as { groupID: number }
+    if (groupID && data) {
+        const gr = data.find((g: TripGroup) => g.id === groupID)
+        if (gr) {
+            setGroup(gr)
+        }
+    }
+
+    // groups list
     const handleListItemClick = (
         event: React.MouseEvent<HTMLDivElement, MouseEvent>,
         group: TripGroup,
