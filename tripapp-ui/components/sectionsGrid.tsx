@@ -1,6 +1,5 @@
-import {Box, CardActionArea, Grid, IconButton, Typography} from "@mui/material";
+import {Box, CardActionArea, Grid, Typography} from "@mui/material";
 import {useTripGroupContext} from "../context/tripGroup";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -12,9 +11,6 @@ export default function SectionsGrid() {
 
     return (
         <>
-            <IconButton onClick={() => setGroup(null)}>
-                <ArrowBackIcon/>
-            </IconButton>
             <Typography variant="h5">
                 Please select a section
             </Typography>
@@ -23,9 +19,7 @@ export default function SectionsGrid() {
     );
 }
 
-function GridContainer(groupID: any) {
-    const [group, setGroup] = useTripGroupContext();
-    groupID = group?.id;
+function GridContainer({groupID}: { groupID: number | undefined }) {
     type CardProps = {
         section: Section
         sectionDescription: string

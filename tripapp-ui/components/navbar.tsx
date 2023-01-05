@@ -17,10 +17,12 @@ import Fade from '@mui/material/Fade';
 import {useColorScheme,} from '@mui/material/styles';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
 import BedtimeOffIcon from '@mui/icons-material/BedtimeOff';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {signOut, useSession} from 'next-auth/react';
 import Link from 'next/link';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { useTripGroupContext } from '../context/tripGroup';
+import {useTripGroupContext} from '../context/tripGroup';
+import router from 'next/router';
 
 const pages = ['Poll', 'Finance', 'Info', 'Map'];
 const settings = ['Logout'];
@@ -52,12 +54,14 @@ export default function Navbar() {
     // const isHome = useRouter().pathname === "/";
 
     const [tripGroup, setTripGroup] = useTripGroupContext();
+    console.log(tripGroup);
 
     return (
         <>
             <AppBar position="sticky" id={navbarID} enableColorOnDark>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
+                        {tripGroup && <BackButton/>}
                         <Link href="/">
                             <Avatar alt="app icon" src="/palm.svg"/>
                         </Link>
@@ -143,6 +147,20 @@ export default function Navbar() {
     );
 }
 
+function BackButton() {
+    const [tripGroup, setTripGroup] = useTripGroupContext();
+    return router.pathname === "/" ? (
+        <IconButton color="secondary" onClick={() => setTripGroup(null)}>
+            <ArrowBackIcon/>
+        </IconButton>
+    ) : (
+        <Link href="/">
+            <IconButton color="secondary">
+                <ArrowBackIcon/>
+            </IconButton>
+        </Link>
+    );
+}
 
 function BackToTop({window}: any) {
     const trigger = useScrollTrigger({

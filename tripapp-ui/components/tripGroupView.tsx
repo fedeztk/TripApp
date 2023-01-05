@@ -63,7 +63,7 @@ function AddButton() {
             justifyContent="center"
         >
             {/*@ts-ignore*/}
-            <Fab variant={isMediumScreen ? "extended" : "default"} color="primary" aria-label="add"
+            <Fab variant={isMediumScreen ? "extended" : "default"} color="secondary" aria-label="add"
                  onClick={() => handleClickOpen()}
                  sx={{
                      position: 'fixed',
