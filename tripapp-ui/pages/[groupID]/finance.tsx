@@ -1,10 +1,12 @@
-import {useRouter} from "next/router";
+import Typography from "@mui/material/Typography";
 
 export default function Finance() {
     // display the groupID in the URL
-    const router = useRouter();
-    const {groupID} = router.query;
+    // const router = useRouter();
+    // const {groupID} = router.query;
     return (
-        <h1>Finance: {groupID}</h1>
+        <Typography variant="h4">
+            Finance
+        </Typography>
     );
 }

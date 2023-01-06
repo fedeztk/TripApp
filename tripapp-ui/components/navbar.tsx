@@ -65,15 +65,15 @@ export default function Navbar() {
                         <Link href="/">
                             <Avatar alt="app icon" src="/palm.svg"/>
                         </Link>
+                        {/*on medium screens*/}
                         <Typography
                             // variant="h6"
                             noWrap
                             component="a"
-                            href="/"
                             sx={{
                                 mr: 2,
                                 ml: 2,
-                                // display: {xs: 'none', md: 'flex'},
+                                display: {xs: 'none', md: 'flex'},
                                 // fontFamily: 'monospace',
                                 fontWeight: 700,
                                 letterSpacing: '.1rem',
@@ -83,6 +83,25 @@ export default function Navbar() {
                             }}
                         >
                             TripApp{tripGroup && <> - {tripGroup.name}</>}
+                        </Typography>
+                        {/*on small screens*/}
+                        <Typography
+                            // variant="h6"
+                            noWrap
+                            component="a"
+                            sx={{
+                                mr: 2,
+                                ml: 2,
+                                display: {xs: 'flex', md: 'none'},
+                                // fontFamily: 'monospace',
+                                fontWeight: 700,
+                                letterSpacing: '.1rem',
+                                color: 'inherit',
+                                textDecoration: 'none',
+                                flexGrow: 1
+                            }}
+                        >
+                            {tripGroup && <>{tripGroup.name}</>}
                         </Typography>
 
 
