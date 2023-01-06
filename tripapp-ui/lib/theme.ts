@@ -9,6 +9,9 @@ const TripAppTheme = extendTheme({
             palette: {
                 primary: {
                     main: "#f85f6a"
+                },
+                secondary: {
+                    main: "#5f6af8"
                 }
             }
         },
@@ -16,6 +19,9 @@ const TripAppTheme = extendTheme({
             palette: {
                 primary: {
                     main: "#f85f6a"
+                },
+                secondary: {
+                    main: "#5f6af8"
                 }
             }
         }

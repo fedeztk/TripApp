@@ -17,8 +17,12 @@ import Fade from '@mui/material/Fade';
 import {useColorScheme,} from '@mui/material/styles';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
 import BedtimeOffIcon from '@mui/icons-material/BedtimeOff';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {signOut, useSession} from 'next-auth/react';
 import Link from 'next/link';
+import LogoutIcon from '@mui/icons-material/Logout';
+import {useTripGroupContext} from '../context/tripGroup';
+import router from 'next/router';
 
 const pages = ['Poll', 'Finance', 'Info', 'Map'];
 const settings = ['Logout'];
@@ -49,23 +53,27 @@ export default function Navbar() {
     // maybe replace this with a check on context.tripgroup
     // const isHome = useRouter().pathname === "/";
 
+    const [tripGroup, setTripGroup] = useTripGroupContext();
+    console.log(tripGroup);
+
     return (
         <>
-            <AppBar position="static" id={navbarID} enableColorOnDark>
+            <AppBar position="sticky" id={navbarID} enableColorOnDark>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
+                        {tripGroup && <BackButton/>}
                         <Link href="/">
                             <Avatar alt="app icon" src="/palm.svg"/>
                         </Link>
+                        {/*on medium screens*/}
                         <Typography
                             // variant="h6"
                             noWrap
                             component="a"
-                            href="/"
                             sx={{
                                 mr: 2,
                                 ml: 2,
-                                // display: {xs: 'none', md: 'flex'},
+                                display: {xs: 'none', md: 'flex'},
                                 // fontFamily: 'monospace',
                                 fontWeight: 700,
                                 letterSpacing: '.1rem',
@@ -74,69 +82,28 @@ export default function Navbar() {
                                 flexGrow: 1
                             }}
                         >
-                            TripApp
+                            TripApp{tripGroup && <> - {tripGroup.name}</>}
+                        </Typography>
+                        {/*on small screens*/}
+                        <Typography
+                            // variant="h6"
+                            noWrap
+                            component="a"
+                            sx={{
+                                mr: 2,
+                                ml: 2,
+                                display: {xs: 'flex', md: 'none'},
+                                // fontFamily: 'monospace',
+                                fontWeight: 700,
+                                letterSpacing: '.1rem',
+                                color: 'inherit',
+                                textDecoration: 'none',
+                                flexGrow: 1
+                            }}
+                        >
+                            {tripGroup && <>{tripGroup.name}</>}
                         </Typography>
 
-
-                        {/*old navbar, new navigation is WIP*/}
-                        {/*{!isHome ?*/}
-                        {/*    <>*/}
-                        {/*        /!*responsive menu on small screens*!/*/}
-                        {/*        <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>*/}
-                        {/*            <IconButton*/}
-                        {/*                size="large"*/}
-                        {/*                aria-label="account of current user"*/}
-                        {/*                aria-controls="menu-appbar"*/}
-                        {/*                aria-haspopup="true"*/}
-                        {/*                onClick={handleOpenNavMenu}*/}
-                        {/*                color="inherit"*/}
-                        {/*            >*/}
-                        {/*                <MenuIcon/>*/}
-                        {/*            </IconButton>*/}
-                        {/*            <Menu*/}
-                        {/*                id="menu-appbar"*/}
-                        {/*                anchorEl={anchorElNav}*/}
-                        {/*                anchorOrigin={{*/}
-                        {/*                    vertical: 'bottom',*/}
-                        {/*                    horizontal: 'left',*/}
-                        {/*                }}*/}
-                        {/*                keepMounted*/}
-                        {/*                transformOrigin={{*/}
-                        {/*                    vertical: 'top',*/}
-                        {/*                    horizontal: 'left',*/}
-                        {/*                }}*/}
-                        {/*                open={Boolean(anchorElNav)}*/}
-                        {/*                onClose={handleCloseNavMenu}*/}
-                        {/*                sx={{*/}
-                        {/*                    display: {xs: 'block', md: 'none'},*/}
-                        {/*                }}*/}
-                        {/*            >*/}
-                        {/*                {pages.map((page) => (*/}
-                        {/*                    <MenuItem key={page} onClick={handleCloseNavMenu}>*/}
-                        {/*                        <Typography textAlign="center">{page}</Typography>*/}
-                        {/*                    </MenuItem>*/}
-                        {/*                ))}*/}
-                        {/*            </Menu>*/}
-                        {/*        </Box>*/}
-
-                        {/*        /!*normal menu on other screen*!/*/}
-                        {/*        <Box sx={{flexGrow: 1, display: {md: 'flex', xs: 'none'}}}>*/}
-                        {/*            {pages.map((page) => (*/}
-                        {/*                <Button*/}
-                        {/*                    key={page}*/}
-                        {/*                    onClick={handleCloseNavMenu}*/}
-                        {/*                    sx={{color: 'white', display: 'block'}}*/}
-                        {/*                >*/}
-                        {/*                    {page}*/}
-                        {/*                </Button>*/}
-                        {/*            ))}*/}
-                        {/*        </Box>*/}
-
-                        {/*    </>*/}
-                        {/*    : (*/}
-                        {/*        <></>*/}
-                        {/*    )*/}
-                        {/*}*/}
 
                         <Typography
                             // variant="h6"
@@ -184,6 +151,7 @@ export default function Navbar() {
                             >
                                 {settings.map((setting) => (
                                     <MenuItem key={setting} onClick={() => signOut()}>
+                                        <LogoutIcon fontSize="small" sx={{mr: 1}}/>
                                         <Typography textAlign="center">{setting}</Typography>
                                     </MenuItem>
                                 ))}
@@ -198,6 +166,20 @@ export default function Navbar() {
     );
 }
 
+function BackButton() {
+    const [tripGroup, setTripGroup] = useTripGroupContext();
+    return router.pathname === "/" ? (
+        <IconButton color="secondary" onClick={() => setTripGroup(null)}>
+            <ArrowBackIcon/>
+        </IconButton>
+    ) : (
+        <Link href="/">
+            <IconButton color="secondary">
+                <ArrowBackIcon/>
+            </IconButton>
+        </Link>
+    );
+}
 
 function BackToTop({window}: any) {
     const trigger = useScrollTrigger({

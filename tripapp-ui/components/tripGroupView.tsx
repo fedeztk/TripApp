@@ -24,12 +24,9 @@ import Avatar from '@mui/material/Avatar';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import PersonIcon from '@mui/icons-material/Person';
 import {blue} from '@mui/material/colors';
-
-interface Group {
-    id: number
-    name: string
-    members: string[]
-}
+import {useTripGroupContext} from '../context/tripGroup';
+import TripGroup from '../types/tripGroup';
+import router from 'next/router';
 
 export default function TripGroupView() {
     const {data: session} = useSession()
@@ -66,7 +63,7 @@ function AddButton() {
             justifyContent="center"
         >
             {/*@ts-ignore*/}
-            <Fab variant={isMediumScreen ? "extended" : "default"} color="primary" aria-label="add"
+            <Fab variant={isMediumScreen ? "extended" : "default"} color="secondary" aria-label="add"
                  onClick={() => handleClickOpen()}
                  sx={{
                      position: 'fixed',
@@ -119,13 +116,15 @@ function ListItems() {
     const path = "/groups"
     const {data, error, isLoading} = useSWR(backend.concat(path), fetcher)
 
+    // use trip group context
+    const [group, setGroup] = useTripGroupContext()
+
     // groups list
-    const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const handleListItemClick = (
         event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-        index: number,
+        group: TripGroup,
     ) => {
-        setSelectedIndex(index);
+        setGroup(group)
     };
 
     // alert notification
@@ -199,28 +198,28 @@ function ListItems() {
                               aria-label="secondary mailbox folder" sx={{
                             bgcolor: 'background.paper'
                         }}>
-                            {data.map((group: Group) => (
+                            {data.map((gr: TripGroup) => (
                                 <ListItem
-                                    key={group.id}
+                                    key={gr.id}
                                     secondaryAction={
                                         <Stack spacing={2} direction="row">
                                             <IconButton edge="end" aria-label="add"
-                                                        onClick={() => handleMembersDialogOpen(group.id)}>
-                                                <Badge badgeContent={group.members.length} color="primary">
+                                                        onClick={() => handleMembersDialogOpen(gr.id)}>
+                                                <Badge badgeContent={gr.members.length} color="primary">
                                                     <PersonAddIcon/>
                                                 </Badge>
                                             </IconButton>
                                             <IconButton edge="end" aria-label="leave"
-                                                        onClick={() => handleLeaveDialogOpen(group.id)}>
+                                                        onClick={() => handleLeaveDialogOpen(gr.id)}>
                                                 <ExitToAppIcon/>
                                             </IconButton>
                                             {/*dialog for leave group button*/}
                                             <Dialog
-                                                open={leaveDialogOpen && group.id === focusedGroup}
+                                                open={leaveDialogOpen && gr.id === focusedGroup}
                                                 onClose={() => handleLeaveDialogClose()}
                                             >
                                                 <DialogTitle>
-                                                    Are you sure you want to exit from the group: {group.name}?
+                                                    Are you sure you want to exit from the group: {gr.name}?
                                                 </DialogTitle>
                                                 <DialogContent>
                                                     <DialogContentText>
@@ -230,7 +229,7 @@ function ListItems() {
                                                     </DialogContentText>
                                                 </DialogContent>
                                                 <DialogActions>
-                                                    <Button onClick={() => handleLeaveDialogConfirm(group.id)}
+                                                    <Button onClick={() => handleLeaveDialogConfirm(gr.id)}
                                                             autoFocus>
                                                         Yes
                                                     </Button>
@@ -239,11 +238,11 @@ function ListItems() {
                                             </Dialog>
                                             {/*members dialog*/}
                                             <Dialog
-                                                open={membersDialogOpen && group.id === focusedGroup}
+                                                open={membersDialogOpen && gr.id === focusedGroup}
                                                 onClose={() => handleMembersDialogClose()}>
-                                                <DialogTitle>View and add members to {group.name}</DialogTitle>
+                                                <DialogTitle>View and add members to {gr.name}</DialogTitle>
                                                 <List sx={{pt: 0}}>
-                                                    {group.members.map((user) => (
+                                                    {gr.members.map((user) => (
                                                         <ListItem disableGutters>
                                                             <ListItemButton
                                                                 onClick={() => handleMembersDialogClose()}
@@ -277,9 +276,9 @@ function ListItems() {
                                     disablePadding
                                 >
                                     <ListItemButton
-                                        selected={selectedIndex === group.id}
-                                        onClick={(event) => handleListItemClick(event, group.id)}>
-                                        <ListItemText primary={group.name}/>
+                                        selected={group?.id === gr.id}
+                                        onClick={(event) => handleListItemClick(event, gr)}>
+                                        <ListItemText primary={gr.name}/>
                                     </ListItemButton>
                                 </ListItem>
                             ))}
