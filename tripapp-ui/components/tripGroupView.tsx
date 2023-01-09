@@ -243,7 +243,9 @@ function ListItems() {
                                                 <DialogTitle>View and add members to {gr.name}</DialogTitle>
                                                 <List sx={{pt: 0}}>
                                                     {gr.members.map((user) => (
-                                                        <ListItem disableGutters>
+                                                        <ListItem disableGutters
+                                                                    key={user}
+                                                        >
                                                             <ListItemButton
                                                                 onClick={() => handleMembersDialogClose()}
                                                                 key={user}>

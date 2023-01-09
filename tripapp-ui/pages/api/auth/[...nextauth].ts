@@ -61,7 +61,8 @@ export const authOptions: NextAuthOptions = {
         brandColor: "#f85f6a", // Hex color code
         logo: "/palm.svg", // Absolute URL to image
         buttonText: "#f85f6a" // Hex color code
-    }
+    },
+    secret: process.env.NEXTAUTH_SECRET as string,
 }
 
 export default NextAuth(authOptions)
