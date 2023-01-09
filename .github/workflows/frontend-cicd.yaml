@@ -5,7 +5,7 @@ on:
     branches: [ main, master, feat(infra)/infra-template ]
 
 env:
-#  REGISTRY:
+  REGISTRY: hub.docker.com
   IMAGE_NAME: ${{ github.repository }}
   ACTOR: ${{ github.actor }}
 
@@ -34,4 +34,4 @@ jobs:
         with:
           context: tripapp-ui/.
           push: true
-          tags: ${{ env.IMAGE_NAME }}/${{ steps.string.outputs.lowercase }}:latest
+          tags: ${{ env.REGISTRY }}/${{ steps.string.outputs.lowercase }}:latest
