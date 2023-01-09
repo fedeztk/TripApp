@@ -4,6 +4,11 @@ on:
   push:
     branches: [ main, master, feat(infra)/infra-template ]
 
+env:
+#  REGISTRY:
+  IMAGE_NAME: ${{ github.repository }}
+  ACTOR: ${{ github.actor }}
+
 jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
@@ -12,22 +17,21 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v3
 
+      - name: Lowercase repo
+        uses: ASzc/change-string-case-action@v2
+        id: string
+        with:
+          string: ${{ env.IMAGE_NAME }}
+
       - name: Log in to Docker Hub
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
-        with:
-          images: ${{ secrets.DOCKERHUB_USERNAME }}/tripapp-ui
-
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: tripapp-ui/.
           push: true
-          tags: latest
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ env.IMAGE_NAME }}/${{ steps.string.outputs.lowercase }}:latest
