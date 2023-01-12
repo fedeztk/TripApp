@@ -9,6 +9,7 @@ import Dialog from "@mui/material/Dialog";
 import useSWRMutation from 'swr/mutation';
 import {CreditUser, DebitUser} from "../../types/wallet";
 
+
 export default function NewTransactionPopup({triggerDialog, setTriggerDialog}:{triggerDialog:any, setTriggerDialog:any}){
 
     //send:

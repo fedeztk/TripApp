@@ -35,7 +35,6 @@ export default function Balance({balance}:{balance:any | undefined}){
                     spacing={10}>
                     <Column title={"Debito"} value={round(balance?.debit).toString()}/>
                     <Column title={"Credito"} value={round(balance?.credit).toString()}/>
-
                 </Stack>
             </Stack>
         </Box>
