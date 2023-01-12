@@ -10,6 +10,7 @@ import useSWRMutation from 'swr/mutation';
 import {useTripGroupContext} from "../../context/tripGroup";
 import {useState} from "react";
 
+
 export default function NewTransactionPopup({triggerDialog, setTriggerDialog}:{triggerDialog:any, setTriggerDialog:any}){
 
     const [tripGroup, setTripGroup]= useTripGroupContext()
