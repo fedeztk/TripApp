@@ -41,8 +41,6 @@ export default function NewTransactionPopup({triggerDialog, setTriggerDialog}:{t
         })
 
     }
-
-
     const backend = process.env.NEXT_PUBLIC_BACKEND_ENDPOINT as string
     const path = "/api/addtransaction"
     const {trigger, isMutating} = useSWRMutation(backend.concat(path), sendNewTransaction);
@@ -94,11 +92,11 @@ export default function NewTransactionPopup({triggerDialog, setTriggerDialog}:{t
                         setPayment(tmp);
                     }}
                     sx={{ m: 1, width: '35ch'}}
+
                     InputProps={{
                         endAdornment: <InputAdornment position="end">€</InputAdornment>,
                     }}
                 />
-
 
             </DialogContent>
 
@@ -112,7 +110,6 @@ export default function NewTransactionPopup({triggerDialog, setTriggerDialog}:{t
                         Create
                     </Button>
                 }
-
                 <Button onClick={()=>setTriggerDialog(false)}>
                     Exit
                 </Button>
@@ -122,5 +119,3 @@ export default function NewTransactionPopup({triggerDialog, setTriggerDialog}:{t
     </>)
 }
 
-
-//<Button onClick={()=>setRender(!render)}>

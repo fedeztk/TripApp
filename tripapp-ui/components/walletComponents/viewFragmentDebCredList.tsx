@@ -5,8 +5,6 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 export  default function DebCredList({userList}:{userList:any | undefined}){
-
-
     return(<Box sx={{ width: '100%'}}>
         <Stack
             direction="row"
