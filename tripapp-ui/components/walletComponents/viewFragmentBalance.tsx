@@ -7,7 +7,6 @@ import { round } from "../../pages/[groupID]/wallet";
 
 export default function Balance({balance}:{balance:any | undefined}){
 
-
     return(<>
         <Box sx={{ width: '100%'}}>
             <Stack
@@ -24,8 +23,8 @@ export default function Balance({balance}:{balance:any | undefined}){
 
 
                     <Typography variant="h3" >Bilancio:</Typography>
-                    <Typography variant="h4" >{round(balance?.total).toString()} €</Typography>
 
+                    <Typography variant="h4" >{balance.total}</Typography>
                 </Stack>
 
                 <Stack
@@ -33,8 +32,9 @@ export default function Balance({balance}:{balance:any | undefined}){
                     justifyContent="center"
                     alignItems="center"
                     spacing={10}>
-                    <Column title={"Debito"} value={round(balance?.debit).toString()}/>
-                    <Column title={"Credito"} value={round(balance?.credit).toString()}/>
+
+                    <Column title={"Debito"} value={round(balance.debit).toString()}/>
+                    <Column title={"Credito"} value={round(balance.credit).toString()}/>
                 </Stack>
             </Stack>
         </Box>
