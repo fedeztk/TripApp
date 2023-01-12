@@ -27,61 +27,68 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import TransactionList from "../components/walletComponents/TransactionList";
-import NewSalePopup from "../components/walletComponents/NewSalePopup";
+import NewSalePopup from "../components/walletComponents/NewTransactionPopup";
+import NewTransactionPopup from "../components/walletComponents/NewTransactionPopup";
 
+export function round(number:any | undefined){
+    if(number===undefined){
+        return 0
+    }
+    return Math.round(number * 100)/100
+}
 
+export default function Wallet() {
 
-
-export default function Wallet(){
-
-    const [triggerHistoryView , setTriggerHistoryView] = useState(false);
-    const [triggerNewSale , setTriggerNewSale] = useState(false);
+    const [triggerHistoryView, setTriggerHistoryView] = useState(false);
+    const [triggerNewSale, setTriggerNewSale] = useState(false);
 
     const theme = useTheme()
     const isMediumScreen = useMediaQuery(theme.breakpoints.up("md"))
 
 
-
     const backend = process.env.NEXT_PUBLIC_BACKEND_ENDPOINT as string
-    const path = "/api/groups"
+    const path = "/api/balance"
     const fetcher = (url: string) => fetch(url)
-        .then((res) => res.json())
-        .then((json)=>{
-            const debits:DebitUser[] = []
-            const credits:CreditUser[] = []
-            let d = 0;
-            let c = 0;
+            .then((res) => res.json())
+            .then((json) => {
 
+                const debits: DebitUser[] = []
+                const credits: CreditUser[] = []
+                let d = 0;
+                let c = 0;
 
-            userlist.map((u)=>{
-                if((u as DebitUser).debit!==undefined){
-                    let tmp:DebitUser = u as DebitUser
-                    debits.push(tmp)
-                    d = d + tmp.debit
-                }else if((u as CreditUser).credit!==undefined){
-                    let tmp:CreditUser = u as CreditUser
-                    credits.push(tmp)
-                    c = c+tmp.credit
+                json.map((u:any) => {
+                    if ((u as DebitUser).debit !== undefined) {
+                        let tmp: DebitUser = u as DebitUser
+                        debits.push(tmp)
+                        d = d + tmp.debit
+
+                    } else if ((u as CreditUser).credit !== undefined) {
+                        let tmp: CreditUser = u as CreditUser
+                        credits.push(tmp)
+                        c = c + tmp.credit
+
+                    }
+                })
+
+                let debCred = {
+                    debits: debits,
+                    credits: credits
+                }
+
+                let balance = {
+                    total: c - d,
+                    debit: d,
+                    credit: c
+                }
+
+                return {
+                    debCred: debCred,
+                    balance: balance
                 }
             })
 
-            let debCred = {
-                debits: debits,
-                credits: credits
-            }
 
-            let balance = {
-                total: c-d,
-                debit:d,
-                credit: c
-            }
-
-            return {
-                debCred : debCred,
-                balance : balance
-            }
-
-        })
     const {data, error, isLoading} = useSWR(backend.concat(path), fetcher)
 
 
@@ -89,34 +96,9 @@ export default function Wallet(){
         console.log("BACK!")
     }
 
-    const u1:DebitUser = {
-        id:"u1",
-        name:"user1",
-        debit:10.3
-    }
-
-    const u2:CreditUser = {
-        id:"u2",
-        name:"user2",
-        credit:50
-    }
-
-    const u3:DebitUser = {
-        id:"u3",
-        name:"user3",
-        debit:11.888
-    }
-
-
-    const userlist:custumUser[] = [
-        u1,u2,u3
-    ]
-
-
-
-
 
     return isLoading ? <LoadingPage/>
+            : error ? <>ERRORE</>
             : triggerHistoryView ? <TransactionList backTrigger={setTriggerHistoryView}/> : <ActualWallet/>
 
 
@@ -128,12 +110,12 @@ export default function Wallet(){
                 alignItems="center">
                 <TopControlView/>
 
-                <NewSaleButton/>
+                <NewTransactionButton/>
 
-                <Balance balance={data?.balance}/>
+                <Balance balance={data?.balance }/>
 
                 <DebCredList userList={data?.debCred}/>
-                {triggerNewSale? <NewSalePopup triggerDialog={triggerNewSale} setTriggerDialog={setTriggerNewSale}/> :<></>}
+                {triggerNewSale? <NewTransactionPopup triggerDialog={triggerNewSale} setTriggerDialog={setTriggerNewSale}/> :<></>}
             </Stack>
 
         </Box>)
@@ -155,94 +137,15 @@ export default function Wallet(){
             </Box>)
     }
 
-    function NewSaleButton(){
+    function NewTransactionButton(){
         return(<>
             <Fab
                 sx={{marginBottom:"2vh"}}
                 variant={"extended"}
                 onClick={()=>setTriggerNewSale(true)}>
                 <AddIcon  />
-                {<>New operation</>}
+                <>New Transaction</>
             </Fab>
         </>)
                 }
 }
-
-
-
-
-
-
-
-function AddButton() {
-    // dialog
-    const [open, setOpen] = useState(false);
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    return (
-        // wrapping all around box for centering the + icon on small screens
-        <Box
-            m={1}
-            display="flex"
-            justifyContent="center">
-
-
-
-            {/*@ts-ignore*/}
-            <Fab variant={isMediumScreen ? "extended" : "default"} color="primary"
-                 onClick={() => handleClickOpen()}
-                 >
-                {isMediumScreen && <>Create new trip group</>}
-                <AddIcon sx={{mb: isMediumScreen ? 0.6 : "default"}}/>
-            </Fab>
-            <Dialog
-                fullScreen={!isMediumScreen}
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="responsive-dialog-title"
-            >
-                <DialogTitle id="responsive-dialog-title">
-                    Add details for your next trip
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        Please, enter a valid city name below.
-                        This information will be used to create your next trip group!
-                        You can add members to the newly created group later.
-                    </DialogContentText>
-                    <TextField
-                        fullWidth
-                        label="City"
-                        type="search"
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>
-                        Create
-                    </Button>
-                    <Button onClick={handleClose}>
-                        Exit
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </Box>
-    );
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
