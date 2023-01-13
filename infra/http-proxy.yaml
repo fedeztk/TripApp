@@ -1,0 +1,16 @@
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: tripapp-hp
+spec:
+  virtualhost:
+    fqdn: mastercc.hpc4ai.unito.it/tripapp
+  routes:
+    - conditions:
+      - prefix: /ui
+      services:
+        - name: frontend-svc
+          port: 80
+      pathRewritePolicy:
+        replacePrefix: 
+          - replacement: /ui

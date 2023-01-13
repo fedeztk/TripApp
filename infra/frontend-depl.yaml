@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: fserra
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: fedeztk/tripapp-ui:feat-infra-infra-template
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NEXT_PUBLIC_BACKEND_ENDPOINT
+              value: http://localhost:3001
+            - name: NEXTAUTH_SECRET
+              value: ***REMOVED***
+            - name: GITHUB_ID
+              value: ***REMOVED***
+            - name: GITHUB_SECRET
+              value: ***REMOVED***
+          imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-svc
+  namespace: fserra
+spec:
+  selector:
+    app: frontend
+  ports:
+    - port: 80
+      targetPort: 3000
+#  type: LoadBalancer
