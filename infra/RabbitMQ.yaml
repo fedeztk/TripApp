@@ -1,0 +1,57 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rabbitmq-ingress
+  #annotations:
+    #ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: "mastercc.hpc4ai.unito.it"
+      http:
+        paths:
+          - pathType: Prefix
+            path: /rabbitmq
+            backend:
+              service:
+                name: rabbitmq-service
+                port:
+                  number: 5672
+          - pathType: Prefix
+            path: /controlpanel/rabbitmq
+            backend:
+              service:
+                name: rabbitmq-service
+                port:
+                  number: 15672
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-service
+spec:
+  selector:
+    app: rabbitmq-server
+  ports:
+    - port: 15672
+      name: frontend
+      targetPort: 15672
+    - port: 5672
+      name: backend
+      targetPort: 5672
+
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: rabbitmq-server
+  labels:
+    app: rabbitmq-server
+spec:
+  containers:
+    - name: rabbitmq
+      image: rabbitmq:3.11-management
+      env:
+      - name: RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS
+        value: '-rabbitmq_management path_prefix "/controlpanel/rabbitmq"' 
+#funziona all'indirizzo http://mastercc.hpc4ai.unito.it/controlpanel/rabbitmq/
+# attenzione non funziona con */controlpanel/rabbitmq (ovvero senza / finale)
