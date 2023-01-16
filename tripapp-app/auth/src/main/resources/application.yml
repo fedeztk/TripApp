@@ -1,0 +1,16 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /api
+spring:
+  application:
+    name: auth
+  data:
+    mongodb:
+      host: ${DB_SERVER}
+      port: ${DB_PORT}
+      database: ${DB_NAME}
+
+#  jpa:
+#    properties:
+#      hibernate.jdbc.lob.non_contextual_creation: true

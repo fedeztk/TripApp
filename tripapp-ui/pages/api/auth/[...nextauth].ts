@@ -41,7 +41,7 @@ export const authOptions: NextAuthOptions = {
         buttonText: "#f85f6a" // Hex color code
     },
     secret: process.env.NEXTAUTH_SECRET as string,
-    adapter: MongoDBAdapter(clientPromise),
+    adapter: MongoDBAdapter(clientPromise, {databaseName: process.env.MONGODB_DB as string}),
 }
 
 export default NextAuth(authOptions)
