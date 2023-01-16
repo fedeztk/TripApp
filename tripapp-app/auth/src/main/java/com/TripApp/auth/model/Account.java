@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 
 @Document("accounts")
 @Data
@@ -16,6 +17,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Builder
 public class Account {
     @Id
+    @Field(targetType = FieldType.OBJECT_ID)
     private String id;
     private String provider;
     @Field("token_type")
@@ -25,5 +27,6 @@ public class Account {
     private String providerAccountId;
     private String type;
     private String scope;
+    @Field(targetType = FieldType.OBJECT_ID)
     private String userId;
 }
