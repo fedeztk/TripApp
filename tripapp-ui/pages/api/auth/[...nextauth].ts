@@ -6,6 +6,7 @@ import TwitterProvider from "next-auth/providers/twitter"
 import Auth0Provider from "next-auth/providers/auth0"
 import {MongoDBAdapter} from "@next-auth/mongodb-adapter"
 import clientPromise from "../../../lib/mongodb"
+import {ObjectId} from "mongodb";
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
@@ -42,6 +43,25 @@ export const authOptions: NextAuthOptions = {
     },
     secret: process.env.NEXTAUTH_SECRET as string,
     adapter: MongoDBAdapter(clientPromise, {databaseName: process.env.MONGODB_DB as string}),
+    callbacks: {
+        async session({session, user}) {
+            const getToken = await clientPromise.then(async (client) => {
+                return client
+                    .db(process.env.MONGODB_DB as string)
+                    .collection("accounts")
+                    .findOne({userId: new ObjectId(user.id)});
+            });
+
+            let accessToken: string | undefined = undefined;
+            if (getToken) {
+                accessToken = getToken.access_token!;
+            }
+
+            session.user.token = accessToken;
+            session.user.id = user.id;
+            return session;
+        },
+    }
 }
 
 export default NextAuth(authOptions)
