@@ -36,4 +36,4 @@ jobs:
         with:
           context: tripapp-app/auth/.
           push: true
-          # tags: ${{ env.ACTOR }}/${{ steps.string.outputs.lowercase }}:latest
+          tags: ${{ steps.string.outputs.lowercase }}:latest
