@@ -23,49 +23,49 @@ public class AccountController {
             if (optAccount.isPresent()) {
                 return new ResponseEntity<>(optAccount.get(), HttpStatus.OK);
             } else {
-                return noAccountFoundResponse(userId + " and access token " + accessToken);
+                return new ResponseEntity<>("No account found for userId: " + userId + " and accessToken: " + accessToken, HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
             return errorResponse();
         }
     }
 
-    @GetMapping("/tmp/{userId}")
-    public ResponseEntity<?> getAccountByUserId(@PathVariable String userId) {
-        try {
-            Optional<Account> optAccount = accountService.getAccountByUserId(userId);
-            if (optAccount.isPresent()) {
-                return new ResponseEntity<>(optAccount.get(), HttpStatus.OK);
-            } else {
-                return noAccountFoundResponse(userId);
-            }
-        } catch (Exception e) {
-            return errorResponse();
-        }
-    }
+//    @GetMapping("/tmp/{userId}")
+//    public ResponseEntity<?> getAccountByUserId(@PathVariable String userId) {
+//        try {
+//            Optional<Account> optAccount = accountService.getAccountByUserId(userId);
+//            if (optAccount.isPresent()) {
+//                return new ResponseEntity<>(optAccount.get(), HttpStatus.OK);
+//            } else {
+//                return noAccountFoundResponse(userId);
+//            }
+//        } catch (Exception e) {
+//            return errorResponse();
+//        }
+//    }
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity<?> getAccountById(@PathVariable String id) {
-        try {
-            Optional<Account> optAccount = accountService.getAccountById(id);
-            if (optAccount.isPresent()) {
-                return new ResponseEntity<>(optAccount.get(), HttpStatus.OK);
-            } else {
-                return noAccountFoundResponse(id);
-            }
-        } catch (Exception e) {
-            return errorResponse();
-        }
-    }
+//    @GetMapping("/get/{id}")
+//    public ResponseEntity<?> getAccountById(@PathVariable String id) {
+//        try {
+//            Optional<Account> optAccount = accountService.getAccountById(id);
+//            if (optAccount.isPresent()) {
+//                return new ResponseEntity<>(optAccount.get(), HttpStatus.OK);
+//            } else {
+//                return noAccountFoundResponse(id);
+//            }
+//        } catch (Exception e) {
+//            return errorResponse();
+//        }
+//    }
 
-    @GetMapping("/")
-    public ResponseEntity<?> getAllAccounts() {
-        try {
-            return new ResponseEntity<>(accountService.getAllAccounts(), HttpStatus.OK);
-        } catch (Exception e) {
-            return errorResponse();
-        }
-    }
+//    @GetMapping("/")
+//    public ResponseEntity<?> getAllAccounts() {
+//        try {
+//            return new ResponseEntity<>(accountService.getAllAccounts(), HttpStatus.OK);
+//        } catch (Exception e) {
+//            return errorResponse();
+//        }
+//    }
 
 
     private ResponseEntity<String> errorResponse() {
