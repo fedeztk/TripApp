@@ -1,14 +1,14 @@
-name: Publish frontend Docker image
+name: Publish backend auth svc Docker image
 
 on:
   push:
     branches: [ main, master, feat(infra)/infra-template ]
     paths:
-      - 'tripapp-ui/**'
-      - '.github/workflows/frontend-cicd.yaml'
+      - 'tripapp-app/auth/**'
+      - '.github/workflows/backend-auth.yaml'
 
 env:
-  IMAGE_NAME: ${{ github.repository }}-ui
+  IMAGE_NAME: ${{ github.repository }}-auth
   ACTOR: ${{ github.actor }}
 
 jobs:
@@ -34,6 +34,6 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
-          context: tripapp-ui/.
+          context: tripapp-app/auth/.
           push: true
           tags: ${{ env.ACTOR }}/${{ steps.string.outputs.lowercase }}:latest
