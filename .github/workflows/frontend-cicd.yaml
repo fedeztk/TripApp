@@ -36,4 +36,4 @@ jobs:
         with:
           context: tripapp-ui/.
           push: true
-          tags: ${{ env.ACTOR }}/${{ steps.string.outputs.lowercase }}:latest
+          # tags: ${{ env.ACTOR }}/${{ steps.string.outputs.lowercase }}:latest
