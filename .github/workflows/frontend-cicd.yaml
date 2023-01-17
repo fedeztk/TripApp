@@ -2,7 +2,7 @@ name: Publish frontend Docker image
 
 on:
   push:
-    branches: [ main, master, feat(infra)/infra-template ]
+    branches: [ main, master, feat(infra)/infra-template, feat(be)/users-msvc ]
     paths:
       - 'tripapp-ui/**'
       - '.github/workflows/frontend-cicd.yaml'
