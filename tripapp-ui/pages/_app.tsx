@@ -12,7 +12,7 @@ export default function App({Component, pageProps}: AppProps) {
             <Head>
                 <title>TripApp</title>
                 <meta name="description" content="TripApp - Take a trip!"/>
-                <link rel="icon" href="/palm.png "/>
+                {/*<link rel="icon" href="/palm.png "/>*/}
                 <link rel="manifest" href="/manifest.json"/>
             </Head>
             <SessionProvider session={pageProps.session}>

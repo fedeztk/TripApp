@@ -111,7 +111,7 @@ function ListItems() {
     // TODO: Username should be used to retrieve info
     // const {data: session} = useSession()
     // const user = session.user.name
-    const fetcher = (url: string) => fetch(url).then((res) => res.json())
+    const fetcher = (url: string) => fetch(url).then((res) => res.json()).catch((err) => console.log(err))
     const backend = process.env.NEXT_PUBLIC_BACKEND_ENDPOINT as string
     const path = "/groups"
     const {data, error, isLoading} = useSWR(backend.concat(path), fetcher)
