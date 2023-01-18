@@ -38,6 +38,12 @@ ENV NODE_ENV production
 # Uncomment the following line in case you want to disable telemetry during runtime.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
+### WARNING! ###
+### PASSED IN FROM GH ACTIONS
+ARG GH_ACTIONS_BACKEND_ENDPOINT
+ENV NEXT_PUBLIC_BACKEND_ENDPOINT ${GH_ACTIONS_BACKEND_ENDPOINT}
+### END PASSED IN FROM GH ACTIONS
+
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 

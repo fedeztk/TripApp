@@ -37,3 +37,6 @@ jobs:
           context: tripapp-ui/.
           push: true
           tags: ${{ steps.string.outputs.lowercase }}:latest
+          # TODO: substitute with actual backend endpoint
+          build-args: |
+            "GH_ACTIONS_BACKEND_ENDPOINT=http://localhost:3001"
