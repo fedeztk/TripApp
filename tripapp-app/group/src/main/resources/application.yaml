@@ -1,0 +1,18 @@
+server:
+  servlet:
+    context-path: /group
+  port: 8082
+
+spring:
+  application:
+    name: group
+  datasource:
+    url: jdbc:postgresql://${DB_SERVER}/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+
+  jpa:
+#    properties:
+#      hibernate.jdbc.lob.non_contextual_creation: true
+    generate-ddl: true
+
