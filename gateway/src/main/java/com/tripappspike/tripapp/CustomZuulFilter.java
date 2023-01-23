@@ -14,6 +14,7 @@ public class CustomZuulFilter extends ZuulFilter {
         RequestContext ctx = RequestContext.getCurrentContext();
         //header per comunicare il passaggio dal gateway (serve solo a noi per saperlo, è inutile all'applicazione) - rimovibile
         ctx.addZuulRequestHeader("ZuulGateway", "True");
+        System.out.println("Incoming request...");
         return null;
     }
 

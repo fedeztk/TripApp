@@ -1,10 +1,3 @@
-/*
-CLASSE DI DEFAULT CHE CARICA LE CONFIGURAZIONI.
-!! NON TOCCARE !!
-*/
-
-
-
 
 package com.tripappspike.tripapp;
 
@@ -26,6 +19,10 @@ import java.lang.reflect.Method;
  * Fix for Zuul configuration with Spring Boot 2.5.x + Zuul - "NoSuchMethodError: ErrorController.getErrorPath()":
  */
 
+/**
+        CLASSE DI DEFAULT CHE CARICA LE CONFIGURAZIONI.
+        !! NON TOCCARE !!
+*/
 @Configuration
 public class ZuulConfiguration {
     /**
