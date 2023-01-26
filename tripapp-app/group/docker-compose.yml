@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+
+  postgres:
+    image: "postgres:9.6-alpine"
+    container_name: postgres
+#    volumes:
+#      - kanban-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - tripapp-net
+    environment:
+      - POSTGRES_DB=group
+      - POSTGRES_USER=kanban
+      - POSTGRES_PASSWORD=kanban
+
+  group:
+    build: .
+    container_name: group
+    environment:
+      - DB_SERVER=postgres
+      - POSTGRES_DB=group
+      - POSTGRES_USER=kanban
+      - POSTGRES_PASSWORD=kanban
+    ports:
+      - "3001:8080"
+    depends_on:
+      - postgres
+    networks:
+      - tripapp-net
+
+#volumes:
+#  kanban-data:
+networks:
+  tripapp-net:
+    external: true

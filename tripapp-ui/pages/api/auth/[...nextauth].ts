@@ -1,33 +1,18 @@
-import NextAuth, { NextAuthOptions } from "next-auth"
+import NextAuth, {NextAuthOptions} from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import FacebookProvider from "next-auth/providers/facebook"
 import GithubProvider from "next-auth/providers/github"
 import TwitterProvider from "next-auth/providers/twitter"
 import Auth0Provider from "next-auth/providers/auth0"
-// import AppleProvider from "next-auth/providers/apple"
-// import EmailProvider from "next-auth/providers/email"
+import {MongoDBAdapter} from "@next-auth/mongodb-adapter"
+import clientPromise from "../../../lib/mongodb"
+import {ObjectId} from "mongodb";
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
 export const authOptions: NextAuthOptions = {
     // https://next-auth.js.org/configuration/providers/oauth
     providers: [
-        /* EmailProvider({
-             server: process.env.EMAIL_SERVER,
-             from: process.env.EMAIL_FROM,
-           }),
-        // Temporarily removing the Apple provider from the demo site as the
-        // callback URL for it needs updating due to Vercel changing domains
-        Providers.Apple({
-          clientId: process.env.APPLE_ID,
-          clientSecret: {
-            appleId: process.env.APPLE_ID,
-            teamId: process.env.APPLE_TEAM_ID,
-            privateKey: process.env.APPLE_PRIVATE_KEY,
-            keyId: process.env.APPLE_KEY_ID,
-          },
-        }),
-        */
         FacebookProvider({
             clientId: process.env.FACEBOOK_ID as string,
             clientSecret: process.env.FACEBOOK_SECRET as string,
@@ -50,17 +35,32 @@ export const authOptions: NextAuthOptions = {
             issuer: process.env.AUTH0_ISSUER as string,
         }),
     ],
-    // callbacks: {
-    //     async jwt({ token }) {
-    //         token.userRole = "admin"
-    //         return token
-    //     },
-    // },
     theme: {
         colorScheme: "auto", // "auto" | "dark" | "light"
         brandColor: "#f85f6a", // Hex color code
         logo: "/palm.svg", // Absolute URL to image
         buttonText: "#f85f6a" // Hex color code
+    },
+    secret: process.env.NEXTAUTH_SECRET as string,
+    adapter: MongoDBAdapter(clientPromise, {databaseName: process.env.MONGODB_DB as string}),
+    callbacks: {
+        async session({session, user}) {
+            const getToken = await clientPromise.then(async (client) => {
+                return client
+                    .db(process.env.MONGODB_DB as string)
+                    .collection("accounts")
+                    .findOne({userId: new ObjectId(user.id)});
+            });
+
+            let accessToken: string | undefined = undefined;
+            if (getToken) {
+                accessToken = getToken.access_token!;
+            }
+
+            session.user.token = accessToken;
+            session.user.id = user.id;
+            return session;
+        },
     }
 }
 

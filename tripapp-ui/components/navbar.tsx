@@ -54,7 +54,7 @@ export default function Navbar() {
     // const isHome = useRouter().pathname === "/";
 
     const [tripGroup, setTripGroup] = useTripGroupContext();
-    console.log(tripGroup);
+    // console.log(tripGroup);
 
     return (
         <>
@@ -63,7 +63,7 @@ export default function Navbar() {
                     <Toolbar disableGutters>
                         {tripGroup && <BackButton/>}
                         <Link href="/">
-                            <Avatar alt="app icon" src="/palm.svg"/>
+                            <Avatar alt="app icon" src="/palm.png"/>
                         </Link>
                         {/*on medium screens*/}
                         <Typography

@@ -1,0 +1,34 @@
+version: '3.8'
+services:
+  mongo:
+    image: "mongo:6.0.3"
+    ports:
+      - "27017:27017"
+    networks:
+      - tripapp-net
+  #    environment:
+  #      - MONGO_INITDB_ROOT_USERNAME=tripapp
+  #      - MONGO_INITDB_ROOT_PASSWORD=tripapp
+
+  user:
+    build: .
+    container_name: tripapp-user
+    environment:
+      - DB_SERVER=mongo
+      - DB_NAME=auth
+      #      - DB_USER=tripapp
+      #      - DB_PASSWORD=tripapp
+      - DB_PORT=27017
+    depends_on:
+      - mongo
+    ports:
+      - "8080:8080"
+    networks:
+      - tripapp-net
+
+#volumes:
+#  kanban-data:
+networks:
+  tripapp-net:
+    name: tripapp-net
+    driver: bridge

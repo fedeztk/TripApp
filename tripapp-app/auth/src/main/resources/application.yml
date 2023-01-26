@@ -1,0 +1,12 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /auth
+spring:
+  application:
+    name: auth
+  data:
+    mongodb:
+      host: ${DB_SERVER}
+      port: ${DB_PORT}
+      database: ${DB_NAME}

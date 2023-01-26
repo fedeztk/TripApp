@@ -1,0 +1,39 @@
+name: Publish backend auth svc Docker image
+
+on:
+  push:
+    branches: [ main, master, feat(infra)/infra-template, feat(be)/users-msvc ]
+    paths:
+      - 'tripapp-app/auth/**'
+      - '.github/workflows/backend-auth.yaml'
+
+env:
+  IMAGE_NAME: ${{ github.repository }}-auth
+  ACTOR: ${{ github.actor }}
+
+jobs:
+  push_to_registry:
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Lowercase repo
+        uses: ASzc/change-string-case-action@v2
+        id: string
+        with:
+          string: ${{ env.IMAGE_NAME }}
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: tripapp-app/auth/.
+          push: true
+          tags: ${{ steps.string.outputs.lowercase }}:latest
