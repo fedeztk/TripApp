@@ -54,7 +54,7 @@ export default function Wallet() {
     const isMediumScreen = useMediaQuery(theme.breakpoints.up("md"))
 
     const path = "/transactions/detailedPosition"
-
+    
 
 
     const [balance, setBalance] = useState<any>();

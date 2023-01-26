@@ -75,6 +75,7 @@ export default function NewTransactionPopup({triggerDialog, setTriggerDialog}:{t
                     limitTags={2}
                     autoComplete
                     getOptionLabel={(option) => option.name}
+
                     id="combo-box-demo"
                     options={tripGroup?.members ? tripGroup?.members : []}
                     renderInput={(params) => <TextField {...params} label="Users" />}
@@ -99,6 +100,7 @@ export default function NewTransactionPopup({triggerDialog, setTriggerDialog}:{t
                     }}
                 />
 
+
             </DialogContent>
 
             <DialogActions>
@@ -111,6 +113,7 @@ export default function NewTransactionPopup({triggerDialog, setTriggerDialog}:{t
                         Create
                     </Button>
                 }
+
                 <Button onClick={()=>setTriggerDialog(false)}>
                     Exit
                 </Button>
@@ -119,4 +122,3 @@ export default function NewTransactionPopup({triggerDialog, setTriggerDialog}:{t
         </Dialog>
     </>)
 }
-
