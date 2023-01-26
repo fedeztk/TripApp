@@ -1,7 +1,6 @@
 package com.tripappspike.tripapp.controller;
 
 import com.tripappspike.tripapp.controller.services.InfoAPIService;
-import com.tripappspike.tripapp.controller.services.InfoService;
 import com.tripappspike.tripapp.model.ClientInfoObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
