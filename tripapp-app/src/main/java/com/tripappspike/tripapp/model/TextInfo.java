@@ -2,108 +2,98 @@ package com.tripappspike.tripapp.model;
 
 //import jakarta.persistence.*;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
 public class TextInfo {
 
-    private String code; //CCA2
-    private LinkedHashMap names;
-    private LinkedHashMap currencies;
-    private ArrayList capital;
-    private LinkedHashMap lenguages;
-    private LinkedHashMap maps;
-    private LinkedHashMap flags;
-    private LinkedHashMap coatOfArms;
+    private String status;
+    private JsonNode names;
+    private JsonNode currencies;
+    private JsonNode capital;
+    private JsonNode lenguages;
+    private JsonNode maps;
+    private JsonNode flags;
+    private JsonNode coatOfArms;
+
+    private JsonNode altSpellings;
 
 
-
-    private ArrayList altSpellings;
-
-    public TextInfo(String code,LinkedHashMap names, LinkedHashMap currencies, ArrayList capital, LinkedHashMap lenguages, LinkedHashMap maps, LinkedHashMap flags, LinkedHashMap coatOfArms, ArrayList altSpellings) {
-        this.code = code;
-        this.names = names;
-        this.currencies = currencies;
-        this.capital = capital;
-        this.lenguages = lenguages;
-        this.maps = maps;
-        this.flags = flags;
-        this.coatOfArms = coatOfArms;
-        this.altSpellings = altSpellings;
-    }
 
     public TextInfo(){
 
     }
 
-    public String getCode() {
-        return code;
+    public String getStatus() {
+        return status;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setStatus(String status) {
+        this.status = status;
     }
-    public LinkedHashMap getNames() {
+
+    public JsonNode getNames() {
         return names;
     }
 
-    public void setNames(LinkedHashMap names) {
+    public void setNames(JsonNode names) {
         this.names = names;
     }
 
-    public LinkedHashMap getCurrencies() {
+    public JsonNode getCurrencies() {
         return currencies;
     }
 
-    public void setCurrencies(LinkedHashMap currencies) {
+    public void setCurrencies(JsonNode currencies) {
         this.currencies = currencies;
     }
 
-    public ArrayList getCapital() {
+    public JsonNode getCapital() {
         return capital;
     }
 
-    public void setCapital(ArrayList capital) {
+    public void setCapital(JsonNode capital) {
         this.capital = capital;
     }
 
-    public LinkedHashMap getLenguages() {
+    public JsonNode getLenguages() {
         return lenguages;
     }
 
-    public void setLenguages(LinkedHashMap lenguages) {
+    public void setLenguages(JsonNode lenguages) {
         this.lenguages = lenguages;
     }
 
-    public LinkedHashMap getMaps() {
+    public JsonNode getMaps() {
         return maps;
     }
 
-    public void setMaps(LinkedHashMap maps) {
+    public void setMaps(JsonNode maps) {
         this.maps = maps;
     }
 
-    public LinkedHashMap getFlags() {
+    public JsonNode getFlags() {
         return flags;
     }
 
-    public void setFlags(LinkedHashMap flags) {
+    public void setFlags(JsonNode flags) {
         this.flags = flags;
     }
 
-    public LinkedHashMap getCoatOfArms() {
+    public JsonNode getCoatOfArms() {
         return coatOfArms;
     }
 
-    public void setCoatOfArms(LinkedHashMap coatOfArms) {
+    public void setCoatOfArms(JsonNode coatOfArms) {
         this.coatOfArms = coatOfArms;
     }
 
-    public ArrayList getAltSpellings() {
+    public JsonNode getAltSpellings() {
         return altSpellings;
     }
 
-    public void setAltSpellings(ArrayList altSpellings) {
+    public void setAltSpellings(JsonNode altSpellings) {
         this.altSpellings = altSpellings;
     }
 }

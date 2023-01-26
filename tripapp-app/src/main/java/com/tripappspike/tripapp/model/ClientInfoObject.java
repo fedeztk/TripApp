@@ -4,28 +4,29 @@ import java.util.Optional;
 
 public class ClientInfoObject {
 
-    private Optional<PhoneNumbers> numbers;
+    private PhoneNumbers numbers;
 
-    private Optional<TextInfo> info;
+    private TextInfo info;
 
-    public ClientInfoObject(Optional<PhoneNumbers> numbers, Optional<TextInfo> info){
+
+    public ClientInfoObject(PhoneNumbers numbers, TextInfo info){
         this.numbers=numbers;
         this.info=info;
     }
 
-    public Optional<TextInfo> getInfo() {
+    public TextInfo getInfo() {
         return info;
     }
 
-    public void setInfo(Optional<TextInfo> info) {
+    public void setInfo(TextInfo info) {
         this.info = info;
     }
 
-    public Optional<PhoneNumbers> getNumbers() {
+    public PhoneNumbers getNumbers() {
         return numbers;
     }
 
-    public void setNumbers(Optional<PhoneNumbers> numbers) {
+    public void setNumbers(PhoneNumbers numbers) {
         this.numbers = numbers;
     }
 }
