@@ -3,10 +3,9 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import Button from "@mui/material/Button";
-import { round } from "../../pages/wallet";
+import { round } from "../../pages/[groupID]/wallet";
 
 export default function Balance({balance}:{balance:any | undefined}){
-
 
 
     return(<>
@@ -26,6 +25,7 @@ export default function Balance({balance}:{balance:any | undefined}){
 
                     <Typography variant="h3" >Bilancio:</Typography>
                     <Typography variant="h4" >{round(balance?.total).toString()} €</Typography>
+
                 </Stack>
 
                 <Stack
@@ -35,6 +35,7 @@ export default function Balance({balance}:{balance:any | undefined}){
                     spacing={10}>
                     <Column title={"Debito"} value={round(balance?.debit).toString()}/>
                     <Column title={"Credito"} value={round(balance?.credit).toString()}/>
+
                 </Stack>
             </Stack>
         </Box>

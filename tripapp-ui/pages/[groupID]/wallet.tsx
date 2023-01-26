@@ -12,10 +12,10 @@ import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Unstable_Grid2';
 import {useState} from "react";
 import IconButton from "@mui/material/IconButton";
-import LoadingPage from "../components/loadingPage";
-import Balance from "../components/walletComponents/viewFragmentBalance";
-import DebCredList from "../components/walletComponents/viewFragmentDebCredList";
-import {CreditUser, custumUser, DebitUser} from "../components/walletComponents/types";
+import LoadingPage from "../../components/loadingPage";
+import Balance from "../../components/walletComponents/viewFragmentBalance";
+import DebCredList from "../../components/walletComponents/viewFragmentDebCredList";
+import {CreditUser, custumUser, DebitUser} from "../../types/wallet";
 import {width} from "@mui/system";
 import {TextField, useTheme} from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -26,9 +26,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
-import TransactionList from "../components/walletComponents/TransactionList";
-import NewSalePopup from "../components/walletComponents/NewTransactionPopup";
-import NewTransactionPopup from "../components/walletComponents/NewTransactionPopup";
+import TransactionList from "../../components/walletComponents/TransactionList";
+import NewSalePopup from "../../components/walletComponents/NewTransactionPopup";
+import NewTransactionPopup from "../../components/walletComponents/NewTransactionPopup";
 
 export function round(number:any | undefined){
     if(number===undefined){
@@ -41,6 +41,7 @@ export default function Wallet() {
 
     const [triggerHistoryView, setTriggerHistoryView] = useState(false);
     const [triggerNewSale, setTriggerNewSale] = useState(false);
+
 
     const theme = useTheme()
     const isMediumScreen = useMediaQuery(theme.breakpoints.up("md"))
@@ -88,7 +89,6 @@ export default function Wallet() {
                 }
             })
 
-
     const {data, error, isLoading} = useSWR(backend.concat(path), fetcher)
 
 
@@ -116,6 +116,7 @@ export default function Wallet() {
 
                 <DebCredList userList={data?.debCred}/>
                 {triggerNewSale? <NewTransactionPopup triggerDialog={triggerNewSale} setTriggerDialog={setTriggerNewSale}/> :<></>}
+
             </Stack>
 
         </Box>)
@@ -138,6 +139,7 @@ export default function Wallet() {
     }
 
     function NewTransactionButton(){
+
         return(<>
             <Fab
                 sx={{marginBottom:"2vh"}}
@@ -145,7 +147,9 @@ export default function Wallet() {
                 onClick={()=>setTriggerNewSale(true)}>
                 <AddIcon  />
                 <>New Transaction</>
+
             </Fab>
         </>)
                 }
 }
+

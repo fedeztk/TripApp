@@ -6,41 +6,8 @@ import {InputAdornment, TextField} from "@mui/material";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import useSWRMutation from 'swr/mutation';
-import {CreditUser, DebitUser} from "../../types/wallet";
 
-export default function NewTransactionPopup({triggerDialog, setTriggerDialog}:{triggerDialog:any, setTriggerDialog:any}){
-
-    //send:
-    /*
-    chi sono
-    che gruppo sono
-    quanto ho speso
-    con chi divido
-     */
-    async function sendNewTransaction(url:string){
-        let body = {
-            user:"",
-            group:"",
-
-        }
-        await fetch(url,{
-            method: "POST",
-            headers:{
-
-            },
-            body: JSON.stringify(body)
-        })
-
-    }
-
-    const backend = process.env.NEXT_PUBLIC_BACKEND_ENDPOINT as string
-    const path = "/api/addtransaction"
-    const {trigger, isMutating} = useSWRMutation(backend.concat(path), sendNewTransaction);
-
-
-
-
+export default function NewSalePopup({triggerDialog, setTriggerDialog}:{triggerDialog:any, setTriggerDialog:any}){
 
     return(<>
         <Dialog
@@ -79,15 +46,9 @@ export default function NewTransactionPopup({triggerDialog, setTriggerDialog}:{t
             </DialogContent>
 
             <DialogActions>
-                {isMutating ?
-                    <Button disabled>
-                        Loading...
-                    </Button>
-                    :
-                    <Button onClick={trigger}>
-                        Create
-                    </Button>
-                }
+                <Button onClick={()=>{}}>
+                    Create
+                </Button>
                 <Button onClick={()=>setTriggerDialog(false)}>
                     Exit
                 </Button>
@@ -96,5 +57,3 @@ export default function NewTransactionPopup({triggerDialog, setTriggerDialog}:{t
         </Dialog>
     </>)
 }
-
-
