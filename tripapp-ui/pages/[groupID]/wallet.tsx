@@ -16,6 +16,7 @@ import LoadingPage from "../../components/loadingPage";
 import Balance from "../../components/walletComponents/viewFragmentBalance";
 import DebCredList from "../../components/walletComponents/viewFragmentDebCredList";
 import {walletUser} from "../../types/wallet";
+
 import {width} from "@mui/system";
 import {TextField, useTheme} from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -33,6 +34,7 @@ import {useSession} from "next-auth/react";
 import useSWRMutation from "swr/mutation";
 import {customFetcher} from "../../lib/fetcher";
 
+
 export function round(number:any | undefined){
     if(number===undefined){
         return 0
@@ -47,9 +49,9 @@ export default function Wallet() {
 
     const {data: session} = useSession()
 
+
     const theme = useTheme()
     const isMediumScreen = useMediaQuery(theme.breakpoints.up("md"))
-
 
     const path = "/transactions/detailedPosition"
 
@@ -87,12 +89,13 @@ export default function Wallet() {
         }
     }
 
-   const {data, error, isLoading} = useSWRMutation([path, "POST", session], customFetcher)
+   //const {data, error, isLoading} = useSWRMutation([path, "POST", session], customFetcher)
     let data = undefined // testing
     let isLoading = false // testing
 
     useEffect(dataAnalizer, [data])
 //    useEffect(dataAnalizer)//testing
+
 
 
     function backFunc(){
@@ -125,7 +128,6 @@ export default function Wallet() {
     }
 
     function TopControlView(){
-
 
         return(
             <Box sx={{width:'100%', textAlign:"right", padding:"1vw"}}>

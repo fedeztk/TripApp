@@ -5,6 +5,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 export  default function DebCredList({userList}:{userList:any | undefined}){
+
+
     return(<Box sx={{ width: '100%'}}>
         <Stack
             direction="row"
@@ -16,6 +18,7 @@ export  default function DebCredList({userList}:{userList:any | undefined}){
                 <Typography variant={"h5"}>Debitori</Typography>
                 {userList?.debits.map((c:walletUser, key:number)=><Entry key={key} name={c.user} value={c.amount}/>)}
 
+
             </Stack>
 
             <Stack
@@ -24,6 +27,7 @@ export  default function DebCredList({userList}:{userList:any | undefined}){
                 sx={{width:'50%', }}>
                 <Typography variant={"h5"}>Creditori</Typography>
                 {userList?.credits.map((c:walletUser, key:number)=><Entry key={key} name={c.user} value={c.amount}/>)}
+
             </Stack>
         </Stack>
     </Box>);

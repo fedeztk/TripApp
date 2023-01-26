@@ -26,6 +26,7 @@ export default function Balance({balance}:{balance:any | undefined}){
                     <Typography variant="h3" >Bilancio:</Typography>
 
                     <Typography variant="h4" >{round(balance?.total).toString()} €</Typography>
+
                 </Stack>
 
                 <Stack
@@ -35,6 +36,7 @@ export default function Balance({balance}:{balance:any | undefined}){
                     spacing={10}>
                     <Column title={"Debito"} value={round(balance?.debit).toString()}/>
                     <Column title={"Credito"} value={round(balance?.credit).toString()}/>
+
                 </Stack>
             </Stack>
         </Box>
