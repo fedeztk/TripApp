@@ -6,7 +6,7 @@ metadata:
     #ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: "mastercc.hpc4ai.unito.it"
+    - host: "tripapp.mastercc.hpc4ai.unito.it"
       http:
         paths:
           - pathType: Prefix
