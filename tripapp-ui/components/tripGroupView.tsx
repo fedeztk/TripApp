@@ -9,7 +9,19 @@ import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import LoadingPage from './loadingPage';
 import useSWR from 'swr';
-import {Alert, Badge, Collapse, IconButton, ListItem, ListSubheader, Stack, TextField, useTheme} from '@mui/material';
+import {
+    Alert,
+    Autocomplete,
+    Badge,
+    CircularProgress,
+    Collapse,
+    IconButton,
+    ListItem,
+    ListSubheader,
+    Stack,
+    TextField,
+    useTheme
+} from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
@@ -26,7 +38,9 @@ import PersonIcon from '@mui/icons-material/Person';
 import {blue} from '@mui/material/colors';
 import {useTripGroupContext} from '../context/tripGroup';
 import TripGroup from '../types/tripGroup';
-import router from 'next/router';
+import useSWRMutation from 'swr/mutation';
+import {customFetcher} from '../lib/fetcher';
+import {City, Country, ICity, ICountry} from "country-state-city";
 
 export default function TripGroupView() {
     const {data: session} = useSession()
@@ -54,6 +68,18 @@ function AddButton() {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const {data: session} = useSession()
+    const path = "/group/".concat(session?.user.name as string)
+    const {trigger, isMutating} = useSWRMutation([path, 'POST', session], customFetcher)
+
+    // const countries: ICountry[] = Country.getAllCountries();
+    const [countries, setCountries] = useState<ICountry[]>(Country.getAllCountries() as ICountry[]);
+    const [country, setCountry] = useState<string | null>(null);
+
+    const [cities, setCities] = useState<ICity[]>([]);
+    const [city, setCity] = useState<string | null>(null);
+
 
     return (
         // wrapping all around box for centering the + icon on small screens
@@ -88,16 +114,86 @@ function AddButton() {
                         This information will be used to create your next trip group!
                         You can add members to the newly created group later.
                     </DialogContentText>
-                    <TextField
-                        fullWidth
-                        label="City"
-                        type="search"
+                    <Autocomplete
+                        id="country-select-demo"
+                        sx={{
+                            py: 2
+                        }}
+                        options={countries}
+                        autoHighlight
+                        getOptionLabel={(option) => option.name}
+                        renderOption={(props, option) => (
+                            <Box component="li" sx={{'& > img': {mr: 2, flexShrink: 0}}} {...props}>
+                                {option.flag} {option.name}
+                            </Box>
+                        )}
+                        renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                label="Choose a country"
+                                inputProps={{
+                                    ...params.inputProps,
+                                    autoComplete: 'new-password', // disable autocomplete and autofill
+                                }}
+                            />
+                        )}
+                        isOptionEqualToValue={(option, value) => option.name === value.name}
+                        onChange={(event, newValue) => {
+                            if (newValue != null) {
+                                setCountry(newValue.name);
+                                setCities((City.getCitiesOfCountry(newValue.isoCode) as ICity[])
+                                    .filter((city, index, self) =>
+                                            index === self.findIndex((t) => (
+                                                t.name === city.name
+                                            ))
+                                    ))
+                            } else {
+                                setCountry(null);
+                            }
+                        }}
+                    />
+                    <Autocomplete
+                        disabled={country === null}
+                        id="city-select-demo"
+                        options={cities}
+                        autoHighlight
+                        getOptionLabel={(option) => option.name}
+                        renderOption={(props, option) => (
+                            <Box component="li" sx={{'& > img': {mr: 2, flexShrink: 0}}} {...props}>
+                                {option.name}
+                            </Box>
+                        )}
+                        renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                label="Choose a city"
+                                inputProps={{
+                                    ...params.inputProps,
+                                    autoComplete: 'new-password', // disable autocomplete and autofill
+                                }}
+                            />
+                        )}
+                        onChange={(event, newValue) => {
+                            if (newValue != null) {
+                                setCity(newValue?.name);
+                            } else {
+                                setCity(null);
+                            }
+                        }}
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>
-                        Create
-                    </Button>
+                    {isMutating ?
+                        <Button disabled>
+                            Loading <CircularProgress size={20}/>
+                        </Button>
+                        :
+                        <Button
+                            disabled={city === null}
+                            onClick={async () => await trigger({name: city}).then(() => setOpen(false))}>
+                            Create
+                        </Button>
+                    }
                     <Button onClick={handleClose}>
                         Exit
                     </Button>
@@ -108,13 +204,9 @@ function AddButton() {
 }
 
 function ListItems() {
-    // TODO: Username should be used to retrieve info
-    // const {data: session} = useSession()
-    // const user = session.user.name
-    const fetcher = (url: string) => fetch(url).then((res) => res.json()).catch((err) => console.log(err))
-    const backend = process.env.NEXT_PUBLIC_BACKEND_ENDPOINT as string
-    const path = "/groups"
-    const {data, error, isLoading} = useSWR(backend.concat(path), fetcher)
+    const {data: session} = useSession()
+    const path = "/group/"
+    const {data, error, isLoading} = useSWR([path, 'GET', session])
 
     // use trip group context
     const [group, setGroup] = useTripGroupContext()
@@ -143,10 +235,17 @@ function ListItems() {
         setFocusedGroup(null);
         setLeaveDialogOpen(false);
     };
-    const handleLeaveDialogConfirm = (group_id: number) => {
-        //TODO: call the api to remove the user grom group_id
-        setFocusedGroup(null);
-        setLeaveDialogOpen(false)
+
+    const deletePath = "/member/".concat(focusedGroup as unknown as string)
+    const {trigger, isMutating} = useSWRMutation([deletePath, 'DELETE', session], customFetcher)
+    const handleLeaveDialogConfirm = () => {
+        trigger().then(() => {
+                setFocusedGroup(null);
+                setLeaveDialogOpen(false);
+            }
+        ).catch((e) => {
+            console.log(e)
+        })
     };
 
     // members dialog
@@ -159,6 +258,21 @@ function ListItems() {
         setFocusedGroup(null);
         setMembersDialogOpen(false);
     };
+
+    const [newMemberEmail, setNewMemberEmail] = useState("")
+    const addPath = "/member/".concat(focusedGroup as unknown as string).concat(newMemberEmail)
+    const {
+        trigger: triggerAddMember,
+        isMutating: isMutatingAddMember
+    } = useSWRMutation([addPath, 'POST', session], customFetcher)
+    const handleAddMember = () => {
+        triggerAddMember().then(() => {
+                setMembersDialogOpen(false);
+            }
+        ).catch((e) => {
+            console.log(e)
+        })
+    }
 
     return (
         error ? (
@@ -209,10 +323,16 @@ function ListItems() {
                                                     <PersonAddIcon/>
                                                 </Badge>
                                             </IconButton>
-                                            <IconButton edge="end" aria-label="leave"
-                                                        onClick={() => handleLeaveDialogOpen(gr.id)}>
-                                                <ExitToAppIcon/>
-                                            </IconButton>
+                                            {isMutating ?
+                                                <Button disabled>
+                                                    Loading <CircularProgress size={20}/>
+                                                </Button>
+                                                :
+                                                <IconButton edge="end" aria-label="leave"
+                                                            onClick={() => handleLeaveDialogOpen(gr.id)}>
+                                                    <ExitToAppIcon/>
+                                                </IconButton>
+                                            }
                                             {/*dialog for leave group button*/}
                                             <Dialog
                                                 open={leaveDialogOpen && gr.id === focusedGroup}
@@ -229,7 +349,7 @@ function ListItems() {
                                                     </DialogContentText>
                                                 </DialogContent>
                                                 <DialogActions>
-                                                    <Button onClick={() => handleLeaveDialogConfirm(gr.id)}
+                                                    <Button onClick={() => handleLeaveDialogConfirm()}
                                                             autoFocus>
                                                         Yes
                                                     </Button>
@@ -244,31 +364,37 @@ function ListItems() {
                                                 <List sx={{pt: 0}}>
                                                     {gr.members.map((user) => (
                                                         <ListItem disableGutters
-                                                                    key={user}
+                                                                  key={user.userId}
                                                         >
                                                             <ListItemButton
                                                                 onClick={() => handleMembersDialogClose()}
-                                                                key={user}>
+                                                                key={user.userId}>
                                                                 <ListItemAvatar>
                                                                     <Avatar sx={{bgcolor: blue[100], color: blue[600]}}>
                                                                         <PersonIcon/>
                                                                     </Avatar>
                                                                 </ListItemAvatar>
-                                                                <ListItemText primary={user}/>
+                                                                <ListItemText primary={user.name}/>
                                                             </ListItemButton>
                                                         </ListItem>
                                                     ))}
                                                     <ListItem disableGutters>
-                                                        <ListItemButton
-                                                            autoFocus
-                                                            onClick={() => handleMembersDialogClose()}
-                                                        >
+                                                        <ListItemButton>
                                                             <ListItemAvatar>
                                                                 <Avatar>
-                                                                    <AddIcon/>
+                                                                    <IconButton
+                                                                        sx={{
+                                                                            bgcolor: 'secondary.main',
+                                                                            color: 'primary.contrastText'
+                                                                        }}
+                                                                        onClick={() => handleAddMember()}>
+                                                                        <AddIcon/>
+                                                                    </IconButton>
                                                                 </Avatar>
                                                             </ListItemAvatar>
-                                                            <ListItemText primary="Add member"/>
+                                                            <TextField id="outlined-basic" label="New user email"
+                                                                       variant="outlined"
+                                                                       onChange={(e) => setNewMemberEmail("?email=".concat(e.target.value))}/>
                                                         </ListItemButton>
                                                     </ListItem>
                                                 </List>

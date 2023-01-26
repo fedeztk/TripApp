@@ -1,7 +1,7 @@
 server:
-  port: 8082
+  port: 8080
   servlet:
-    context-path: /api
+    context-path: /auth
 spring:
   application:
     name: auth
@@ -10,7 +10,3 @@ spring:
       host: ${DB_SERVER}
       port: ${DB_PORT}
       database: ${DB_NAME}
-
-#  jpa:
-#    properties:
-#      hibernate.jdbc.lob.non_contextual_creation: true

@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GroupDTO {
-    private String name;
-    private String iso;
+public class MemberDTO {
+    private String userId;
 }

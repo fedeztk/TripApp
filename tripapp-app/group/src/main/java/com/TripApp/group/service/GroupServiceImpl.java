@@ -35,6 +35,7 @@ public class GroupServiceImpl implements GroupService {
     private Group convertGroupDTOToGroup(GroupDTO groupDTO) {
         Group group = new Group();
         group.setName(groupDTO.getName());
+        group.setIso(groupDTO.getIso());
         return group;
     }
 }

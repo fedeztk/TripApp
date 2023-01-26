@@ -26,6 +26,8 @@ public class Group {
 
     private String name;
 
-    @OneToMany(mappedBy = "group", orphanRemoval = true)
-    private List<Member> members = new ArrayList<>();
+    private String iso;
+
+    @OneToMany(mappedBy = "group", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<Member> members;
 }

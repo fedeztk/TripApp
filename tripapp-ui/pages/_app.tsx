@@ -5,6 +5,8 @@ import PageWrapper from '../components/pageWrapper';
 import Head from 'next/head';
 import React from "react";
 import {TripGroupProvider} from '../context/tripGroup';
+import {SWRConfig} from "swr";
+import {customFetcherSWR} from "../lib/fetcher";
 
 export default function App({Component, pageProps}: AppProps) {
     return (
@@ -18,11 +20,15 @@ export default function App({Component, pageProps}: AppProps) {
             <SessionProvider session={pageProps.session}>
                 <TripGroupProvider>
                     <PageWrapper>
-                        <Component {...pageProps} />
+                        <SWRConfig value={{
+                            refreshInterval: 1000,
+                            fetcher: customFetcherSWR,
+                        }}>
+                            <Component {...pageProps} />
+                        </SWRConfig>
                     </PageWrapper>
                 </TripGroupProvider>
             </SessionProvider>
         </>
-
     );
 }

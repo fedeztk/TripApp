@@ -2,6 +2,7 @@ package com.TripApp.group.service;
 
 import com.TripApp.group.model.Group;
 import com.TripApp.group.model.Member;
+import com.TripApp.group.model.MemberDTO;
 import com.TripApp.group.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +22,18 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public Member saveNewMember(String userId, Group group) {
+    public void saveNewMember(String userId, String name, Group group) {
         Member member = new Member();
         member.setUserId(userId);
+        member.setName(name);
         member.setGroup(group);
-        return memberRepository.save(member);
+        memberRepository.save(member);
+    }
+
+    @Override
+    @Transactional
+    public void deleteMember(Member member) {
+        memberRepository.delete(member);
     }
 
     @Override

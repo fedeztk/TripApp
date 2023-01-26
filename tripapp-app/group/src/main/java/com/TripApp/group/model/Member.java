@@ -23,9 +23,9 @@ public class Member {
 
     private String userId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "group_id")
     private Group group;
 
-//    private String name;
+    private String name;
 }
