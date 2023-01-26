@@ -98,6 +98,8 @@ export default function Wallet() {
 
 
 
+
+    console.log(data)
     function backFunc(){
         console.log("BACK!")
     }
