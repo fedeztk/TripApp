@@ -69,6 +69,7 @@ public class InfoController {
         }catch (ClassCastException e) {
             System.out.println(e);
             System.out.println(e.getMessage());
+            pn.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.toString());
         }catch (HttpClientErrorException e){
             System.out.println(e.getMessage());
             System.out.println(e.getStatusCode());
@@ -76,7 +77,7 @@ public class InfoController {
         }catch (Exception e){
             System.out.println(e);
             System.out.println(e.getCause());
-
+            pn.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.toString());
         }
         return pn;
     }
@@ -108,6 +109,7 @@ public class InfoController {
         }catch (ClassCastException e) {
             System.out.println(e);
             System.out.println(e.getMessage());
+            t.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.toString());
         }catch (HttpClientErrorException e){
             System.out.println(e.getMessage());
             System.out.println(e.getStatusCode());
@@ -115,7 +117,7 @@ public class InfoController {
         }catch (Exception e){
             System.out.println(e);
             System.out.println(e.getCause());
-
+            t.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.toString());
         }
         return t;
     }
