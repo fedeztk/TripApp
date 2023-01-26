@@ -89,9 +89,9 @@ export default function Wallet() {
                 }
             })
 
-    const {data, error, isLoading} = useSWR(backend.concat(path), fetcher)
+    const {data, error, isLoading} = useSWR(backend.concat(path))
 
-
+    console.log(data)
     function backFunc(){
         console.log("BACK!")
     }

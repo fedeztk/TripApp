@@ -7,14 +7,8 @@ import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import useSWRMutation from 'swr/mutation';
-<<<<<<< HEAD
-import {CreditUser, DebitUser} from "../../types/wallet";
-
-=======
-import {CreditUser, DebitUser} from "../../types/walletTypes";
 import {useTripGroupContext} from "../../context/tripGroup";
 import {useState} from "react";
->>>>>>> 34df919 (end wallet)
 
 export default function NewTransactionPopup({triggerDialog, setTriggerDialog}:{triggerDialog:any, setTriggerDialog:any}){
 
@@ -81,7 +75,7 @@ export default function NewTransactionPopup({triggerDialog, setTriggerDialog}:{t
                     multiple
                     limitTags={2}
                     autoComplete
-                    getOptionLabel={(option) => option}
+                    getOptionLabel={(option) => option.name}
                     id="combo-box-demo"
                     options={tripGroup?.members ? tripGroup?.members : []}
                     renderInput={(params) => <TextField {...params} label="Users" />}
