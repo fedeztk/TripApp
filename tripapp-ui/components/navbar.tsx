@@ -24,7 +24,6 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import {useTripGroupContext} from '../context/tripGroup';
 import router from 'next/router';
 
-const pages = ['Poll', 'Finance', 'Info', 'Map'];
 const settings = ['Logout'];
 
 const navbarID = "navbar-id"
@@ -54,7 +53,7 @@ export default function Navbar() {
     // const isHome = useRouter().pathname === "/";
 
     const [tripGroup, setTripGroup] = useTripGroupContext();
-    // console.log(tripGroup);
+
 
     return (
         <>

@@ -48,7 +48,7 @@ export default function Wallet() {
 
 
     const backend = process.env.NEXT_PUBLIC_BACKEND_ENDPOINT as string
-    const path = "/api/balance"
+    const path = "/api/getbalance"
     const fetcher = (url: string) => fetch(url)
             .then((res) => res.json())
             .then((json) => {
