@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/infos")
 public class InfoController {
 
     @GetMapping("/ping/{id}")
@@ -32,7 +32,7 @@ public class InfoController {
     }
 
 
-    @GetMapping("/info/{iso}")
+    @GetMapping("/{iso}")
     public ResponseEntity getInfo(@PathVariable("iso") String isoName) {
 
         RestTemplate resttemplate = new RestTemplate();
