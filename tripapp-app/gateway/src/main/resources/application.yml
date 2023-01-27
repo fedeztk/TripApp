@@ -1,0 +1,11 @@
+server:
+  port: 8080
+
+#auth:
+#  url: ${AUTH_URL:http://localhost:8082/api/}
+
+zuul:
+  routes:
+    test: #configurazione di test pensata per farsi rispondere da mockoon in locale
+      path: "/test/**"
+      url: http://localhost:3001/test
