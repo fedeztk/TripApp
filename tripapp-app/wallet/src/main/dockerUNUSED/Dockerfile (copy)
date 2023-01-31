@@ -1,0 +1,28 @@
+FROM openjdk:8-jre
+WORKDIR /app
+VOLUME ["/app"]
+COPY demo-prod.jar /apps/spring_app/
+WORKDIR /apps/spring_app
+EXPOSE 8080
+RUN sh -c 'touch app.jar'
+ENTRYPOINT ["./start.sh"]
+-----------
+FROM openjdk:8-jdk-alpine
+VOLUME /tmp
+EXPOSE 8080
+ARG JAR_FILE=target/spring-boot-web.jar
+# cd /opt/app
+WORKDIR /opt/app
+
+# cp target/spring-boot-web.jar /opt/app/app.jar
+COPY ${JAR_FILE} app.jar
+-------------------- current 2/12/2020
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-Dspring.profiles.active=container", "-jar", "/app/app.jar"]
+FROM openjdk:8-jre
+VOLUME ["/app"]
+COPY  start.sh start.sh
+COPY  wait-for-it.sh wait-for-it.sh
+COPY */*jar /app.jar
+EXPOSE 8080
+RUN sh -c 'touch /app.jar'
+ENTRYPOINT ["sh", "./start.sh"]

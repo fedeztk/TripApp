@@ -1,0 +1,11 @@
+com\javasampleapproach\financev1\controller\FinanceController.class
+com\javasampleapproach\financev1\model\TransactionAggregate.class
+com\javasampleapproach\financev1\repo\TransactionRepository.class
+com\javasampleapproach\financev1\service\TransactionServiceImpl.class
+com\javasampleapproach\financev1\model\DetailedPosition.class
+com\javasampleapproach\financev1\service\TransactionService.class
+com\javasampleapproach\financev1\model\UserIdAmount.class
+com\javasampleapproach\financev1\model\TransactionDTO.class
+com\javasampleapproach\financev1\Financev1Application.class
+com\javasampleapproach\financev1\model\Transaction.class
+com\javasampleapproach\financev1\model\TransactionDTO$TransactionDTOBuilder.class
