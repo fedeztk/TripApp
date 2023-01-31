@@ -93,7 +93,7 @@ public class FinanceController {
 	 */
 	//@GetMapping(value = "transactions/debtor/{userid}/{groupid}")
 	@GetMapping(value = "transactions/debtor")
-	public ResponseEntity<?> findByDebtorAndGroupId(@RequestParam("userid") String userid,@RequestParam("groupid") long groupId){
+	public ResponseEntity<?> findByDebtorAndGroupId(@RequestHeader("userId") String userid,@RequestParam("groupid") long groupId){
 		try {
 			List<Transaction> transactions = transactionService.findByDebtorAndGroupId(userid,groupId);
 			return ResponseEntity.ok(transactions);
@@ -107,7 +107,7 @@ public class FinanceController {
 	 */
 	//@GetMapping(value = "transactions/positionVsUser/{userid1}/{userid2}/{groupId}")
 	@GetMapping(value = "transactions/positionVsUser")
-	public ResponseEntity<?> calculateUserPostionVsOtherUser(@RequestParam("userid1") String userid1, @RequestParam("userid2") String userid2,@RequestParam("groupid") long groupId){
+	public ResponseEntity<?> calculateUserPostionVsOtherUser(@RequestHeader("userId") String userid1, @RequestParam("userid2") String userid2,@RequestParam("groupid") long groupId){
 		try {
 			List<Transaction> transactions = transactionService.findByDebtorAndCreditorOrCreditorAndDebtorAndGroupId(userid1,userid2,groupId);
 			Float balance = com.javasampleapproach.financev1.model.TransactionAggregate.balanceTransactions(transactions,userid1);
@@ -125,7 +125,7 @@ public class FinanceController {
 	 */
 	//@GetMapping(value = "transactions/positionVsAll/{userid}/{groupid}")
 	@GetMapping(value = "transactions/positionVsAll")
-	public ResponseEntity<?> calculateUserPositionVsAll(@RequestParam("userid") String userid,@RequestParam("groupid") long groupId){
+	public ResponseEntity<?> calculateUserPositionVsAll(@RequestHeader("userId") String userid,@RequestParam("groupid") long groupId){
 		try {
 			List<Transaction> tl = transactionService.findByDebtorOrCreditorAndGroupId(userid,groupId);
 			Float balance = com.javasampleapproach.financev1.model.TransactionAggregate.balanceTransactions(tl,userid);
@@ -145,7 +145,7 @@ public class FinanceController {
 	 */
 	//@GetMapping(value = "transactions/creditor/{creditor}/{groupid}")
 	@GetMapping(value = "transactions/creditor")
-	public ResponseEntity<?> findByCreditorAndGroupId(@RequestParam("userid") String creditor,@RequestParam("groupid") long groupId){
+	public ResponseEntity<?> findByCreditorAndGroupId(@RequestHeader("userId") String creditor,@RequestParam("groupid") long groupId){
 		try {
 			List<Transaction> transactions = transactionService.findByCreditorAndGroupId(creditor,groupId);
 			return ResponseEntity.ok(transactions);
@@ -181,7 +181,7 @@ public class FinanceController {
 
 	//@PostMapping("transactions/detailedPosition/{userid}/{groupId}")
 	@GetMapping("transactions/detailedPosition")
-	public ResponseEntity<?> getAllDebtorAndCreditorDetails(@RequestParam("userid") String userid, @RequestParam("groupid") long groupId, @RequestParam("useridlist") List<String> userIdlist){
+	public ResponseEntity<?> getAllDebtorAndCreditorDetails(@RequestHeader("userId") String userid, @RequestParam("groupid") long groupId, @RequestParam("useridlist") List<String> userIdlist){
 		try {
 			DetailedPosition dp = new DetailedPosition();
 			List<Transaction> debtsList = transactionService.findByDebtorAndGroupId(userid,groupId);
