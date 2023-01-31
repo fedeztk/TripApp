@@ -2,16 +2,16 @@ version: '3'
 
 services:
   dbpostgresql:
-    container_name: postres
+    container_name: postgres
     image: "postgres"
     ports:
       - "5432"
     volumes:
       - db-data:/var/lib/postgresql/data
     networks:
-      - appbootrestnet
+      - financev1net
     environment:
-      POSTGRES_DB: testdb
+      POSTGRES_DB: dbFinance
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
       restart: unless-stopped
@@ -30,19 +30,19 @@ services:
         depends_on:
           - dbpostgresql
         networks:
-          - appbootrestnet
+          - financev1net
   app:
     build: .
-    image: appbootrest
-    container_name: appbootrest
+    image: financev1
+    container_name: financev1
     ports:
       - "8080:8080"
     depends_on:
       - dbpostgresql
     networks:
-      - appbootrestnet
+      - financev1net
     environment:
-     - SPRING_DATASOURCE_URL=jdbc:postgresql://dbpostgresql:5432/testdb
+     - SPRING_DATASOURCE_URL=jdbc:postgresql://dbpostgresql:5432/dbFinance
      - SPRING_DATASOURCE_USERNAME=admin
      - SPRING_DATASOURCE_PASSWORD=admin
      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
@@ -50,7 +50,7 @@ volumes:
   db-data:
   pgadmin-data:
 networks:
-  appbootrestnet:
+  financev1net:
     driver: bridge
 # docker-compose build && docker-compose up
 

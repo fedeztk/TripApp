@@ -1,4 +1,10 @@
-/home/giovanna/spikes2022-2023/DockerSpringPostgres/completeSpikeAngSpringPostgresDocker/SpringRESTPostgreSQLDocker/src/main/java/com/javasampleapproach/springrest/postgresql/model/Customer.java
-/home/giovanna/spikes2022-2023/DockerSpringPostgres/completeSpikeAngSpringPostgresDocker/SpringRESTPostgreSQLDocker/src/main/java/com/javasampleapproach/springrest/postgresql/controller/CustomerController.java
-/home/giovanna/spikes2022-2023/DockerSpringPostgres/completeSpikeAngSpringPostgresDocker/SpringRESTPostgreSQLDocker/src/main/java/com/javasampleapproach/springrest/postgresql/SpringRestPostgreSqlApplication.java
-/home/giovanna/spikes2022-2023/DockerSpringPostgres/completeSpikeAngSpringPostgresDocker/SpringRESTPostgreSQLDocker/src/main/java/com/javasampleapproach/springrest/postgresql/repo/CustomerRepository.java
+C:\Users\Luca owner\Desktop\ProgettoMaster\Financev1\src\main\java\com\javasampleapproach\financev1\Financev1Application.java
+C:\Users\Luca owner\Desktop\ProgettoMaster\Financev1\src\main\java\com\javasampleapproach\financev1\model\TransactionAggregate.java
+C:\Users\Luca owner\Desktop\ProgettoMaster\Financev1\src\main\java\com\javasampleapproach\financev1\service\TransactionService.java
+C:\Users\Luca owner\Desktop\ProgettoMaster\Financev1\src\main\java\com\javasampleapproach\financev1\model\DetailedPosition.java
+C:\Users\Luca owner\Desktop\ProgettoMaster\Financev1\src\main\java\com\javasampleapproach\financev1\controller\FinanceController.java
+C:\Users\Luca owner\Desktop\ProgettoMaster\Financev1\src\main\java\com\javasampleapproach\financev1\repo\TransactionRepository.java
+C:\Users\Luca owner\Desktop\ProgettoMaster\Financev1\src\main\java\com\javasampleapproach\financev1\service\TransactionServiceImpl.java
+C:\Users\Luca owner\Desktop\ProgettoMaster\Financev1\src\main\java\com\javasampleapproach\financev1\model\TransactionDTO.java
+C:\Users\Luca owner\Desktop\ProgettoMaster\Financev1\src\main\java\com\javasampleapproach\financev1\model\UserIdAmount.java
+C:\Users\Luca owner\Desktop\ProgettoMaster\Financev1\src\main\java\com\javasampleapproach\financev1\model\Transaction.java

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/spring-boot-rest-postgresql.iml" filepath="$PROJECT_DIR$/spring-boot-rest-postgresql.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MicroserviceFinancev1.iml" filepath="$PROJECT_DIR$/MicroserviceFinancev1.iml" />
     </modules>
   </component>
 </project>
