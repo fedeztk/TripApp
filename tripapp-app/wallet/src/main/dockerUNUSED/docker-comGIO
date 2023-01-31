@@ -1,0 +1,23 @@
+version: '2'
+services:
+  mypostgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=yoursecurepassword
+      - POSTGRES_USER=yourusername
+      - POSTGRES_DB=testdb
+  app:
+    image: app
+    volumes:
+      - app
+    ports:
+      - "8080:8080"
+    depends_on:
+       - mypostgres
+volumes:
+  app:
+
+     
+

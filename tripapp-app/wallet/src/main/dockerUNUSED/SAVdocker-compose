@@ -1,0 +1,19 @@
+version: '2'
+services:
+  app:
+    image: app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mypostgres
+  mypostgres:
+    image: crunchydata/crunchy-postgres:centos7-10.9-2.4.1
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_USER=giopetrone
+      - POSTGRES_DB=testdb
+
+     
+
