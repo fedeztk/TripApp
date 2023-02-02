@@ -1,7 +1,7 @@
 server:
   port: 8080
   servlet:
-    context-path: /auth
+    context-path: /v1/auth
 spring:
   application:
     name: auth
@@ -10,3 +10,6 @@ spring:
       host: ${DB_SERVER}
       port: ${DB_PORT}
       database: ${DB_NAME}
+logging:
+  level:
+    org: DEBUG

@@ -70,7 +70,7 @@ function AddButton() {
     };
 
     const {data: session} = useSession()
-    const path = "/group/".concat(session?.user.name as string)
+    const path = "/v1/group/groups/".concat(session?.user.name as string)
     const {trigger, isMutating} = useSWRMutation([path, 'POST', session], customFetcher)
 
     // const countries: ICountry[] = Country.getAllCountries();
@@ -205,7 +205,7 @@ function AddButton() {
 
 function ListItems() {
     const {data: session} = useSession()
-    const path = "/group/"
+    const path = "/v1/group/groups/"
     const {data, error, isLoading} = useSWR([path, 'GET', session])
 
     // use trip group context
@@ -236,7 +236,7 @@ function ListItems() {
         setLeaveDialogOpen(false);
     };
 
-    const deletePath = "/member/".concat(focusedGroup as unknown as string)
+    const deletePath = "/v1/group/members/".concat(focusedGroup as unknown as string)
     const {trigger, isMutating} = useSWRMutation([deletePath, 'DELETE', session], customFetcher)
     const handleLeaveDialogConfirm = () => {
         trigger().then(() => {
@@ -260,7 +260,7 @@ function ListItems() {
     };
 
     const [newMemberEmail, setNewMemberEmail] = useState("")
-    const addPath = "/member/".concat(focusedGroup as unknown as string).concat(newMemberEmail)
+    const addPath = "/v1/group/members/".concat(focusedGroup as unknown as string).concat(newMemberEmail)
     const {
         trigger: triggerAddMember,
         isMutating: isMutatingAddMember

@@ -15,7 +15,7 @@ import java.util.Optional;
 public class AccountController {
     private final AccountService accountService;
 
-    @GetMapping("/auth/{userId}")
+    @GetMapping("/{userId}")
     @CrossOrigin
     public ResponseEntity<?> getAccountByUserIdAndAccessToken(@RequestHeader("Authorization") String accessToken, @PathVariable String userId) {
         try {
