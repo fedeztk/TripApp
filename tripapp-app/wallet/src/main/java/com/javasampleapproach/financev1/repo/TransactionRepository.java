@@ -8,6 +8,7 @@ import java.util.UUID;
 
 @Repository
 public interface TransactionRepository extends CrudRepository<Transaction,Long>{
+    List<Transaction> findByGroupId(long groupId);
 
     List<com.javasampleapproach.financev1.model.Transaction> findByUuid(UUID uuid);
 

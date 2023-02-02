@@ -29,6 +29,19 @@ public class FinanceController {
 		}
 	}
 
+	/**
+	 * Get all transactions by groupid
+	 */
+	@GetMapping("/transactionsByGroupId")
+	public ResponseEntity<?> getAllTransactionsByGroupId(@RequestParam("groupid")long groupId){
+		try {
+			List<Transaction> transactions = transactionService.getAllTransactionsByGroupId(groupId);
+			return ResponseEntity.ok(transactions);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
 
 	/**
 	 * Receives a single transaction from front-end and saves it to db

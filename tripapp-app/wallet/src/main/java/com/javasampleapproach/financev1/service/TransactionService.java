@@ -12,6 +12,8 @@ public interface TransactionService{
 
     List<Transaction> getAllTransactions();
 
+    List<Transaction> getAllTransactionsByGroupId(long groupId);
+
     void deleteTransactionsByUuid(UUID uuid);
 
     void deleteAllTransactions();
