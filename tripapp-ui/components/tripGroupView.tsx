@@ -67,6 +67,8 @@ function AddButton() {
     };
     const handleClose = () => {
         setOpen(false);
+        setCity(null);
+        setCountry(null);
     };
 
     const {data: session} = useSession()
@@ -190,7 +192,7 @@ function AddButton() {
                         :
                         <Button
                             disabled={city === null}
-                            onClick={async () => await trigger({name: city}).then(() => setOpen(false))}>
+                            onClick={async () => await trigger({name: city}).then(() => handleClose() )}>
                             Create
                         </Button>
                     }
