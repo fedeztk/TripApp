@@ -35,6 +35,10 @@ public class TransactionServiceImpl implements TransactionService{
         return transactions;
     }
 
+    List<Transaction> getAllTransactionsByGroupId(long groupId){
+        return transactionRepository.findByGroupId(groupId);
+    }
+
     @Override
     @Transactional
     public void deleteTransactionsByUuid(UUID uuid) {
