@@ -35,7 +35,7 @@ public class TransactionServiceImpl implements TransactionService{
         return transactions;
     }
 
-    List<Transaction> getAllTransactionsByGroupId(long groupId){
+    public List<Transaction> getAllTransactionsByGroupId(long groupId){
         return transactionRepository.findByGroupId(groupId);
     }
 

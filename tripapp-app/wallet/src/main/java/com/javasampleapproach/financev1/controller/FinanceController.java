@@ -33,7 +33,7 @@ public class FinanceController {
 	 * Get all transactions by groupid
 	 */
 	@GetMapping("/transactionsByGroupId")
-	public ResponseEntity<?> getAllTransactionsByGroupId(@RequestParam("groupid")long goupId){
+	public ResponseEntity<?> getAllTransactionsByGroupId(@RequestParam("groupid")long groupId){
 		try {
 			List<Transaction> transactions = transactionService.getAllTransactionsByGroupId(groupId);
 			return ResponseEntity.ok(transactions);
