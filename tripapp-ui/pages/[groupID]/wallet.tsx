@@ -1,38 +1,23 @@
-import useSWR from "swr";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Button from '@mui/material/Button';
 import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
-
-
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
-import { styled } from '@mui/material/styles';
-import Grid from '@mui/material/Unstable_Grid2';
 import {useEffect, useState} from "react";
-import IconButton from "@mui/material/IconButton";
 import LoadingPage from "../../components/loadingPage";
 import Balance from "../../components/walletComponents/viewFragmentBalance";
 import DebCredList from "../../components/walletComponents/viewFragmentDebCredList";
 import {walletUser} from "../../types/wallet";
-
-import {width} from "@mui/system";
-import {TextField, useTheme} from "@mui/material";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogActions from "@mui/material/DialogActions";
 import TransactionList from "../../components/walletComponents/TransactionList";
-import NewSalePopup from "../../components/walletComponents/NewTransactionPopup";
 import NewTransactionPopup from "../../components/walletComponents/NewTransactionPopup";
 import {useSession} from "next-auth/react";
 import useSWRMutation from "swr/mutation";
 import {customFetcher} from "../../lib/fetcher";
+import {useTripGroupContext} from "../../context/tripGroup";
+import Member from "../../types/member";
+import useSWR from "swr";
 
 
 export function round(number:any | undefined){
@@ -47,15 +32,8 @@ export default function Wallet() {
     const [triggerHistoryView, setTriggerHistoryView] = useState(false);
     const [triggerNewSale, setTriggerNewSale] = useState(false);
 
+    const [tripGroup, setTripGroup]= useTripGroupContext()
     const {data: session} = useSession()
-
-
-    const theme = useTheme()
-    const isMediumScreen = useMediaQuery(theme.breakpoints.up("md"))
-
-    const path = "/transactions/detailedPosition"
-    
-
 
     const [balance, setBalance] = useState<any>();
     const [listDebitCredit, setListDebitCredit] = useState<any>();
@@ -89,20 +67,16 @@ export default function Wallet() {
         }
     }
 
-   //const {data, error, isLoading} = useSWRMutation([path, "POST", session], customFetcher)
-    let data = undefined // testing
-    let isLoading = false // testing
+
+    const groupId: string|undefined = tripGroup?.id.toString()
+    const userIdList : (string[] | undefined) = tripGroup?.members.map((m:Member)=> m.userId)
+
+    const path = "/finance/transactions/detailedPosition"
+    const req = path + "?groupid="+(groupId)+"&useridlist="+userIdList?.toString()
+    const {data, error, isLoading} = useSWR([req, "GET", session])
+
 
     useEffect(dataAnalizer, [data])
-//    useEffect(dataAnalizer)//testing
-
-
-
-
-    console.log(data)
-    function backFunc(){
-        console.log("BACK!")
-    }
 
 
     return isLoading ? <LoadingPage/>
@@ -149,7 +123,6 @@ export default function Wallet() {
                 onClick={()=>setTriggerNewSale(true)}>
                 <AddIcon  />
                 <>New Transaction</>
-
             </Fab>
         </>)
                 }

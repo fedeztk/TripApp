@@ -9,45 +9,57 @@ import Dialog from "@mui/material/Dialog";
 import useSWRMutation from 'swr/mutation';
 import {useTripGroupContext} from "../../context/tripGroup";
 import {useState} from "react";
+import {useSession} from "next-auth/react";
+import {customFetcher} from "../../lib/fetcher";
+import Member from "../../types/member";
 
 
 export default function NewTransactionPopup({triggerDialog, setTriggerDialog}:{triggerDialog:any, setTriggerDialog:any}){
 
     const [tripGroup, setTripGroup]= useTripGroupContext()
+    const {data: session} = useSession()
 
 
+    const [userList, setUserList] = useState<Member[]>();
+    const [amount, setAmount] = useState<number | undefined>(undefined);
 
 
-    const [userList, setUserList] = useState();
-    const [payment, setPayment] = useState<number | undefined>(undefined);
+    function sendNewTransaction(){
+        if(amount !== undefined && userList!==undefined && userList.length>0) {
+            //la suddivisione viene fatta in parti uguali => feature da aggiungere : suddivisione in parti diverse
+            let singleAmount:number = amount / userList.length
 
-    let postArg = {
-        user:"",
-        group:tripGroup?.id,
-        payment:payment,
-        userlist:userList
-    }
+            let userIdAmountList:any = []
+            let userIds:string[] = []
 
-    function sendNewTransaction(url:string, body:any){
-        fetch(url,{
-            method: "POST",
-            headers:{
+            userList.map((u:Member)=>{
+                let tmp = {
+                    "userId": u.userId,
+                    "amount": singleAmount
+                }
+                userIdAmountList.push(tmp)
+                userIds.push(u.userId)
+            })
 
-            },
-            body: JSON.stringify(body)
-        }).then((r)=>{
-            if(r.ok){
-                setTriggerDialog(false)
+
+            let postArg = {
+                "creditor": "4",
+                "userIdAmountList": userIdAmountList,
+                "groupId": tripGroup?.id,
+                "userIdList": userIds
             }
-        })
 
+            trigger(postArg)
+                .then((r) => {
+                    if (r?.ok) {
+                        setTriggerDialog(false)
+                    }
+                })
+        }
     }
-    const backend = process.env.NEXT_PUBLIC_BACKEND_ENDPOINT as string
-    const path = "/api/addtransaction"
-    const {trigger, isMutating} = useSWRMutation(backend.concat(path), sendNewTransaction);
 
-
-
+    const path = "/finance/transactionAggregate/create"
+    const {trigger, isMutating} = useSWRMutation([path, "POST", session], customFetcher);
 
 
     return(<>
@@ -67,8 +79,9 @@ export default function NewTransactionPopup({triggerDialog, setTriggerDialog}:{t
                 </DialogContentText>
                 <Autocomplete
                     sx={{ m: 1, width: '35ch' }}
-                    onChange={(event: any, newValue: any | null) => {
-                        setUserList(newValue)
+                    onChange={(event: any, newValue:Member[]) => {
+
+                        setUserList(newValue) //??
                     }}
                     disablePortal
                     multiple
@@ -91,7 +104,7 @@ export default function NewTransactionPopup({triggerDialog, setTriggerDialog}:{t
                     inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                         let tmp:number = event.target.value as unknown as number
-                        setPayment(tmp);
+                        setAmount(tmp);
                     }}
                     sx={{ m: 1, width: '35ch'}}
 
@@ -109,7 +122,7 @@ export default function NewTransactionPopup({triggerDialog, setTriggerDialog}:{t
                         Loading...
                     </Button>
                     :
-                    <Button onClick={()=>trigger(postArg)}>
+                    <Button onClick={sendNewTransaction}>
                         Create
                     </Button>
                 }
