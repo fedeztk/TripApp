@@ -71,7 +71,7 @@ export default function Wallet() {
     const groupId: string|undefined = tripGroup?.id.toString()
     const userIdList : (string[] | undefined) = tripGroup?.members.map((m:Member)=> m.userId)
 
-    const path = "/finance/transactions/detailedPosition"
+    const path = "/v1/wallet/transactions/detailedPosition"
     const req = path + "?groupid="+(groupId)+"&useridlist="+userIdList?.toString()
     const {data, error, isLoading} = useSWR([req, "GET", session])
 
