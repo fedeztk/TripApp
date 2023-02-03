@@ -1,5 +1,5 @@
 import * as React from "react";
-import {CreditUser, custumUser, DebitUser} from "../../types/wallet";
+import {walletUser} from "../../types/wallet";
 import Stack from "@mui/material/Stack";
 import {useState} from "react";
 import List from "@mui/material/List";
@@ -18,7 +18,7 @@ export  default function DebCredList({userList}:{userList:any | undefined}){
                 alignItems="center"
                 sx={{width:'50%'}}>
                 <Typography variant={"h5"}>Debitori</Typography>
-                {userList?.debits.map((c:DebitUser, key:number)=><Entry key={key} name={c.name} value={c.debit}/>)}
+                {userList?.debits.map((c:walletUser, key:number)=><Entry key={key} name={c.user} value={c.amount}/>)}
 
             </Stack>
 
@@ -27,7 +27,7 @@ export  default function DebCredList({userList}:{userList:any | undefined}){
                 alignItems="center"
                 sx={{width:'50%', }}>
                 <Typography variant={"h5"}>Creditori</Typography>
-                {userList?.credits.map((c:CreditUser, key:number)=><Entry key={key} name={c.name} value={c.credit}/>)}
+                {userList?.credits.map((c:walletUser, key:number)=><Entry key={key} name={c.user} value={c.amount}/>)}
 
             </Stack>
         </Stack>

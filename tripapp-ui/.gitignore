@@ -14,6 +14,7 @@
 
 /public/*.js
 /public/*.js.map
+target
 
 # production
 /build
@@ -38,3 +39,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
