@@ -1,6 +1,6 @@
 server:
   servlet:
-    context-path: /
+    context-path: /v1/group
   port: 8080
 
 auth:
@@ -18,4 +18,6 @@ spring:
 #    properties:
 #      hibernate.jdbc.lob.non_contextual_creation: true
     generate-ddl: true
-
+logging:
+  level:
+    org: DEBUG

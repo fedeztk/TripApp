@@ -1,0 +1,46 @@
+server:
+  port: 8080
+
+auth:
+  url: ${AUTH_URL}
+
+zuul:
+  add-proxy-headers: false
+#  sensitive-headers:
+  prefix: /api/gateway
+  routes:
+    # Auth is a intranet service, so we can use the internal DNS name
+#    auth:
+#      path: "/v*/auth/**"
+#      url: ${AUTH_URL}
+#      stripPrefix: true
+
+    group:
+      path: "/v*/group/**"
+      url: ${GROUP_URL}
+      stripPrefix: false
+#      sensitive-headers:
+
+    # Core services
+#    wallet:
+#      path: "/v*/wallet/**"
+#      url: ${WALLET_URL}
+#      stripPrefix: true
+
+#    info:
+#      path: "/v*/info/**"
+#      url: ${INFO_URL}
+#      stripPrefix: true
+
+#    map:
+#      path: "/v*/map/**"
+#      url: ${MAP_URL}
+#      stripPrefix: true
+#
+#    poll:
+#      path: "/v*/poll/**"
+#      url: ${POLL_URL}
+#      stripPrefix: true
+logging:
+  level:
+    org: DEBUG

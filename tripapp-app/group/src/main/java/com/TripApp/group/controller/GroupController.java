@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/group")
+@RequestMapping("/groups")
 public class GroupController {
     private final GroupService groupService;
     private final MemberService memberService;
@@ -24,7 +24,7 @@ public class GroupController {
             List<Group> groups = groupService.getAllGroupsByUserId(userId);
             return ResponseEntity.ok(groups);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
