@@ -30,7 +30,7 @@ function GridContainer({groupID}: { groupID: number | undefined }) {
         "Map": "View the map of the trip",
         "Info": "View the trip information",
         "Poll": "Vote on the next destination",
-        "Finance": "View the trip finances",
+        "Wallet": "View the trip finances",
     }
 
     const cards: CardProps[] = Object.values(Section).map((section) => ({
