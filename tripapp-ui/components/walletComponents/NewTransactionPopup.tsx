@@ -43,7 +43,7 @@ export default function NewTransactionPopup({triggerDialog, setTriggerDialog}:{t
 
 
             let postArg = {
-                "creditor": "4",
+                "creditor": session?.user?.id,
                 "userIdAmountList": userIdAmountList,
                 "groupId": tripGroup?.id,
                 "userIdList": userIds
