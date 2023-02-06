@@ -49,12 +49,7 @@ export default function NewTransactionPopup({triggerDialog, setTriggerDialog}:{t
                 "userIdList": userIds
             }
 
-            trigger(postArg)
-                .then((r) => {
-                    if (r?.ok) {
-                        setTriggerDialog(false)
-                    }
-                })
+            trigger(postArg).then(() => setTriggerDialog(false))
         }
     }
 
