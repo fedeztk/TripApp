@@ -69,7 +69,7 @@ export default function Wallet() {
 
 
     const groupId: string|undefined = tripGroup?.id.toString()
-    const userIdList : (string[] | undefined) = tripGroup?.members.map((m:Member)=> m.userId)
+    const userIdList : (string[] | undefined) = tripGroup?.members.map((m:Member)=> m.userId).filter((m:string)=> m !== session?.user?.id)
 
     const path = "/v1/wallet/transactions/detailedPosition"
     const req = path + "?groupid="+(groupId)+"&useridlist="+userIdList?.toString()
