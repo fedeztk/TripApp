@@ -90,7 +90,7 @@ export default function NewTransactionPopup({triggerDialog, setTriggerDialog}:{t
                     getOptionLabel={(option) => option.name}
 
                     id="combo-box-demo"
-                    options={tripGroup?.members ? tripGroup?.members : []}
+                    options={tripGroup?.members ? tripGroup?.members.filter((m:Member) => m.userId !== session?.user?.id) : []}
                     renderInput={(params) => <TextField {...params} label="Users" />}
                 />
                 <DialogContentText>
