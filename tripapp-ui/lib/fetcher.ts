@@ -14,7 +14,14 @@ export const customFetcher = ([url, method, session]: [string, string, Session |
         },
         method: method,
         body: arg ? JSON.stringify(arg) : undefined,
-    }).catch((err) => console.log(err));
+    }).then((res) => {
+        if (!res.ok) {
+            const [notifications, setNotifications] = useNotificationContext();
+            res.json().then((data) => {
+                setNotifications([...notifications, {message: data.message, type: "error"}]);
+            });
+        }
+    }).catch((error) => {console.log(error)});
 };
 
 export const customFetcherSWR = ([url, method, session]: [string, string, Session | null]) => {
@@ -32,7 +39,9 @@ export const customFetcherSWR = ([url, method, session]: [string, string, Sessio
     }).then((res) => {
         if (!res.ok) {
             const [notifications, setNotifications] = useNotificationContext();
-            setNotifications([...notifications, {message: "An error occurred while fetching the data.", type: "error"}]);
+            res.json().then((data) => {
+                setNotifications([...notifications, {message: data.message, type: "error"}]);
+            });
             throw new Error()
         }
         return res.json()
