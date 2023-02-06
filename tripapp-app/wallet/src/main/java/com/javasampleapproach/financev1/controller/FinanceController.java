@@ -12,27 +12,16 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/finance")
+@RequestMapping("/transactions")
 //@RequestMapping("/api/v1")
 
 public class FinanceController {
 	private final TransactionService transactionService;
 
-	@GetMapping("/transactions")
-	@CrossOrigin
-	public ResponseEntity<?> getAllTransactions() {
-		try {
-			List<Transaction> transactions = transactionService.getAllTransactions();
-			return ResponseEntity.ok(transactions);
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().build();
-		}
-	}
-
 	/**
 	 * Get all transactions by groupid
 	 */
-	@GetMapping("/transactionsByGroupId")
+	@GetMapping("/")
 	public ResponseEntity<?> getAllTransactionsByGroupId(@RequestParam("groupid")long groupId){
 		try {
 			List<Transaction> transactions = transactionService.getAllTransactionsByGroupId(groupId);
@@ -44,25 +33,10 @@ public class FinanceController {
 
 
 	/**
-	 * Receives a single transaction from front-end and saves it to db
-	 * @return transaction
-	 */
-	@PostMapping(value = "/transactions/create")
-	@CrossOrigin
-	public ResponseEntity<?> postTransaction(@RequestBody TransactionDTO transactionDTO){
-		try {
-			Transaction transaction = transactionService.saveNewTransaction(transactionDTO, UUID.randomUUID());
-			return ResponseEntity.ok().build();
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
-	}
-
-	/**
 	 * receive aggregate transaction and call method to generate List of single transaction
 	 * then call save transaction  to save them inside db
 	 */
-	@PostMapping(value = "/transactionAggregate/create")
+	@PostMapping(value = "/")
 	@CrossOrigin
 	public ResponseEntity<?> postTransactionAggregate(@RequestBody TransactionAggregate transactionAggregate){
 		try {
@@ -73,14 +47,13 @@ public class FinanceController {
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
-
 	}
 
 	/**
 	 *  Delete group of transaction belonging to the same uuid
 	 */
 	//@DeleteMapping("/transactions/deleteByUuid")
-	@DeleteMapping("/transactions/deleteByUuid")
+	@DeleteMapping("/")
 	@CrossOrigin
 	public ResponseEntity<String> deleteGroupOfTransaction(@RequestParam("uuid") UUID uuid){
 		System.out.println("Delete group of transaction with uuid = " + uuid + "...");
@@ -90,22 +63,11 @@ public class FinanceController {
 
 
 	/**
-	 * Delete all transactions from db
-	 * @return
-	 */
-	@DeleteMapping("/transactions/delete")
-	public ResponseEntity<String> deleteAllTransactions(){
-		System.out.println("Delete All Transactions...");
-		transactionService.deleteAllTransactions();
-		return new ResponseEntity<>("All transactions have been deleted!", HttpStatus.OK);
-	}
-
-	/**
 	 * Retrieves from db a list of transaction with debtor field matching with debtor path variable
 	 * (and matching the group id ) --> it means all debts for a user in a specific group
 	 */
 	//@GetMapping(value = "transactions/debtor/{userid}/{groupid}")
-	@GetMapping(value = "transactions/debtor")
+	@GetMapping(value = "/debtor")
 	public ResponseEntity<?> findByDebtorAndGroupId(@RequestHeader("userId") String userid,@RequestParam("groupid") long groupId){
 		try {
 			List<Transaction> transactions = transactionService.findByDebtorAndGroupId(userid,groupId);
@@ -119,7 +81,7 @@ public class FinanceController {
 	 * This method will balance all between 2 person
 	 */
 	//@GetMapping(value = "transactions/positionVsUser/{userid1}/{userid2}/{groupId}")
-	@GetMapping(value = "transactions/positionVsUser")
+	@GetMapping(value = "/positionVsUser")
 	public ResponseEntity<?> calculateUserPostionVsOtherUser(@RequestHeader("userId") String userid1, @RequestParam("userid2") String userid2,@RequestParam("groupid") long groupId){
 		try {
 			List<Transaction> transactions = transactionService.findByDebtorAndCreditorOrCreditorAndDebtorAndGroupId(userid1,userid2,groupId);
@@ -137,7 +99,7 @@ public class FinanceController {
 	 * @return position of the user vs all the group (total debt/credit) as a single transaction
 	 */
 	//@GetMapping(value = "transactions/positionVsAll/{userid}/{groupid}")
-	@GetMapping(value = "transactions/positionVsAll")
+	@GetMapping(value = "/positionVsAll")
 	public ResponseEntity<?> calculateUserPositionVsAll(@RequestHeader("userId") String userid,@RequestParam("groupid") long groupId){
 		try {
 			List<Transaction> tl = transactionService.findByDebtorOrCreditorAndGroupId(userid,groupId);
@@ -157,7 +119,7 @@ public class FinanceController {
 	 * @return a list of transaction where username == creditor
 	 */
 	//@GetMapping(value = "transactions/creditor/{creditor}/{groupid}")
-	@GetMapping(value = "transactions/creditor")
+	@GetMapping(value = "/creditor")
 	public ResponseEntity<?> findByCreditorAndGroupId(@RequestHeader("userId") String creditor,@RequestParam("groupid") long groupId){
 		try {
 			List<Transaction> transactions = transactionService.findByCreditorAndGroupId(creditor,groupId);
@@ -169,7 +131,7 @@ public class FinanceController {
 
 
 	//@GetMapping(value = "transactions/uuid/{uuid}")
-	@GetMapping(value = "transactions/uuid")
+	@GetMapping(value = "/uuid")
 	public ResponseEntity<?> findByUuid(@RequestParam("uuid") UUID uuid){
 		try {
 			List<Transaction> transactions = transactionService.findByUuid(uuid);
@@ -193,7 +155,7 @@ public class FinanceController {
 	 */
 
 	//@PostMapping("transactions/detailedPosition/{userid}/{groupId}")
-	@GetMapping("transactions/detailedPosition")
+	@GetMapping("/detailedPosition")
 	public ResponseEntity<?> getAllDebtorAndCreditorDetails(@RequestHeader("userId") String userid, @RequestParam("groupid") long groupId, @RequestParam("useridlist") List<String> userIdlist){
 		try {
 			DetailedPosition dp = new DetailedPosition();
@@ -208,20 +170,43 @@ public class FinanceController {
 	}
 
 
+    // TESTING PURPOSE
+    /**
+     * Receives a single transaction from front-end and saves it to db
+     * @return transaction
+     */
+//    @PostMapping(value = "/transactions/create")
+//    @CrossOrigin
+//    public ResponseEntity<?> postTransaction(@RequestBody TransactionDTO transactionDTO){
+//        try {
+//            Transaction transaction = transactionService.saveNewTransaction(transactionDTO, UUID.randomUUID());
+//            return ResponseEntity.ok().build();
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//    }
 
+//	@GetMapping("/")
+//	@CrossOrigin
+//	public ResponseEntity<?> getAllTransactions() {
+//		try {
+//			List<Transaction> transactions = transactionService.getAllTransactions();
+//			return ResponseEntity.ok(transactions);
+//		} catch (Exception e) {
+//			return ResponseEntity.badRequest().build();
+//		}
+//	}
 
+    /**
+     * Delete all transactions from db
+     * @return
+     */
+//	@DeleteMapping("/transactions/delete")
+//	public ResponseEntity<String> deleteAllTransactions(){
+//		System.out.println("Delete All Transactions...");
+//		transactionService.deleteAllTransactions();
+//		return new ResponseEntity<>("All transactions have been deleted!", HttpStatus.OK);
+//	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    // END TESTING PURPOSE
 }

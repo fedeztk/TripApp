@@ -4,7 +4,7 @@ export const customFetcher = ([url, method, session]: [string, string, Session |
     return fetch(encodeURI(process.env.NEXT_PUBLIC_BACKEND_ENDPOINT as string).concat(url), {
         headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json',
+            'Accept': '*/*',
             'Authorization': `Bearer ${session?.user.token}`,
             'userId': session?.user.id as string,
             // add CORS headers
@@ -20,7 +20,7 @@ export const customFetcherSWR = ([url, method, session]: [string, string, Sessio
     return fetch(encodeURI(process.env.NEXT_PUBLIC_BACKEND_ENDPOINT as string).concat(url), {
         headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json',
+            'Accept': '*/*',
             'Authorization': `Bearer ${session?.user.token}`,
             'userId': session?.user.id as string,
             // add CORS headers
@@ -28,5 +28,10 @@ export const customFetcherSWR = ([url, method, session]: [string, string, Sessio
             'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
         },
         method: method,
-    }).then((res) => res.json()).catch((err) => console.log(err));
+    }).then((res) => {
+        if (!res.ok) {
+            throw new Error("An error occurred while fetching the data.")
+        }
+        return res.json()
+    });
 };

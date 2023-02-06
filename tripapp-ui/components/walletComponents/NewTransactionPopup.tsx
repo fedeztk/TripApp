@@ -58,7 +58,7 @@ export default function NewTransactionPopup({triggerDialog, setTriggerDialog}:{t
         }
     }
 
-    const path = "/finance/transactionAggregate/create"
+    const path = "/v1/wallet/transactions/"
     const {trigger, isMutating} = useSWRMutation([path, "POST", session], customFetcher);
 
 
