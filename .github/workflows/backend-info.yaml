@@ -1,14 +1,14 @@
-name: Publish backend auth svc Docker image
+name: Publish backend info svc Docker image
 
 on:
   push:
     branches: [ main, master ]
     paths:
-      - 'tripapp-app/auth/**'
-      - '.github/workflows/backend-auth.yaml'
+      - 'tripapp-app/info/**'
+      - '.github/workflows/backend-info.yaml'
 
 env:
-  IMAGE_NAME: ${{ github.repository }}-auth
+  IMAGE_NAME: ${{ github.repository }}-info
   ACTOR: ${{ github.actor }}
 
 jobs:
@@ -34,6 +34,6 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
-          context: tripapp-app/auth/.
+          context: tripapp-app/info/.
           push: true
           tags: ${{ steps.string.outputs.lowercase }}:latest

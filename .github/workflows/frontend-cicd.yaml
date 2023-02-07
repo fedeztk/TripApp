@@ -2,7 +2,7 @@ name: Publish frontend Docker image
 
 on:
   push:
-    branches: [ main, master, feat(infra)/infra-template, feat(be)/users-msvc ]
+    branches: [ main, master ]
     paths:
       - 'tripapp-ui/**'
       - '.github/workflows/frontend-cicd.yaml'
@@ -37,6 +37,6 @@ jobs:
           context: tripapp-ui/.
           push: true
           tags: ${{ steps.string.outputs.lowercase }}:latest
-          # TODO: substitute with actual backend endpoint
+          # TODO: use https endoint
           build-args: |
-            "GH_ACTIONS_BACKEND_ENDPOINT=http://localhost:3001"
+            "GH_ACTIONS_BACKEND_ENDPOINT=http://tripapp.mastercc.hpc4ai.unito.it:80/api/gateway"
