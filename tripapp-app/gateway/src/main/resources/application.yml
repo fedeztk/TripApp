@@ -19,13 +19,12 @@ zuul:
       path: "/v*/group/**"
       url: ${GROUP_URL}
       stripPrefix: false
-#      sensitive-headers:
 
     # Core services
-#    wallet:
-#      path: "/v*/wallet/**"
-#      url: ${WALLET_URL}
-#      stripPrefix: true
+    wallet:
+      path: "/v*/wallet/**"
+      url: ${WALLET_URL}
+      stripPrefix: false
 
 #    info:
 #      path: "/v*/info/**"
