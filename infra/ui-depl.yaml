@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: fedeztk/tripapp-ui:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NEXT_PUBLIC_BACKEND_ENDPOINT
+              value: "http://gateway-svc:80/api/gateway"
+            - name: NEXTAUTH_SECRET
+              value: ***REMOVED***
+            - name: GITHUB_ID
+              value: ***REMOVED***
+            - name: GITHUB_SECRET
+              value: ***REMOVED***
+            - name: GOOGLE_ID
+              value: ***REMOVED***
+            - name: GOOGLE_SECRET
+              value: ***REMOVED***
+            - name: MONGODB_URI
+              value: mongodb://mongo-auth-svc:27017
+            - name: MONGODB_DB
+              value: auth
+            - name: NEXTAUTH_URL
+              value: "http://tripapp.mastercc.hpc4ai.unito.it:80"
+          imagePullPolicy: Never
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-svc
+spec:
+  selector:
+    app: frontend
+  ports:
+    - port: 80
+      targetPort: 3000
