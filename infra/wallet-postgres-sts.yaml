@@ -1,0 +1,51 @@
+# postgres statefulset and service
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-wallet
+spec:
+  serviceName: postgres-wallet
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-wallet
+  template:
+    metadata:
+      labels:
+        app: postgres-wallet
+    spec:
+      containers:
+        - name: postgres-wallet
+          image: postgres:11
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: wallet
+            - name: POSTGRES_USER
+              value: tripapp
+            - name: POSTGRES_PASSWORD
+              value: tripapp
+          volumeMounts:
+            - name: postgres-wallet-persistent-storage
+              mountPath: /var/lib/postgresql/
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-wallet-persistent-storage
+      spec:
+        storageClassName: cdk-cinder
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-wallet-svc
+spec:
+  selector:
+    app: postgres-wallet
+  ports:
+    - port: 5432
+      targetPort: 5432

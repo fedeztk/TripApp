@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tripapp-gateway
+  # annotations:
+  #   ingress.kubernetes.io/rewrite-target: /tripapp-ui
+spec:
+  rules:
+    - host: "tripapp.mastercc.hpc4ai.unito.it"
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: frontend-svc
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: /api/gateway
+            backend:
+              service:
+                name: gateway-svc
+                port:
+                  number: 80
