@@ -77,7 +77,7 @@ function AddButton() {
 
     // const countries: ICountry[] = Country.getAllCountries();
     const [countries, setCountries] = useState<ICountry[]>(Country.getAllCountries() as ICountry[]);
-    const [country, setCountry] = useState<string | null>(null);
+    const [country, setCountry] = useState<ICountry | null>(null);
 
     const [cities, setCities] = useState<ICity[]>([]);
     const [city, setCity] = useState<string | null>(null);
@@ -142,7 +142,7 @@ function AddButton() {
                         isOptionEqualToValue={(option, value) => option.name === value.name}
                         onChange={(event, newValue) => {
                             if (newValue != null) {
-                                setCountry(newValue.name);
+                                setCountry(newValue);
                                 setCities((City.getCitiesOfCountry(newValue.isoCode) as ICity[])
                                     .filter((city, index, self) =>
                                             index === self.findIndex((t) => (
@@ -192,7 +192,7 @@ function AddButton() {
                         :
                         <Button
                             disabled={city === null}
-                            onClick={async () => await trigger({name: city}).then(() => handleClose() )}>
+                            onClick={async () => await trigger({name: city, iso: country?.isoCode}).then(() => handleClose() )}>
                             Create
                         </Button>
                     }
