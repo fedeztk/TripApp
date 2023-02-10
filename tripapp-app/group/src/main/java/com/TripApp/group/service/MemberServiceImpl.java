@@ -41,9 +41,4 @@ public class MemberServiceImpl implements MemberService {
     public Member getMemberByUserIdAndGroupId(String newMemberId, Long groupId) {
         return memberRepository.findByGroup_IdAndUserId(groupId, newMemberId).orElse(null);
     }
-
-    @Override
-    public List<Member> getAllMembersGroupId(Long groupId) {
-        return memberRepository.getAllMembersByGroupId(groupId);
-    }
 }

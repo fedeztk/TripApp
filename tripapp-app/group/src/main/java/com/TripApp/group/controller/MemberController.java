@@ -78,7 +78,7 @@ public class MemberController {
                 memberService.deleteMember(member);
 
                 // if the group has no more members, delete the group
-                if (memberService.getAllMembersGroupId(groupId).isEmpty()) {
+                if (memberService.getAllMembersByGroupId(groupId).isEmpty()) {
                     rabbitTemplate.convertAndSend(exchange, "", groupId);
                 }
 
