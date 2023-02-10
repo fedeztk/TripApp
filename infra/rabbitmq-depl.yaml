@@ -30,7 +30,7 @@ spec:
     - metadata:
         name: rabbitmq-persistent-storage
       spec:
-        #        storageClassName: cdk-cinder
+        storageClassName: cdk-cinder
         accessModes: [ "ReadWriteOnce" ]
         resources:
           requests:
