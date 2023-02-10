@@ -3,8 +3,11 @@ package com.javasampleapproach.financev1.controller;
 import com.javasampleapproach.financev1.model.*;
 import com.javasampleapproach.financev1.service.TransactionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -166,6 +169,15 @@ public class FinanceController {
 			return ResponseEntity.ok(dp);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@Component
+	class RabbitController {
+		@RabbitListener(queues = "walletQueue")
+		@Transactional
+		public void consumeDeleteAllTransactionsByGroupId(long groupId) {
+			transactionService.deleteAllTransactionsByGroupId(groupId);
 		}
 	}
 

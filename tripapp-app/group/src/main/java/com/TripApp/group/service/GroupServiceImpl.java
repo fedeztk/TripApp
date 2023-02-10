@@ -32,6 +32,11 @@ public class GroupServiceImpl implements GroupService {
         return groupRepository.findById(groupId).orElse(null);
     }
 
+    @Override
+    public void deleteGroupById(String groupId) {
+        groupRepository.deleteById(groupId);
+    }
+
     private Group convertGroupDTOToGroup(GroupDTO groupDTO) {
         Group group = new Group();
         group.setName(groupDTO.getName());
