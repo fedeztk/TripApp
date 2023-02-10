@@ -12,6 +12,4 @@ public interface MemberService {
     void deleteMember(Member member);
 
     Member getMemberByUserIdAndGroupId(String newMemberId, Long groupId);
-
-    List<Member> getAllMembersGroupId(Long groupId);
 }
