@@ -18,6 +18,8 @@ import {customFetcher} from "../../lib/fetcher";
 import {useTripGroupContext} from "../../context/tripGroup";
 import Member from "../../types/member";
 import useSWR from "swr";
+import {useTheme} from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 
 export function round(number:any | undefined){
@@ -28,6 +30,10 @@ export function round(number:any | undefined){
 }
 
 export default function Wallet() {
+
+    const theme = useTheme()
+    const isMediumScreen = useMediaQuery(theme.breakpoints.up("md"))
+
 
     const [triggerHistoryView, setTriggerHistoryView] = useState(false);
     const [triggerNewSale, setTriggerNewSale] = useState(false);
@@ -44,13 +50,16 @@ export default function Wallet() {
             const credits: walletUser[] = []
             let d = 0;
             let c = 0;
-
             data.debtorAmountList.map((u: walletUser) => {
-                debits.push(u)
+                let tmp:walletUser = u
+                tmp.name = (tripGroup?.members.find((m:Member)=>m.userId===u.userId) as Member).name
+                debits.push(tmp)
                 d = d + u.amount
             })
             data.creditorAmountList.map((u: walletUser) => {
-                credits.push(u)
+                let tmp:walletUser = u
+                tmp.name = (tripGroup?.members.find((m:Member)=>m.userId===u.userId) as Member).name
+                credits.push(tmp)
                 c = c + u.amount
             })
 
@@ -116,13 +125,18 @@ export default function Wallet() {
 
     function NewTransactionButton(){
 
+        // @ts-ignore
         return(<>
-            <Fab
-                sx={{marginBottom:"2vh"}}
-                variant={"extended"}
-                onClick={()=>setTriggerNewSale(true)}>
+            {/*@ts-ignore*/}
+            <Fab variant={isMediumScreen ? "extended" : "default"} color="secondary" aria-label="add"
+                 sx={{
+                     position: 'fixed',
+                     bottom: "2vh",
+                     right: isMediumScreen ? theme.spacing(2) : 'default'
+                 }}
+                 onClick={()=>setTriggerNewSale(true)}>
                 <AddIcon  />
-                <>New Transaction</>
+                {isMediumScreen && <>New Transaction</>}
             </Fab>
         </>)
                 }
