@@ -3,9 +3,9 @@ import {walletUser} from "../../types/wallet";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import {useTripGroupContext} from "../../context/tripGroup";
 
 export  default function DebCredList({userList}:{userList:any | undefined}){
-
     return(<Box sx={{ width: '100%'}}>
         <Stack
             direction="row"
