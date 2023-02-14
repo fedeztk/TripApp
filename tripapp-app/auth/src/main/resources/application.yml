@@ -7,9 +7,7 @@ spring:
     name: auth
   data:
     mongodb:
-      host: ${DB_SERVER}
-      port: ${DB_PORT}
-      database: ${DB_NAME}
+      uri: mongodb://${DB_USER}:${DB_PASSWORD}@${DB_SERVER}:${DB_PORT}/${DB_NAME}?authSource=admin
 logging:
   level:
     org: DEBUG
