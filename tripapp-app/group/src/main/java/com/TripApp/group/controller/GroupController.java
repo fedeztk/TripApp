@@ -4,8 +4,11 @@ import com.TripApp.group.model.Group;
 import com.TripApp.group.model.GroupDTO;
 import com.TripApp.group.service.GroupService;
 import com.TripApp.group.service.MemberService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,6 +40,14 @@ public class GroupController {
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @Component
+    class RabbitController {
+        @RabbitListener(queues = "groupQueue")
+        public void consumeDeleteGroupById(String groupId) {
+            groupService.deleteGroupById(groupId);
         }
     }
 }

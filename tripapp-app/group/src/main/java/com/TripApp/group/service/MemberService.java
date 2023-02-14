@@ -1,9 +1,7 @@
 package com.TripApp.group.service;
 
 import com.TripApp.group.model.Group;
-import com.TripApp.group.model.GroupDTO;
 import com.TripApp.group.model.Member;
-import com.TripApp.group.model.MemberDTO;
 
 import java.util.List;
 

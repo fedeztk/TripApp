@@ -29,4 +29,6 @@ public interface TransactionService{
     List<Transaction> findByCreditor(String creditor);
 
     List<Transaction> findByUuid(UUID uuid);
+
+    void deleteAllTransactionsByGroupId(long groupId);
 }
