@@ -27,7 +27,7 @@ export default function NewTransactionPopup({triggerDialog, setTriggerDialog}:{t
     function sendNewTransaction(){
         if(amount !== undefined && userList!==undefined && userList.length>0) {
             //la suddivisione viene fatta in parti uguali => feature da aggiungere : suddivisione in parti diverse
-            let singleAmount:number = amount / userList.length
+            let singleAmount:number = amount / (userList.length+1)
 
             let userIdAmountList:any = []
             let userIds:string[] = []
@@ -41,6 +41,17 @@ export default function NewTransactionPopup({triggerDialog, setTriggerDialog}:{t
                 userIds.push(u.userId)
             })
 
+            let u:any = tripGroup?.members.find((m:Member)=>m.userId===session?.user?.id)
+
+            let tmp = {
+                "userId": u.userId,
+                "amount": singleAmount
+            }
+            userIdAmountList.push(tmp)
+            userIds.push(u.userId)
+
+
+
 
             let postArg = {
                 "creditor": session?.user?.id,
@@ -48,6 +59,8 @@ export default function NewTransactionPopup({triggerDialog, setTriggerDialog}:{t
                 "groupId": tripGroup?.id,
                 "userIdList": userIds
             }
+
+            console.log(postArg)
 
             trigger(postArg)
                 .then((r) => {
