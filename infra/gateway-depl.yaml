@@ -17,7 +17,6 @@ spec:
           image: fedeztk/tripapp-gateway:latest
           ports:
             - containerPort: 8080
-          imagePullPolicy: Never
           env:
             - name: AUTH_URL
               value: http://auth-svc:80/v1/auth/accounts/

@@ -28,7 +28,6 @@ spec:
               value: tripapp
             - name: DB_PASSWORD
               value: tripapp
-          imagePullPolicy: Never
 ---
 apiVersion: v1
 kind: Service
