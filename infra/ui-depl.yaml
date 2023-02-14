@@ -31,9 +31,13 @@ spec:
             - name: GOOGLE_SECRET
               value: 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
             - name: MONGODB_URI
-              value: mongodb://mongo-auth-svc:27017
+              value: mongo-auth-svc:27017
             - name: MONGODB_DB
               value: auth
+            - name: MONGODB_USERNAME
+              value: tripapp
+            - name: MONGODB_PASSWORD
+              value: tripapp
             - name: NEXTAUTH_URL
               value: "http://tripapp.mastercc.hpc4ai.unito.it:80"
           imagePullPolicy: Never
