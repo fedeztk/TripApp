@@ -13,8 +13,6 @@ import AddIcon from "@mui/icons-material/Add";
 import TransactionList from "../../components/walletComponents/TransactionList";
 import NewTransactionPopup from "../../components/walletComponents/NewTransactionPopup";
 import {useSession} from "next-auth/react";
-import useSWRMutation from "swr/mutation";
-import {customFetcher} from "../../lib/fetcher";
 import {useTripGroupContext} from "../../context/tripGroup";
 import Member from "../../types/member";
 import useSWR from "swr";
