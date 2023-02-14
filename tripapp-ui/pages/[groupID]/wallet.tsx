@@ -67,9 +67,9 @@ export default function Wallet() {
             })
 
             setBalance({
-                total: c - d,
-                debit: d,
-                credit: c
+                total: d - c,
+                debit: c,
+                credit: d
             })
         }
     }
