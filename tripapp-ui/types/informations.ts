@@ -43,16 +43,10 @@ export interface Names {
     nativeName: NativeName;
 }
 export interface NativeName {
-    ita: Ita;
-}
-export interface Ita {
     official: string;
     common: string;
 }
 export interface Currencies {
-    EUR: EUR;
-}
-export interface EUR {
     name: string;
     symbol: string;
 }

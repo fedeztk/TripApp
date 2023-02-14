@@ -1,5 +1,5 @@
 import {useTripGroupContext} from "../../context/tripGroup";
-import {ImageList, ImageListItem, useTheme} from "@mui/material";
+import {useTheme} from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import {useSession} from "next-auth/react";
 import LoadingPage from "../../components/loadingPage";
@@ -13,13 +13,12 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
-import ImageIcon from '@mui/icons-material/Image';
-import WorkIcon from '@mui/icons-material/Work';
-import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import MedicalInformationIcon from '@mui/icons-material/MedicalInformation';
 import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
 import FireTruckIcon from '@mui/icons-material/FireTruck';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import {useEffect, useState} from "react";
+import Typography from "@mui/material/Typography";
 
 export default function Info() {
     const [tripGroup] = useTripGroupContext()
@@ -34,81 +33,102 @@ export default function Info() {
     const {data, error, isLoading} = useSWR([req, "GET", session])
     const [informations, setInformations] = useState<Informations|undefined>()
     //const informations = data as Informations;
-    //const number = informations ? informations.informations.numbers.datas.ambulance.all?.at(1) : "Undefined"
 
-    //console.log("ambu: "+number)
     function dataAnalizer() {
         if (data !== undefined) {
-
             setInformations(data)
-            //console.log(informations?.info.numbers.datas.ambulance.all?.toString())
-
-            //const ambulance = informations.info.numbers.datas.ambulance.all?.at(0)
-            //const police = informations.info.numbers.datas.police.all?.at(0)
-            //const fireDept = informations.info.numbers.datas.fire.all?.at(0)
         }
     }
 
+    const divStyle = {
+        width: '250px',
+        height: '150px'
+    };
+
     useEffect(dataAnalizer, [data])
-
-    //console.log("wwww "+tripGroup?.id)
-    console.log(informations)
-
+    //console.log(informations)
     return showInfoCountry()
     function showInfoCountry(){
         return isLoading ? <LoadingPage/>
-            : (
-                <>
-                    <img
-                        src={informations?.info.flags.svg}
-                        srcSet={`${informations?.info.flags.svg}?w=124&h=124&fit=crop&auto=format&dpr=2 2x`}
-                        //loading="lazy"
-                    />
+        : (
+            <>
+                <Stack
+                    direction="column"
+                    justifyContent="center"
+                    alignItems="stretch"
+                    spacing={1}>
 
-                    <Stack
-                        direction="column"
-                        justifyContent="center"
-                        alignItems="stretch"
-                        spacing={1}>
+                    <Typography variant="button" sx={{fontSize: '1.5em'}} gutterBottom>
+                        <div style={divStyle}>
+                            <img src={informations?.info.flags.svg} width="75%" height="100%" />
+                        </div>
+                        {informations?.info.names.common.toString()}
+                    </Typography>
 
-                        <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-                            <ListItem>
-                                <ListItemAvatar>
-                                    <Avatar>
-                                        <LocalHospitalIcon />
-                                    </Avatar>
-                                </ListItemAvatar>
-                                <ListItemText primary="Ambulance" secondary={informations?.numbers.datas.ambulance.all?.toString()} />
-                            </ListItem>
-                            <ListItem>
-                                <ListItemAvatar>
-                                    <Avatar>
-                                        <LocalPoliceIcon />
-                                    </Avatar>
-                                </ListItemAvatar>
-                                <ListItemText primary="Police" secondary={informations?.numbers.datas.police.all?.toString()} />
-                            </ListItem>
-                            <ListItem>
-                                <ListItemAvatar>
-                                    <Avatar>
-                                        <FireTruckIcon />
-                                    </Avatar>
-                                </ListItemAvatar>
-                                <ListItemText primary="Fire Dept" secondary={informations?.numbers.datas.fire.all?.toString()} />
-                            </ListItem>
-                            <ListItem>
-                                <ListItemAvatar>
-                                    <Avatar>
-                                        <MonetizationOnIcon />
-                                    </Avatar>
-                                </ListItemAvatar>
-                                <ListItemText primary="Currency" secondary={informations?.info.currencies.EUR.symbol.toString().concat(" "+informations?.info.currencies.EUR.name.toString())} />
-                            </ListItem>
-                        </List>
-                    </Stack>
-                </>
-
-            )
-
+                    <List>
+                        <ListItem>
+                            <ListItemAvatar>
+                                <Avatar sx={{ width: 55, height: 55}}>
+                                    <MedicalInformationIcon />
+                                </Avatar>
+                            </ListItemAvatar>
+                            <ListItemText>
+                                <Typography variant="button" sx={{fontSize: '1.5em'}} gutterBottom>
+                                    &nbsp;&nbsp;Ambulance
+                                </Typography>
+                                <Typography variant="h6" gutterBottom>
+                                    &nbsp;&nbsp;&nbsp;{informations?.numbers.datas.ambulance.all?.toString()}
+                                </Typography>
+                            </ListItemText>
+                        </ListItem>
+                        <ListItem>
+                            <ListItemAvatar>
+                                <Avatar sx={{ width: 55, height: 55}}>
+                                    <LocalPoliceIcon />
+                                </Avatar>
+                            </ListItemAvatar>
+                            <ListItemText>
+                                <Typography variant="button" sx={{fontSize: '1.5em'}} gutterBottom>
+                                    &nbsp;&nbsp;Police
+                                </Typography>
+                                <Typography variant="h6" gutterBottom>
+                                    &nbsp;&nbsp;&nbsp;{informations?.numbers.datas.police.all?.toString()}
+                                </Typography>
+                            </ListItemText>
+                        </ListItem>
+                        <ListItem>
+                            <ListItemAvatar>
+                                <Avatar sx={{ width: 55, height: 55}}>
+                                    <FireTruckIcon />
+                                </Avatar>
+                            </ListItemAvatar>
+                            <ListItemText>
+                                <Typography variant="button" sx={{fontSize: '1.5em'}} gutterBottom>
+                                    &nbsp;&nbsp;Fire Dept
+                                </Typography>
+                                <Typography variant="h6" gutterBottom>
+                                    &nbsp;&nbsp;&nbsp;{informations?.numbers.datas.fire.all?.toString()}
+                                </Typography>
+                            </ListItemText>
+                        </ListItem>
+                        <ListItem>
+                            <ListItemAvatar>
+                                <Avatar>
+                                    <MonetizationOnIcon />
+                                </Avatar>
+                            </ListItemAvatar>
+                            <ListItemText>
+                                <Typography variant="button" sx={{fontSize: '1.5em'}} gutterBottom>
+                                    &nbsp;&nbsp;Currency
+                                </Typography>
+                                <Typography variant="h6" gutterBottom>
+                                    &nbsp;&nbsp;&nbsp;{informations?.info.currencies.symbol.toString().concat(" "+informations?.info.currencies.name.toString())}
+                                </Typography>
+                            </ListItemText>
+                        </ListItem>
+                    </List>
+                </Stack>
+            </>
+        )
     }
 }
