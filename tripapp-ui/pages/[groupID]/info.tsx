@@ -29,7 +29,7 @@ export default function Info() {
     const userIdList : (string[] | undefined) = tripGroup?.members.map((m:Member)=> m.userId).filter((m:string)=> m !== session?.user?.id)
 
     const path = "/v1/infos/"
-    const req = path + "it" //tripGroup?.iso
+    const req = path + tripGroup?.iso
     const {data, error, isLoading} = useSWR([req, "GET", session])
     const [informations, setInformations] = useState<Informations|undefined>()
     //const informations = data as Informations;
