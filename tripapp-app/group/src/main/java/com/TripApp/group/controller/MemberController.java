@@ -1,14 +1,19 @@
 package com.TripApp.group.controller;
 
+import com.TripApp.group.config.RabbitMqConfig;
 import com.TripApp.group.model.Member;
 import com.TripApp.group.service.MemberService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,6 +23,11 @@ public class MemberController {
 
     @Value("${auth.url}")
     private String authUrl;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+    public String exchange = "deleteGroup";
+
 
     // let a user that is a member of a group add a new member to the group from its email
     @PostMapping("/{groupId}")
@@ -66,6 +76,12 @@ public class MemberController {
             if (member != null) {
                 // delete the member
                 memberService.deleteMember(member);
+
+                // if the group has no more members, delete the group
+                if (memberService.getAllMembersByGroupId(groupId).isEmpty()) {
+                    rabbitTemplate.convertAndSend(exchange, "", groupId);
+                }
+
                 return ResponseEntity.ok().build();
             } else {
                 return ResponseEntity.badRequest().body("User is not a member of the group");

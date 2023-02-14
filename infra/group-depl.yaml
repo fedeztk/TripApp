@@ -28,6 +28,15 @@ spec:
               value: tripapp
             - name: AUTH_URL
               value: http://auth-svc:80/v1/auth
+            # rabbitmq env vars
+            - name: RABBITMQ_HOST
+              value: rabbitmq-svc
+            - name: RABBITMQ_PORT
+              value: "5672"
+            - name: RABBITMQ_DEFAULT_USER
+              value: tripapp
+            - name: RABBITMQ_DEFAULT_PASS
+              value: tripapp
           imagePullPolicy: Never
 ---
 apiVersion: v1

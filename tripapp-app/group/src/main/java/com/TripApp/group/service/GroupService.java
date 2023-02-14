@@ -10,4 +10,6 @@ public interface GroupService {
     Group saveNewGroup(GroupDTO groupDTO);
 
     Group getGroupById(String groupId);
+
+    void deleteGroupById(String groupId);
 }
