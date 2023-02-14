@@ -116,28 +116,19 @@ export default function TransactionList({backTrigger}:{backTrigger:any}){
 
         function deleteTransaction(){
             trigger()
-                .then(()=>{
-                    let newList = transactionList?.filter((tL)=> tL.uuid !== transaction.uuid)
-                    if(newList===undefined){
-                        setTransactionList([])
-                    }else{
-                        setTransactionList(newList)
-                    }
-                })
-                .then(()=>{
-                    mutate().then(r => console.log(r))
-                }).catch(e=>console.log(e))
+                .then(()=>{ mutate() })
+                .catch(e=>console.log(e))
         }
 
-
         return (<ListItem>
-
                 <ListItemText>
                     <Typography variant={"body1"}>Amount: {transaction.amount}</Typography>
                     <Typography variant={"body1"}>Creditor: {transaction.creditor}</Typography>
                     <Typography variant={"body1"}>Debtor: {transaction.debtor.toString()}</Typography>
                 </ListItemText>
-                <IconButton onClick={deleteTransaction}>
+                <IconButton
+                    disabled={isMutating}
+                    onClick={deleteTransaction}>
                     <DeleteIcon/>
                     {isMediumScreen? <>delete</> : <></>}
                 </IconButton>
