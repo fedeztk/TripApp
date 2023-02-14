@@ -80,6 +80,11 @@ public class TransactionServiceImpl implements TransactionService{
         return transactionRepository.findByUuid(uuid);
     }
 
+    @Override
+    public void deleteAllTransactionsByGroupId(long groupId) {
+        transactionRepository.deleteAllByGroupId(groupId);
+    }
+
     private Transaction convertTransactionDTOToTransaction(TransactionDTO transactionDTO, UUID uuid) {
         Transaction transaction = new Transaction();
         transaction.setAmount(transactionDTO.getAmount());

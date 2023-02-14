@@ -23,4 +23,6 @@ public interface TransactionRepository extends CrudRepository<Transaction,Long>{
     List<Transaction> findByCreditorAndGroupId(String creditor, long groupId);
 
     List<Transaction> findByCreditor(String creditor);
+
+    void deleteAllByGroupId(long groupId);
 }
