@@ -40,7 +40,6 @@ spec:
               value: tripapp
             - name: NEXTAUTH_URL
               value: "http://tripapp.mastercc.hpc4ai.unito.it:80"
-          imagePullPolicy: Never
 ---
 apiVersion: v1
 kind: Service

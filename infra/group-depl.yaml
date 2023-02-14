@@ -37,7 +37,6 @@ spec:
               value: tripapp
             - name: RABBITMQ_DEFAULT_PASS
               value: tripapp
-          imagePullPolicy: Never
 ---
 apiVersion: v1
 kind: Service
