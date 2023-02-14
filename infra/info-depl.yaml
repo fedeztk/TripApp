@@ -17,7 +17,6 @@ spec:
           image: fedeztk/tripapp-info:latest
           ports:
             - containerPort: 8080
-          imagePullPolicy: Never
 ---
 apiVersion: v1
 kind: Service
