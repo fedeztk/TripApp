@@ -22,6 +22,11 @@ spec:
           volumeMounts:
             - name: mongo-auth-persistent-storage
               mountPath: /data/db
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: tripapp
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: tripapp
   volumeClaimTemplates:
     - metadata:
         name: mongo-auth-persistent-storage
