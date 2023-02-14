@@ -28,7 +28,6 @@ export default function NewTransactionPopup({triggerDialog, setTriggerDialog}:{t
         if(amount !== undefined && userList!==undefined && userList.length>0) {
             //la suddivisione viene fatta in parti uguali => feature da aggiungere : suddivisione in parti diverse
             let singleAmount:number = amount / (userList.length+1)
-            let s:number = (amount/userList.length)
 
             let userIdAmountList:any = []
             let userIds:string[] = []
