@@ -1,5 +1,5 @@
 import {useTripGroupContext} from "../../context/tripGroup";
-import {useTheme} from "@mui/material";
+import {Grid, useTheme} from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import {useSession} from "next-auth/react";
 import LoadingPage from "../../components/loadingPage";
@@ -17,6 +17,8 @@ import MedicalInformationIcon from '@mui/icons-material/MedicalInformation';
 import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
 import FireTruckIcon from '@mui/icons-material/FireTruck';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import FlagIcon from '@mui/icons-material/Flag';
+import ApartmentIcon from '@mui/icons-material/Apartment';
 import {useEffect, useState} from "react";
 import Typography from "@mui/material/Typography";
 
@@ -46,88 +48,132 @@ export default function Info() {
     };
 
     useEffect(dataAnalizer, [data])
-    //console.log(informations)
+    console.log(informations)
     return showInfoCountry()
+
     function showInfoCountry(){
         return isLoading ? <LoadingPage/>
         : (
             <>
-                <Stack
-                    direction="column"
-                    justifyContent="center"
-                    alignItems="stretch"
-                    spacing={1}>
+            <Stack
+                direction="column"
+                justifyContent="center"
+                alignItems="stretch"
+                spacing={1}>
 
-                    <Typography variant="button" sx={{fontSize: '1.5em'}} gutterBottom>
-                        <div style={divStyle}>
-                            <img src={informations?.info.flags.svg} width="75%" height="100%" />
-                        </div>
-                        {informations?.info.names.common.toString()}
-                    </Typography>
+                <Typography variant="h4" gutterBottom>
+                    {informations?.info.names.common.toString()}
+                </Typography>
+                <Typography variant="button" sx={{fontSize: '1.5em'}} gutterBottom>
+                    <div style={divStyle}>
+                        <img src={informations?.info.flags.svg} width="75%" height="100%" />
+                    </div>
+                </Typography>
 
-                    <List>
-                        <ListItem>
-                            <ListItemAvatar>
-                                <Avatar sx={{ width: 55, height: 55}}>
-                                    <MedicalInformationIcon />
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText>
-                                <Typography variant="button" sx={{fontSize: '1.5em'}} gutterBottom>
-                                    &nbsp;&nbsp;Ambulance
-                                </Typography>
-                                <Typography variant="h6" gutterBottom>
-                                    &nbsp;&nbsp;&nbsp;{informations?.numbers.datas.ambulance.all?.toString()}
-                                </Typography>
-                            </ListItemText>
-                        </ListItem>
-                        <ListItem>
-                            <ListItemAvatar>
-                                <Avatar sx={{ width: 55, height: 55}}>
-                                    <LocalPoliceIcon />
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText>
-                                <Typography variant="button" sx={{fontSize: '1.5em'}} gutterBottom>
-                                    &nbsp;&nbsp;Police
-                                </Typography>
-                                <Typography variant="h6" gutterBottom>
-                                    &nbsp;&nbsp;&nbsp;{informations?.numbers.datas.police.all?.toString()}
-                                </Typography>
-                            </ListItemText>
-                        </ListItem>
-                        <ListItem>
-                            <ListItemAvatar>
-                                <Avatar sx={{ width: 55, height: 55}}>
-                                    <FireTruckIcon />
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText>
-                                <Typography variant="button" sx={{fontSize: '1.5em'}} gutterBottom>
-                                    &nbsp;&nbsp;Fire Dept
-                                </Typography>
-                                <Typography variant="h6" gutterBottom>
-                                    &nbsp;&nbsp;&nbsp;{informations?.numbers.datas.fire.all?.toString()}
-                                </Typography>
-                            </ListItemText>
-                        </ListItem>
-                        <ListItem>
-                            <ListItemAvatar>
-                                <Avatar>
-                                    <MonetizationOnIcon />
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText>
-                                <Typography variant="button" sx={{fontSize: '1.5em'}} gutterBottom>
-                                    &nbsp;&nbsp;Currency
-                                </Typography>
-                                <Typography variant="h6" gutterBottom>
-                                    &nbsp;&nbsp;&nbsp;{informations?.info.currencies.symbol.toString().concat(" "+informations?.info.currencies.name.toString())}
-                                </Typography>
-                            </ListItemText>
-                        </ListItem>
-                    </List>
-                </Stack>
+                <Grid container spacing={1}>
+                    <Grid item xs={6}>
+                        <List>
+                            <ListItem>
+                                <ListItemAvatar>
+                                    <Avatar sx={{ width: 55, height: 55}}>
+                                        <MedicalInformationIcon />
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText>
+                                    <Typography variant="button" sx={{fontSize: '1.5em'}} gutterBottom>
+                                        &nbsp;&nbsp;Ambulance
+                                    </Typography>
+                                    <Typography variant="h6" gutterBottom>
+                                        &nbsp;&nbsp;&nbsp;{informations?.numbers.datas.ambulance.all?.toString() === "" ? "-" : informations?.numbers.datas.ambulance.all?.toString()}
+                                    </Typography>
+                                </ListItemText>
+                            </ListItem>
+                            <ListItem>
+                                <ListItemAvatar>
+                                    <Avatar sx={{ width: 55, height: 55}}>
+                                        <LocalPoliceIcon />
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText>
+                                    <Typography variant="button" sx={{fontSize: '1.5em'}} gutterBottom>
+                                        &nbsp;&nbsp;Police
+                                    </Typography>
+                                    <Typography variant="h6" gutterBottom>
+                                        &nbsp;&nbsp;&nbsp;{informations?.numbers.datas.police.all?.toString() === "" ? "-" : informations?.numbers.datas.police.all?.toString()}
+                                    </Typography>
+                                </ListItemText>
+                            </ListItem>
+                            <ListItem>
+                                <ListItemAvatar>
+                                    <Avatar sx={{ width: 55, height: 55}}>
+                                        <FireTruckIcon />
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText>
+                                    <Typography variant="button" sx={{fontSize: '1.5em'}} gutterBottom>
+                                        &nbsp;&nbsp;Fire Dept
+                                    </Typography>
+                                    <Typography variant="h6" gutterBottom>
+                                        &nbsp;&nbsp;&nbsp;{informations?.numbers.datas.fire.all?.toString() === "" ? "-" : informations?.numbers.datas.fire.all?.toString()}
+                                    </Typography>
+                                </ListItemText>
+                            </ListItem>
+                        </List>
+                    </Grid>
+                    {/*----------------------------------------------------------------*/}
+                    <Grid item xs={6}>
+                        <List>
+                            <ListItem>
+                                <ListItemAvatar>
+                                    <Avatar sx={{ width: 55, height: 55}}>
+                                        <ApartmentIcon />
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText>
+                                    <Typography variant="button" sx={{fontSize: '1.5em'}} gutterBottom>
+                                        &nbsp;&nbsp;Capital
+                                    </Typography>
+                                    <Typography variant="h6" gutterBottom>
+                                        &nbsp;&nbsp;&nbsp;{informations?.info.capital}
+                                    </Typography>
+                                </ListItemText>
+                            </ListItem>
+                            <ListItem>
+                                <ListItemAvatar>
+                                    <Avatar sx={{ width: 55, height: 55}}>
+                                        <ApartmentIcon />
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText>
+                                    <Typography variant="button" sx={{fontSize: '1.5em'}} gutterBottom>
+                                        &nbsp;&nbsp;TEMP
+                                    </Typography>
+                                    <Typography variant="h6" gutterBottom>
+                                        &nbsp;&nbsp;&nbsp;TEMP
+                                    </Typography>
+                                </ListItemText>
+                            </ListItem>
+                            {/*
+                            <ListItem>
+                                <ListItemAvatar>
+                                    <Avatar>
+                                        <MonetizationOnIcon />
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText>
+                                    <Typography variant="button" sx={{fontSize: '1.5em'}} gutterBottom>
+                                        &nbsp;&nbsp;Currency
+                                    </Typography>
+                                    <Typography variant="h6" gutterBottom>
+                                        &nbsp;&nbsp;&nbsp;{informations?.info.currencies.symbol.toString().concat(" "+informations?.info.currencies.name.toString())}
+                                    </Typography>
+                                </ListItemText>
+                            </ListItem>
+                            */}
+                        </List>
+                    </Grid>
+                </Grid>
+            </Stack>
             </>
         )
     }
