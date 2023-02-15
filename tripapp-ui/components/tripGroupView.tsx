@@ -396,6 +396,7 @@ function ListItems() {
                                                             </ListItemAvatar>
                                                             <TextField id="outlined-basic" label="New user email"
                                                                        variant="outlined"
+                                                                       sx={{width: '80%'}}
                                                                        onChange={(e) => setNewMemberEmail("?email=".concat(e.target.value))}/>
                                                         </ListItemButton>
                                                     </ListItem>
