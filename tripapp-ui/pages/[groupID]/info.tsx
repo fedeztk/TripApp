@@ -43,8 +43,8 @@ export default function Info() {
     }
 
     const divStyle = {
-        width: '250px',
-        height: '150px'
+        width: '200px',
+        height: '100px'
     };
 
     useEffect(dataAnalizer, [data])
@@ -56,17 +56,17 @@ export default function Info() {
         : (
             <>
             <Stack
-                direction="column"
+                //direction="column"
                 justifyContent="center"
                 alignItems="stretch"
                 spacing={1}>
 
                 <Typography variant="h4" gutterBottom>
-                    {informations?.info.names.common.toString()}
+                    {informations?.info.names.common.toString().toUpperCase()}
                 </Typography>
                 <Typography variant="button" sx={{fontSize: '1.5em'}} gutterBottom>
                     <div style={divStyle}>
-                        <img src={informations?.info.flags.svg} width="75%" height="100%" />
+                        <img src={informations?.info.flags.svg} width="100%" height="100%" />
                     </div>
                 </Typography>
 
@@ -141,7 +141,7 @@ export default function Info() {
                             <ListItem>
                                 <ListItemAvatar>
                                     <Avatar sx={{ width: 55, height: 55}}>
-                                        <ApartmentIcon />
+                                        <FlagIcon />
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText>
@@ -149,14 +149,13 @@ export default function Info() {
                                         &nbsp;&nbsp;TEMP
                                     </Typography>
                                     <Typography variant="h6" gutterBottom>
-                                        &nbsp;&nbsp;&nbsp;TEMP
+                                        &nbsp;&nbsp;&nbsp;temp
                                     </Typography>
                                 </ListItemText>
                             </ListItem>
-                            {/*
                             <ListItem>
                                 <ListItemAvatar>
-                                    <Avatar>
+                                    <Avatar sx={{ width: 55, height: 55}}>
                                         <MonetizationOnIcon />
                                     </Avatar>
                                 </ListItemAvatar>
@@ -165,11 +164,13 @@ export default function Info() {
                                         &nbsp;&nbsp;Currency
                                     </Typography>
                                     <Typography variant="h6" gutterBottom>
+                                        &nbsp;&nbsp;&nbsp;currency
+                                        {/*
                                         &nbsp;&nbsp;&nbsp;{informations?.info.currencies.symbol.toString().concat(" "+informations?.info.currencies.name.toString())}
+                                        */}
                                     </Typography>
                                 </ListItemText>
                             </ListItem>
-                            */}
                         </List>
                     </Grid>
                 </Grid>
