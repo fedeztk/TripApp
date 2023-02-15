@@ -35,7 +35,7 @@ spec:
             - name: MONGODB_DB
               value: auth
             - name: NEXTAUTH_URL
-              value: "http://tripapp.mastercc.hpc4ai.unito.it:80"
+              value: "https://tripapp.mastercc.hpc4ai.unito.it"
 ---
 apiVersion: v1
 kind: Service

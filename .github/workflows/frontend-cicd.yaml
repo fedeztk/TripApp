@@ -39,4 +39,4 @@ jobs:
           tags: ${{ steps.string.outputs.lowercase }}:latest
           # TODO: use https endoint
           build-args: |
-            "GH_ACTIONS_BACKEND_ENDPOINT=http://tripapp.mastercc.hpc4ai.unito.it:80/api/gateway"
+            "GH_ACTIONS_BACKEND_ENDPOINT=https://tripapp.mastercc.hpc4ai.unito.it/api/gateway"
