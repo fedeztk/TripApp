@@ -1,5 +1,11 @@
-{  "name": "Next PWA demo",
-  "short_name": "Next PWA",
+{  "name": "tripapp",
+  "short_name": "tripapp",
+  "theme_color": "#FFFFFF",
+  "background_color": "#FFFFFF",
+  "start_url": "/",
+  "scope": "/",
+  "display": "fullscreen",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "/palm.png",
@@ -7,9 +13,5 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "#FFFFFF",
-  "background_color": "#FFFFFF",
-  "start_url": "/",
-  "display": "standalone",
-  "orientation": "portrait"
+  "splash_pages": null
 }

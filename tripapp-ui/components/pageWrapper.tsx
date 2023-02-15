@@ -5,7 +5,7 @@ import LoadingPage from "./loadingPage";
 
 export default function PageWrapper({children}: { children: React.ReactNode }) {
     const {status} = useSession({
-        required: true,
+        required: false,
     });
 
     if (status === 'loading') { // loading or unauthenticated
