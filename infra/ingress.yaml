@@ -2,9 +2,13 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: tripapp-gateway
-  # annotations:
-  #   ingress.kubernetes.io/rewrite-target: /tripapp-ui
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
 spec:
+  tls:
+    - hosts:
+        - "tripapp.mastercc.hpc4ai.unito.it"
+      secretName: tripapp-tls
   rules:
     - host: "tripapp.mastercc.hpc4ai.unito.it"
       http:
