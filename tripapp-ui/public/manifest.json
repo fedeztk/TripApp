@@ -1,15 +1,32 @@
-{  "name": "Next PWA demo",
-  "short_name": "Next PWA",
-  "icons": [
-    {
-      "src": "/palm.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
-  ],
-  "theme_color": "#FFFFFF",
-  "background_color": "#FFFFFF",
-  "start_url": "/",
-  "display": "standalone",
-  "orientation": "portrait"
+{
+    "theme_color": "#5f6af8",
+    "background_color": "#f85f6a",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "/",
+    "name": "TripApp",
+    "short_name": "TripApp",
+    "description": "Your companion trip management app",
+    "icons": [
+        {
+            "src": "/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-256x256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-384x384.png",
+            "sizes": "384x384",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
 }
