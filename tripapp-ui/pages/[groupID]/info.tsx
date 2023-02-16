@@ -17,10 +17,11 @@ import MedicalInformationIcon from '@mui/icons-material/MedicalInformation';
 import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
 import FireTruckIcon from '@mui/icons-material/FireTruck';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-import FlagIcon from '@mui/icons-material/Flag';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import {useEffect, useState} from "react";
 import Typography from "@mui/material/Typography";
+import MapIcon from '@mui/icons-material/Map';
+import {right} from "@popperjs/core";
 
 export default function Info() {
     const [tripGroup] = useTripGroupContext()
@@ -34,8 +35,23 @@ export default function Info() {
     const req = path + tripGroup?.iso
     const {data, error, isLoading} = useSWR([req, "GET", session])
     const [informations, setInformations] = useState<Informations|undefined>()
-    //const informations = data as Informations;
+    let currencyName: string = "-";
+    let currencySymbol: string = "";
 
+
+    function currencyLoader() {
+        const currencies = informations?.info.currencies;
+        if (!currencies) {
+            return "-";
+        }
+        const currencyKeys = Object.keys(currencies) as Array<
+            keyof typeof currencies
+        >;
+
+        const firstCurrencyKey = currencyKeys[0];
+        const currencyInfo = currencies[firstCurrencyKey];
+        return currencyInfo.name.concat(" ("+currencyInfo.symbol+")");
+    }
     function dataAnalizer() {
         if (data !== undefined) {
             setInformations(data)
@@ -43,12 +59,13 @@ export default function Info() {
     }
 
     const divStyle = {
-        width: '200px',
-        height: '100px'
+        width: '225px',
+        height: '75px'
     };
 
     useEffect(dataAnalizer, [data])
     console.log(informations)
+    console.log("name:"+currencyName);
     return showInfoCountry()
 
     function showInfoCountry(){
@@ -56,22 +73,19 @@ export default function Info() {
         : (
             <>
             <Stack
-                //direction="column"
+                direction="column"
                 justifyContent="center"
                 alignItems="stretch"
                 spacing={1}>
 
-                <Typography variant="h4" gutterBottom>
-                    {informations?.info.names.common.toString().toUpperCase()}
-                </Typography>
-                <Typography variant="button" sx={{fontSize: '1.5em'}} gutterBottom>
+                <Typography variant="h4">
                     <div style={divStyle}>
-                        <img src={informations?.info.flags.svg} width="100%" height="100%" />
+                        {informations?.info.names.common.toString().toUpperCase()}<img src={informations?.info.flags.svg} width="25%" height="50%" style={{float: right}}/>
                     </div>
                 </Typography>
 
                 <Grid container spacing={1}>
-                    <Grid item xs={6}>
+                    <Grid item xs={5}>
                         <List>
                             <ListItem>
                                 <ListItemAvatar>
@@ -80,10 +94,10 @@ export default function Info() {
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText>
-                                    <Typography variant="button" sx={{fontSize: '1.5em'}} gutterBottom>
+                                    <Typography variant="button" sx={{fontSize: '1.25em'}} gutterBottom>
                                         &nbsp;&nbsp;Ambulance
                                     </Typography>
-                                    <Typography variant="h6" gutterBottom>
+                                    <Typography variant="subtitle1" gutterBottom>
                                         &nbsp;&nbsp;&nbsp;{informations?.numbers.datas.ambulance.all?.toString() === "" ? "-" : informations?.numbers.datas.ambulance.all?.toString()}
                                     </Typography>
                                 </ListItemText>
@@ -95,10 +109,10 @@ export default function Info() {
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText>
-                                    <Typography variant="button" sx={{fontSize: '1.5em'}} gutterBottom>
+                                    <Typography variant="button" sx={{fontSize: '1.25em'}} gutterBottom>
                                         &nbsp;&nbsp;Police
                                     </Typography>
-                                    <Typography variant="h6" gutterBottom>
+                                    <Typography variant="subtitle1" gutterBottom>
                                         &nbsp;&nbsp;&nbsp;{informations?.numbers.datas.police.all?.toString() === "" ? "-" : informations?.numbers.datas.police.all?.toString()}
                                     </Typography>
                                 </ListItemText>
@@ -110,10 +124,10 @@ export default function Info() {
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText>
-                                    <Typography variant="button" sx={{fontSize: '1.5em'}} gutterBottom>
+                                    <Typography variant="button" sx={{fontSize: '1.25em'}} gutterBottom>
                                         &nbsp;&nbsp;Fire Dept
                                     </Typography>
-                                    <Typography variant="h6" gutterBottom>
+                                    <Typography variant="subtitle1" gutterBottom>
                                         &nbsp;&nbsp;&nbsp;{informations?.numbers.datas.fire.all?.toString() === "" ? "-" : informations?.numbers.datas.fire.all?.toString()}
                                     </Typography>
                                 </ListItemText>
@@ -121,7 +135,7 @@ export default function Info() {
                         </List>
                     </Grid>
                     {/*----------------------------------------------------------------*/}
-                    <Grid item xs={6}>
+                    <Grid item xs={7}>
                         <List>
                             <ListItem>
                                 <ListItemAvatar>
@@ -130,10 +144,10 @@ export default function Info() {
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText>
-                                    <Typography variant="button" sx={{fontSize: '1.5em'}} gutterBottom>
+                                    <Typography variant="button" sx={{fontSize: '1.25em'}} gutterBottom>
                                         &nbsp;&nbsp;Capital
                                     </Typography>
-                                    <Typography variant="h6" gutterBottom>
+                                    <Typography variant="subtitle1" gutterBottom>
                                         &nbsp;&nbsp;&nbsp;{informations?.info.capital}
                                     </Typography>
                                 </ListItemText>
@@ -141,15 +155,15 @@ export default function Info() {
                             <ListItem>
                                 <ListItemAvatar>
                                     <Avatar sx={{ width: 55, height: 55}}>
-                                        <FlagIcon />
+                                        <MapIcon />
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText>
-                                    <Typography variant="button" sx={{fontSize: '1.5em'}} gutterBottom>
-                                        &nbsp;&nbsp;TEMP
+                                    <Typography variant="button" sx={{fontSize: '1.25em'}} gutterBottom>
+                                        &nbsp;&nbsp;Maps
                                     </Typography>
-                                    <Typography variant="h6" gutterBottom>
-                                        &nbsp;&nbsp;&nbsp;temp
+                                    <Typography variant="subtitle1" gutterBottom>
+                                        &nbsp;&nbsp;&nbsp;<a href={informations?.info.maps.googleMaps} rel="noreferrer" target="_blank">open</a>
                                     </Typography>
                                 </ListItemText>
                             </ListItem>
@@ -160,14 +174,11 @@ export default function Info() {
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText>
-                                    <Typography variant="button" sx={{fontSize: '1.5em'}} gutterBottom>
+                                    <Typography variant="button" sx={{fontSize: '1.25em'}} gutterBottom>
                                         &nbsp;&nbsp;Currency
                                     </Typography>
-                                    <Typography variant="h6" gutterBottom>
-                                        &nbsp;&nbsp;&nbsp;currency
-                                        {/*
-                                        &nbsp;&nbsp;&nbsp;{informations?.info.currencies.symbol.toString().concat(" "+informations?.info.currencies.name.toString())}
-                                        */}
+                                    <Typography variant="subtitle1" gutterBottom>
+                                        &nbsp;&nbsp;&nbsp;{currencyLoader()}
                                     </Typography>
                                 </ListItemText>
                             </ListItem>

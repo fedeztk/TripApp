@@ -22,7 +22,7 @@ export interface Country {
     ISONumeric: string;
 }
 export interface AmbulanceOrFireOrPoliceOrDispatch {
-    all?: (string)[] | null;
+    all?: string[] | null;
     gsm?: null;
     fixed?: null;
 }
@@ -30,12 +30,12 @@ export interface Info {
     status: string;
     names: Names;
     currencies: Currencies;
-    capital?: (string)[] | null;
+    capital?: string[] | null;
     lenguages?: null;
     maps: Maps;
     flags: Flags;
     coatOfArms: CoatOfArms;
-    altSpellings?: (string)[] | null;
+    altSpellings?: string[] | null;
 }
 export interface Names {
     common: string;
@@ -47,8 +47,16 @@ export interface NativeName {
     common: string;
 }
 export interface Currencies {
-    name: string;
-    symbol: string;
+    /**
+     * [KEY: STRING] PERMETTE DI SEGNALARE A TYPESCRIPT
+     * CHE QUESTO OGGETTO (CURRENCIES) CONTIENE UNA
+     * PROPRIETÀ DINAMICA CHE HA COME VALORE UN
+     * OGGETTO
+     */
+    [key: string]: {
+        name: string;
+        symbol: string;
+    };
 }
 export interface Maps {
     googleMaps: string;
