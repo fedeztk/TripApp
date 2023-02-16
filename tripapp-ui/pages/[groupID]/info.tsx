@@ -21,7 +21,6 @@ import ApartmentIcon from '@mui/icons-material/Apartment';
 import {useEffect, useState} from "react";
 import Typography from "@mui/material/Typography";
 import MapIcon from '@mui/icons-material/Map';
-import {right} from "@popperjs/core";
 
 export default function Info() {
     const [tripGroup] = useTripGroupContext()
@@ -35,9 +34,6 @@ export default function Info() {
     const req = path + tripGroup?.iso
     const {data, error, isLoading} = useSWR([req, "GET", session])
     const [informations, setInformations] = useState<Informations|undefined>()
-    let currencyName: string = "-";
-    let currencySymbol: string = "";
-
 
     function currencyLoader() {
         const currencies = informations?.info.currencies;
@@ -52,6 +48,7 @@ export default function Info() {
         const currencyInfo = currencies[firstCurrencyKey];
         return currencyInfo.name.concat(" ("+currencyInfo.symbol+")");
     }
+
     function dataAnalizer() {
         if (data !== undefined) {
             setInformations(data)
@@ -59,13 +56,12 @@ export default function Info() {
     }
 
     const divStyle = {
-        width: '225px',
-        height: '75px'
+        width: '400px',
+        height: '100px',
+        padding: '10px'
     };
 
     useEffect(dataAnalizer, [data])
-    console.log(informations)
-    console.log("name:"+currencyName);
     return showInfoCountry()
 
     function showInfoCountry(){
@@ -80,12 +76,12 @@ export default function Info() {
 
                 <Typography variant="h4">
                     <div style={divStyle}>
-                        {informations?.info.names.common.toString().toUpperCase()}<img src={informations?.info.flags.svg} width="25%" height="50%" style={{float: right}}/>
+                        <img src={informations?.info.flags.svg} style={{width: "20%", height: "50%", float: "left"}} />{informations?.info.names.common.toString().toUpperCase()}
                     </div>
                 </Typography>
 
                 <Grid container spacing={1}>
-                    <Grid item xs={5}>
+                    <Grid item xs={12} md={5}>
                         <List>
                             <ListItem>
                                 <ListItemAvatar>
@@ -135,7 +131,7 @@ export default function Info() {
                         </List>
                     </Grid>
                     {/*----------------------------------------------------------------*/}
-                    <Grid item xs={7}>
+                    <Grid item xs={12} md={7}>
                         <List>
                             <ListItem>
                                 <ListItemAvatar>
@@ -163,7 +159,7 @@ export default function Info() {
                                         &nbsp;&nbsp;Maps
                                     </Typography>
                                     <Typography variant="subtitle1" gutterBottom>
-                                        &nbsp;&nbsp;&nbsp;<a href={informations?.info.maps.googleMaps} rel="noreferrer" target="_blank">open</a>
+                                        &nbsp;&nbsp;&nbsp;<a href={informations?.info.maps.googleMaps} rel="noreferrer" target="_blank">OPEN</a>
                                     </Typography>
                                 </ListItemText>
                             </ListItem>
