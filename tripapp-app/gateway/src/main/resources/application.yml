@@ -26,10 +26,10 @@ zuul:
       url: ${WALLET_URL}
       stripPrefix: false
 
-#    info:
-#      path: "/v*/info/**"
-#      url: ${INFO_URL}
-#      stripPrefix: true
+    info:
+      path: "/v*/infos/**"
+      url: ${INFO_URL}
+      stripPrefix: false
 
 #    map:
 #      path: "/v*/map/**"
