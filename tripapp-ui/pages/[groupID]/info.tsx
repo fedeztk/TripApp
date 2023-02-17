@@ -21,6 +21,8 @@ import ApartmentIcon from '@mui/icons-material/Apartment';
 import {useEffect, useState} from "react";
 import Typography from "@mui/material/Typography";
 import MapIcon from '@mui/icons-material/Map';
+import Link from "next/link";
+import LaunchIcon from '@mui/icons-material/Launch';
 
 export default function Info() {
     const [tripGroup] = useTripGroupContext()
@@ -65,7 +67,8 @@ export default function Info() {
     return showInfoCountry()
 
     function showInfoCountry(){
-        return isLoading ? <LoadingPage/>
+        return error? <></>
+        : isLoading ? <LoadingPage/>
         : (
             <>
             <Stack
@@ -76,7 +79,7 @@ export default function Info() {
 
                 <Typography variant="h4">
                     <div style={divStyle}>
-                        <img src={informations?.info.flags.svg} style={{width: "20%", height: "50%", float: "left"}} />{informations?.info.names.common.toString().toUpperCase()}
+                        <img src={informations? informations.info.flags.svg : ""} style={{width: "20%", height: "50%", float: "left"}} />{informations?.info.names.common.toString().toUpperCase()}
                     </div>
                 </Typography>
 
@@ -159,7 +162,7 @@ export default function Info() {
                                         &nbsp;&nbsp;Maps
                                     </Typography>
                                     <Typography variant="subtitle1" gutterBottom>
-                                        &nbsp;&nbsp;&nbsp;<a href={informations?.info.maps.googleMaps} rel="noreferrer" target="_blank">OPEN</a>
+                                        &nbsp;&nbsp;&nbsp;<Link href={informations? informations.info.maps.googleMaps : ""} >Open <LaunchIcon fontSize="small" /></Link>
                                     </Typography>
                                 </ListItemText>
                             </ListItem>
