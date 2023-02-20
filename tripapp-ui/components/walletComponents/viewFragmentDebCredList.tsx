@@ -14,7 +14,7 @@ export  default function DebCredList({userList}:{userList:any | undefined}){
                 direction="column"
                 alignItems="center"
                 sx={{width:'50%'}}>
-                <Typography variant={"h5"}>Debitori</Typography>
+                <Typography variant={"h5"}>Debtors</Typography>
                 {userList?.debits.map((c:walletUser, key:number)=><Entry key={key} name={c.name} value={c.amount}/>)}
 
 
@@ -24,7 +24,7 @@ export  default function DebCredList({userList}:{userList:any | undefined}){
                 direction="column"
                 alignItems="center"
                 sx={{width:'50%', }}>
-                <Typography variant={"h5"}>Creditori</Typography>
+                <Typography variant={"h5"}>Creditors</Typography>
                 {userList?.credits.map((c:walletUser, key:number)=><Entry key={key} name={c.name} value={c.amount}/>)}
 
             </Stack>

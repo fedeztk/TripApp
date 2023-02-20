@@ -117,7 +117,7 @@ export default function Wallet() {
                     <Button variant="outlined"
                             endIcon={<HistoryOutlinedIcon/>}
                             onClick={()=>setTriggerHistoryView(true)}
-                            size="small">Storico</Button>
+                            size="small">History</Button>
             </Box>)
     }
 
