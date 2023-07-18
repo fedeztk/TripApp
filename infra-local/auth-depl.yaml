@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+        - name: auth
+          image: fedeztk/tripapp-auth:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_SERVER
+              value: mongo-auth-svc
+            - name: DB_PORT
+              value: "27017"
+            - name: DB_NAME
+              value: auth
+            - name: DB_USER
+              value: tripapp
+            - name: DB_PASSWORD
+              value: tripapp
+          imagePullPolicy: Never
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-svc
+spec:
+  selector:
+    app: auth
+  ports:
+    - port: 80
+      targetPort: 8080

@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: group
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: group
+  template:
+    metadata:
+      labels:
+        app: group
+    spec:
+      containers:
+        - name: group
+          image: fedeztk/tripapp-group:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_SERVER
+              value: postgres-group-svc
+            - name: POSTGRES_DB
+              value: group
+            - name: POSTGRES_USER
+              value: tripapp
+            - name: POSTGRES_PASSWORD
+              value: tripapp
+            - name: AUTH_URL
+              value: http://auth-svc:80/v1/auth
+            # rabbitmq env vars
+            - name: RABBITMQ_HOST
+              value: rabbitmq-svc
+            - name: RABBITMQ_PORT
+              value: "5672"
+            - name: RABBITMQ_DEFAULT_USER
+              value: tripapp
+            - name: RABBITMQ_DEFAULT_PASS
+              value: tripapp
+          imagePullPolicy: Never
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: group-svc
+spec:
+  selector:
+    app: group
+  ports:
+    - port: 80
+      targetPort: 8080

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: info
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: info
+  template:
+    metadata:
+      labels:
+        app: info
+    spec:
+      containers:
+        - name: info
+          image: fedeztk/tripapp-info:latest
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: Never
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: info-svc
+spec:
+  selector:
+    app: info
+  ports:
+    - port: 80
+      targetPort: 8080 

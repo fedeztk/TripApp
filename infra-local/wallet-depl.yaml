@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wallet
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wallet
+  template:
+    metadata:
+      labels:
+        app: wallet
+    spec:
+      containers:
+        - name: wallet
+          image: fedeztk/tripapp-wallet:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_SERVER
+              value: postgres-wallet-svc
+            - name: POSTGRES_DB
+              value: wallet
+            - name: POSTGRES_USER
+              value: tripapp
+            - name: POSTGRES_PASSWORD
+              value: tripapp
+            # rabbitmq env vars
+            - name: RABBITMQ_HOST
+              value: rabbitmq-svc
+            - name: RABBITMQ_PORT
+              value: "5672"
+            - name: RABBITMQ_DEFAULT_USER
+              value: tripapp
+            - name: RABBITMQ_DEFAULT_PASS
+              value: tripapp
+          imagePullPolicy: Never
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wallet-svc
+spec:
+  selector:
+    app: wallet
+  ports:
+    - port: 80
+      targetPort: 8080

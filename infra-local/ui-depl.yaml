@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: fedeztk/tripapp-ui:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NEXT_PUBLIC_BACKEND_ENDPOINT
+#              value: http://tripapp.mastercc.hpc4ai.unito.it:80/api/gateway
+#              value: "http://mastercc.hpc4ai.unito.it.192.168.49.2.nip.io:80/api/gateway"
+              value: "http://gateway-svc:80/api/gateway"
+            - name: NEXTAUTH_SECRET
+              value: iIxViLhb+EfcC9u5dUKld7rVNrW1TuMBWddLdGR0kKA=
+            - name: GITHUB_ID
+              value: d0b9357d77ab8aebced3
+            - name: GITHUB_SECRET
+              value: bc638cda0ca77d0c1225020810b050bfe5a683b5
+            - name: GOOGLE_ID
+              value: 596525317797-u3r0age8qgje6b103i91fh37huupqtms.apps.googleusercontent.com
+            - name: GOOGLE_SECRET
+              value: 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
+            - name: MONGODB_URI
+              value: mongodb://mongo-auth-svc:27017
+            - name: MONGODB_DB
+              value: auth
+            - name: MONGODB_USERNAME
+              value: tripapp
+            - name: MONGODB_PASSWORD
+              value: tripapp
+            - name: NEXTAUTH_URL
+#              value: http://tripapp.mastercc.hpc4ai.unito.it:80
+              value: "http://mastercc.hpc4ai.unito.it.192.168.49.2.nip.io:80"
+          imagePullPolicy: Never
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-svc
+spec:
+  selector:
+    app: frontend
+  ports:
+    - port: 80
+      targetPort: 3000

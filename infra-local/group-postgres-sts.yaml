@@ -1,0 +1,51 @@
+# postgres statefulset and service
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-group
+spec:
+  serviceName: postgres-group
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-group
+  template:
+    metadata:
+      labels:
+        app: postgres-group
+    spec:
+      containers:
+        - name: postgres-group
+          image: postgres:11
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: postgres-group-persistent-storage
+              mountPath: /var/lib/postgresql/
+          env:
+            - name: POSTGRES_DB
+              value: group
+            - name: POSTGRES_USER
+              value: tripapp
+            - name: POSTGRES_PASSWORD
+              value: tripapp
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-group-persistent-storage
+      spec:
+#        storageClassName: cdk-cinder
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-group-svc
+spec:
+  selector:
+    app: postgres-group
+  ports:
+    - port: 5432
+      targetPort: 5432
